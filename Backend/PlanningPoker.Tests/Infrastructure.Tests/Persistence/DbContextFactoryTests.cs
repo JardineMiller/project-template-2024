@@ -20,11 +20,9 @@ public class DbContextFactoryTests
             .AddEnvironmentVariables()
             .Build();
 
-        var databaseSettings = new DatabaseSettings();
-
-        config
+        var databaseSettings = config
             .GetSection(DatabaseSettings.SectionName)
-            .Bind(databaseSettings);
+            .Get<DatabaseSettings>();
 
         var factory = new DbContextFactory(databaseSettings);
 

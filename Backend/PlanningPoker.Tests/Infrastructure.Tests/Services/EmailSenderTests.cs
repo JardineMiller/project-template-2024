@@ -1,4 +1,7 @@
-﻿using PlanningPoker.Infrastructure.Email;
+﻿using System.IO;
+using Microsoft.Extensions.Configuration;
+using PlanningPoker.Api.Controllers;
+using PlanningPoker.Infrastructure.Email;
 using PlanningPoker.Infrastructure.Services;
 using Shouldly;
 using Xunit;
@@ -13,16 +16,16 @@ public class EmailSenderTests
     public void SendEmailAsync_WithValidEmail_ShouldSendEmail()
     {
         // Arrange
-        var emailSettings = new EmailSettings
-        {
-            From = "testing@planningpoker.com",
-            Host = "smtp.mailtrap.io",
-            Port = 2525,
-            DisplayName = "Planning Poker - Development",
-            Username = "790ae629ae2ce0",
-            Password = "348bf350b3ee06"
-        };
-        ;
+        var config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.Development.json", false, false)
+            .AddEnvironmentVariables()
+            .AddUserSecrets<ApiController>()
+            .Build();
+
+        var emailSettings = config
+            .GetSection(EmailSettings.SectionName)
+            .Get<EmailSettings>();
 
         this._emailSender = new EmailSender(emailSettings);
 
