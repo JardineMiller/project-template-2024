@@ -1,0 +1,7 @@
+{
+  "printWidth": 70,
+  "trailingComma": "es5",
+  "tabWidth": 4,
+  "vueIndentScriptAndStyle": true,
+  "singleAttributePerLine": true
+}
