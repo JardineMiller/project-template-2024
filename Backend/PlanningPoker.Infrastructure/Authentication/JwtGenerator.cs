@@ -1,7 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PlanningPoker.Application.Common.Interfaces.Authentication;
 using PlanningPoker.Application.Common.Interfaces.Services;
@@ -16,11 +15,11 @@ public class JwtGenerator : IJwtGenerator
 
     public JwtGenerator(
         IDateTimeProvider dateTimeProvider,
-        IOptions<JwtSettings> jwtSettings
+        JwtSettings jwtSettings
     )
     {
         this._dateTimeProvider = dateTimeProvider;
-        this._jwtSettings = jwtSettings.Value;
+        this._jwtSettings = jwtSettings;
     }
 
     public string GenerateToken(User user)

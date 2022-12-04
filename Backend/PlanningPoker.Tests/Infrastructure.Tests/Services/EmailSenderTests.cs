@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Moq;
-using PlanningPoker.Infrastructure.Email;
+﻿using PlanningPoker.Infrastructure.Email;
 using PlanningPoker.Infrastructure.Services;
 using Shouldly;
 using Xunit;
@@ -10,10 +8,6 @@ namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Services;
 public class EmailSenderTests
 {
     private EmailSender _emailSender = null!;
-
-    private readonly Mock<
-        IOptions<EmailSettings>
-    > _emailSettingsMock = new();
 
     [Fact]
     public void SendEmailAsync_WithValidEmail_ShouldSendEmail()
@@ -28,14 +22,9 @@ public class EmailSenderTests
             Username = "790ae629ae2ce0",
             Password = "348bf350b3ee06"
         };
+        ;
 
-        this._emailSettingsMock
-            .Setup(x => x.Value)
-            .Returns(emailSettings);
-
-        this._emailSender = new EmailSender(
-            this._emailSettingsMock.Object
-        );
+        this._emailSender = new EmailSender(emailSettings);
 
         var result = this._emailSender.SendEmail(
             "test@test.com",
@@ -60,13 +49,7 @@ public class EmailSenderTests
             Password = ""
         };
 
-        this._emailSettingsMock
-            .Setup(x => x.Value)
-            .Returns(emailSettings);
-
-        this._emailSender = new EmailSender(
-            this._emailSettingsMock.Object
-        );
+        this._emailSender = new EmailSender(emailSettings);
 
         var result = this._emailSender.SendEmail(
             "test@test.com",

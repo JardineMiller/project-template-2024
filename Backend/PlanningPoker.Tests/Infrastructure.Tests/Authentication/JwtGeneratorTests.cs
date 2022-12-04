@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Extensions.Options;
 using Moq;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Entities;
@@ -12,7 +11,15 @@ namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Authentication;
 public class JwtGeneratorTests
 {
     private readonly Mock<IDateTimeProvider> _dateTimeProviderMock;
-    private readonly Mock<IOptions<JwtSettings>> _jwtSettingsMock;
+
+    private readonly JwtSettings _jwtSettings =
+        new()
+        {
+            Secret = "super-secret-secret",
+            Issuer = "issuer",
+            Audience = "audience",
+            ExpiryMinutes = 60
+        };
 
     private readonly User _user1 =
         new()
@@ -28,19 +35,6 @@ public class JwtGeneratorTests
         this._dateTimeProviderMock
             .Setup(x => x.UtcNow)
             .Returns(new DateTime(2023, 1, 1));
-
-        this._jwtSettingsMock = new Mock<IOptions<JwtSettings>>();
-        this._jwtSettingsMock
-            .Setup(x => x.Value)
-            .Returns(
-                new JwtSettings
-                {
-                    Secret = "super-secret-secret",
-                    Issuer = "issuer",
-                    Audience = "audience",
-                    ExpiryMinutes = 60
-                }
-            );
     }
 
     [Fact]
@@ -49,7 +43,7 @@ public class JwtGeneratorTests
         // Arrange
         var generator = new JwtGenerator(
             this._dateTimeProviderMock.Object,
-            this._jwtSettingsMock.Object
+            this._jwtSettings
         );
 
         // Act
