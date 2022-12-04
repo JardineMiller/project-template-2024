@@ -15,12 +15,12 @@ public class GameMappingConfigTests
 {
     private readonly string _validName =
         TestDataGenerator.GenerateRandomString(
-            ValidationConstants.Game.Name.MaxLength
+            Validation.Game.Name.MaxLength
         );
 
     private readonly string _validDescription =
         TestDataGenerator.GenerateRandomString(
-            ValidationConstants.Game.Description.MaxLength
+            Validation.Game.Description.MaxLength
         );
 
     private readonly string validOwnerId = Guid.NewGuid().ToString();

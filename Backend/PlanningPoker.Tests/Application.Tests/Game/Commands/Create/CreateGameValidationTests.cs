@@ -38,7 +38,7 @@ public class CreateGameValidationTests
     public void Should_Have_Error_When_Name_Is_Too_Big()
     {
         var invalidName = TestDataGenerator.GenerateRandomString(
-            ValidationConstants.Game.Name.MaxLength + 1
+            Validation.Game.Name.MaxLength + 1
         );
 
         var command = new CreateGameCommand(
@@ -54,7 +54,7 @@ public class CreateGameValidationTests
         result.ShouldNotHaveValidationErrorFor(x => x.OwnerId);
 
         var validName = TestDataGenerator.GenerateRandomString(
-            ValidationConstants.Game.Name.MaxLength + 1
+            Validation.Game.Name.MaxLength + 1
         );
 
         var validCommand = new CreateGameCommand(
@@ -100,7 +100,7 @@ public class CreateGameValidationTests
     {
         var invalidDescription =
             TestDataGenerator.GenerateRandomString(
-                ValidationConstants.Game.Description.MaxLength + 1
+                Validation.Game.Description.MaxLength + 1
             );
 
         var command = new CreateGameCommand(
@@ -116,7 +116,7 @@ public class CreateGameValidationTests
         result.ShouldNotHaveValidationErrorFor(x => x.OwnerId);
 
         var validDescription = TestDataGenerator.GenerateRandomString(
-            ValidationConstants.Game.Description.MaxLength + 1
+            Validation.Game.Description.MaxLength + 1
         );
 
         var validCommand = new CreateGameCommand(

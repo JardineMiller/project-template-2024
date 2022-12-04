@@ -13,10 +13,10 @@ public class ResetPasswordCommandValidation
         RuleFor(x => x.NewPassword)
             .NotEmpty()
             .Length(
-                ValidationConstants.Auth.Password.MinLength,
-                ValidationConstants.Auth.Password.MaxLength
+                Validation.Auth.Password.MinLength,
+                Validation.Auth.Password.MaxLength
             )
-            .Matches(ValidationConstants.Auth.Password.Pattern);
+            .Matches(Validation.Auth.Password.Pattern);
 
         RuleFor(x => x.NewPassword)
             .NotEqual(x => x.OldPassword)
@@ -29,10 +29,10 @@ public class ResetPasswordCommandValidation
         RuleFor(x => x.OldPassword)
             .NotEmpty()
             .Length(
-                ValidationConstants.Auth.Password.MinLength,
-                ValidationConstants.Auth.Password.MaxLength
+                Validation.Auth.Password.MinLength,
+                Validation.Auth.Password.MaxLength
             )
-            .Matches(ValidationConstants.Auth.Password.Pattern)
+            .Matches(Validation.Auth.Password.Pattern)
             .When(x => string.IsNullOrEmpty(x.Token));
 
         When(
