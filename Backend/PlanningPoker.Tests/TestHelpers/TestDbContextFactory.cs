@@ -15,6 +15,28 @@ public class TestDbContextFactory
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
+        var context = new ApplicationDbContext(
+            options,
+            new DateTimeProvider()
+        );
+
+        context.Database.EnsureCreated();
+
+        AddUsers(context);
+
+        context.SaveChanges();
+        return context;
+    }
+
+    public static void Destroy(ApplicationDbContext context)
+    {
+        context.Database.EnsureDeleted();
+
+        context.Dispose();
+    }
+
+    private static void AddUsers(ApplicationDbContext context)
+    {
         var user1 = new User
         {
             Id = "0001",
@@ -31,21 +53,6 @@ public class TestDbContextFactory
             EmailConfirmed = true
         };
 
-        var context = new ApplicationDbContext(
-            options,
-            new DateTimeProvider()
-        );
-
-        context.Database.EnsureCreated();
         context.Users.AddRange(user1, user2);
-        context.SaveChanges();
-        return context;
-    }
-
-    public static void Destroy(ApplicationDbContext context)
-    {
-        context.Database.EnsureDeleted();
-
-        context.Dispose();
     }
 }
