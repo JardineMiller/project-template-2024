@@ -4,7 +4,7 @@ using PlanningPoker.Domain.Entities;
 using PlanningPoker.Infrastructure.Persistence;
 using PlanningPoker.Infrastructure.Services;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Helpers;
+namespace PlanningPoker.Application.Tests.Infrastructure.Tests.TestHelpers;
 
 public class TestDbContextFactory
 {
@@ -15,7 +15,7 @@ public class TestDbContextFactory
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-        var user1 = new User()
+        var user1 = new User
         {
             Id = "0001",
             UserName = "User 1",
@@ -23,7 +23,7 @@ public class TestDbContextFactory
             EmailConfirmed = true
         };
 
-        var user2 = new User()
+        var user2 = new User
         {
             Id = "0002",
             UserName = "User 2",

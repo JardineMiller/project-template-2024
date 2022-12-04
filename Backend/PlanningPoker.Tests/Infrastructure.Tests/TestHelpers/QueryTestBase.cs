@@ -1,13 +1,13 @@
 ﻿using System;
 using PlanningPoker.Infrastructure.Persistence;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Helpers;
+namespace PlanningPoker.Application.Tests.Infrastructure.Tests.TestHelpers;
 
-public class CommandTestBase : IDisposable
+public class QueryTestBase : IDisposable
 {
     public ApplicationDbContext Context { get; set; }
 
-    public CommandTestBase()
+    public QueryTestBase()
     {
         this.Context = TestDbContextFactory.Create();
     }

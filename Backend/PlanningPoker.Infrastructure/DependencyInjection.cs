@@ -3,10 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Entities;
-using PlanningPoker.Infrastructure.Persistence;
-using PlanningPoker.Infrastructure.Services;
 using PlanningPoker.Infrastructure.Authentication;
 using PlanningPoker.Infrastructure.Email;
+using PlanningPoker.Infrastructure.Generators;
+using PlanningPoker.Infrastructure.Persistence;
+using PlanningPoker.Infrastructure.Services;
 
 namespace PlanningPoker.Infrastructure;
 
@@ -19,6 +20,7 @@ public static class DependencyInjection
     {
         services
             .AddSingleton<IDateTimeProvider, DateTimeProvider>()
+            .AddTransient<TinyGuidGenerator>()
             .AddAuth(configuration)
             .AddDatabase(configuration)
             .AddEmail(configuration)
