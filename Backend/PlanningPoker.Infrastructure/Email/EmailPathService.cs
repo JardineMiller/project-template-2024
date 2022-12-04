@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using PlanningPoker.Application.Common.Interfaces.Services;
 
 namespace PlanningPoker.Infrastructure.Email;
 

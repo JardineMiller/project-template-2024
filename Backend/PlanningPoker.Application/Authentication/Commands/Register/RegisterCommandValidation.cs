@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PlanningPoker.Application.Common.Patterns;
+using PlanningPoker.Domain.Common.Validation;
 
 namespace PlanningPoker.Application.Authentication.Commands.Register;
 
@@ -9,11 +9,24 @@ public class RegisterCommandValidation
     public RegisterCommandValidation()
     {
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
-        RuleFor(x => x.FirstName).NotEmpty().Length(2, 25);
-        RuleFor(x => x.LastName).NotEmpty().Length(2, 30);
+        RuleFor(x => x.FirstName)
+            .NotEmpty()
+            .Length(
+                ValidationConstants.User.FirstName.MinLength,
+                ValidationConstants.User.FirstName.MaxLength
+            );
+        RuleFor(x => x.LastName)
+            .NotEmpty()
+            .Length(
+                ValidationConstants.User.LastName.MinLength,
+                ValidationConstants.User.LastName.MaxLength
+            );
         RuleFor(x => x.Password)
             .NotEmpty()
-            .Length(6, 50)
-            .Matches(Patterns.Auth.Password);
+            .Length(
+                ValidationConstants.Auth.Password.MinLength,
+                ValidationConstants.Auth.Password.MaxLength
+            )
+            .Matches(ValidationConstants.Auth.Password.Pattern);
     }
 }

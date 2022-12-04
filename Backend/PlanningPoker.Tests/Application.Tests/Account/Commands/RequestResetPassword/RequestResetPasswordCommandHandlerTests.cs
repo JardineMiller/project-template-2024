@@ -3,7 +3,6 @@ using System.Threading;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using PlanningPoker.Application.Account.Commands.RequestResetPassword;
-using PlanningPoker.Application.Account.Common;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Common.Errors;
 using PlanningPoker.Domain.Entities;
@@ -43,7 +42,7 @@ public class RequestResetPasswordCommandHandlerTests
         // Arrange
         this._userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(new User() { Email = validEmail });
+            .ReturnsAsync(new User { Email = validEmail });
 
         this._userManagerMock
             .Setup(

@@ -17,7 +17,6 @@ public class ConfirmEmailCommandValidationTests
 
     [Theory]
     [InlineData("")]
-    [InlineData("thing@thing")]
     [InlineData(null)]
     [InlineData(" ")]
     [InlineData("    ")]
@@ -36,6 +35,7 @@ public class ConfirmEmailCommandValidationTests
 
         var result = this._validator.TestValidate(command);
 
+        result.ShouldHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.Token);
     }
 
@@ -55,6 +55,7 @@ public class ConfirmEmailCommandValidationTests
 
         var result = this._validator.TestValidate(command);
 
+        result.ShouldHaveValidationErrorFor(x => x.Token);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
     }
 

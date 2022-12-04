@@ -1,6 +1,5 @@
-﻿using MediatR;
-using ErrorOr;
-using PlanningPoker.Application.Account.Common;
+﻿using ErrorOr;
+using MediatR;
 
 namespace PlanningPoker.Application.Account.Commands.RequestResetPassword;
 

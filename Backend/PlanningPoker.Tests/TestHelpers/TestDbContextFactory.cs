@@ -4,7 +4,7 @@ using PlanningPoker.Domain.Entities;
 using PlanningPoker.Infrastructure.Persistence;
 using PlanningPoker.Infrastructure.Services;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Helpers;
+namespace PlanningPoker.Application.Tests.TestHelpers;
 
 public class TestDbContextFactory
 {
@@ -15,29 +15,15 @@ public class TestDbContextFactory
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-        var user1 = new User()
-        {
-            Id = "0001",
-            UserName = "User 1",
-            Email = "user1@test.com",
-            EmailConfirmed = true
-        };
-
-        var user2 = new User()
-        {
-            Id = "0002",
-            UserName = "User 2",
-            Email = "user2@test.com",
-            EmailConfirmed = true
-        };
-
         var context = new ApplicationDbContext(
             options,
             new DateTimeProvider()
         );
 
         context.Database.EnsureCreated();
-        context.Users.AddRange(user1, user2);
+
+        AddUsers(context);
+
         context.SaveChanges();
         return context;
     }
@@ -47,5 +33,26 @@ public class TestDbContextFactory
         context.Database.EnsureDeleted();
 
         context.Dispose();
+    }
+
+    private static void AddUsers(ApplicationDbContext context)
+    {
+        var user1 = new User
+        {
+            Id = "0001",
+            UserName = "User 1",
+            Email = "user1@test.com",
+            EmailConfirmed = true
+        };
+
+        var user2 = new User
+        {
+            Id = "0002",
+            UserName = "User 2",
+            Email = "user2@test.com",
+            EmailConfirmed = true
+        };
+
+        context.Users.AddRange(user1, user2);
     }
 }

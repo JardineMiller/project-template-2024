@@ -1,7 +1,7 @@
 ﻿using System;
 using PlanningPoker.Infrastructure.Persistence;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Helpers;
+namespace PlanningPoker.Application.Tests.TestHelpers;
 
 public class CommandTestBase : IDisposable
 {

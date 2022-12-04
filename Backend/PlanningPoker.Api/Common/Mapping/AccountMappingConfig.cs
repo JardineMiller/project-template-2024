@@ -1,7 +1,6 @@
 ﻿using Mapster;
 using PlanningPoker.Application.Account.Commands.RequestResetPassword;
 using PlanningPoker.Application.Account.Commands.ResetPassword;
-using PlanningPoker.Application.Account.Common;
 using PlanningPoker.Contracts.Account.RequestResetPassword;
 using PlanningPoker.Contracts.Account.ResetPassword;
 

@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <Folder Include="Account\Queries" />
+    <Folder Include="Game\Common" />
+    <Folder Include="Game\Queries" />
   </ItemGroup>
 
 </Project>

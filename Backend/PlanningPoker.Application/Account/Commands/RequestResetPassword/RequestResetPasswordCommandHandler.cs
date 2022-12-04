@@ -2,7 +2,6 @@
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using PlanningPoker.Application.Account.Common;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Common.Errors;
 using PlanningPoker.Domain.Entities;

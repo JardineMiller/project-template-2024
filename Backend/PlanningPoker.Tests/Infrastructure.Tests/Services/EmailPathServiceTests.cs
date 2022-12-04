@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Moq;
+using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Infrastructure.Email;
 using Shouldly;
 using Xunit;

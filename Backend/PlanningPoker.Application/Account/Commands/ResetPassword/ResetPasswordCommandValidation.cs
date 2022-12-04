@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PlanningPoker.Application.Common.Patterns;
+using PlanningPoker.Domain.Common.Validation;
 
 namespace PlanningPoker.Application.Account.Commands.ResetPassword;
 
@@ -12,8 +12,11 @@ public class ResetPasswordCommandValidation
 
         RuleFor(x => x.NewPassword)
             .NotEmpty()
-            .Length(6, 50)
-            .Matches(Patterns.Auth.Password);
+            .Length(
+                ValidationConstants.Auth.Password.MinLength,
+                ValidationConstants.Auth.Password.MaxLength
+            )
+            .Matches(ValidationConstants.Auth.Password.Pattern);
 
         RuleFor(x => x.NewPassword)
             .NotEqual(x => x.OldPassword)
@@ -25,8 +28,11 @@ public class ResetPasswordCommandValidation
 
         RuleFor(x => x.OldPassword)
             .NotEmpty()
-            .Length(6, 50)
-            .Matches(Patterns.Auth.Password)
+            .Length(
+                ValidationConstants.Auth.Password.MinLength,
+                ValidationConstants.Auth.Password.MaxLength
+            )
+            .Matches(ValidationConstants.Auth.Password.Pattern)
             .When(x => string.IsNullOrEmpty(x.Token));
 
         When(
