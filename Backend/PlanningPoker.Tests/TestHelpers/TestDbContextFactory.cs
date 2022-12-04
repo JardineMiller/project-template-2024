@@ -4,7 +4,7 @@ using PlanningPoker.Domain.Entities;
 using PlanningPoker.Infrastructure.Persistence;
 using PlanningPoker.Infrastructure.Services;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.TestHelpers;
+namespace PlanningPoker.Application.Tests.TestHelpers;
 
 public class TestDbContextFactory
 {

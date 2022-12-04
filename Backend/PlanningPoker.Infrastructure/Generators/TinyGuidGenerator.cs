@@ -1,11 +1,13 @@
-﻿namespace PlanningPoker.Infrastructure.Generators;
+﻿using PlanningPoker.Application.Common.Interfaces.Generators;
 
-public class TinyGuidGenerator
+namespace PlanningPoker.Infrastructure.Generators;
+
+public class TinyGuidGenerator : ITinyGuidGenerator
 {
-    private static readonly Random _random = new();
+    private static readonly Random random = new();
 
     public string Generate()
     {
-        return _random.Next(int.MaxValue).ToString("x");
+        return random.Next(int.MaxValue).ToString("x");
     }
 }
