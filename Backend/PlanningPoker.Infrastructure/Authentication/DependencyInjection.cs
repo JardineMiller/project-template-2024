@@ -17,8 +17,8 @@ public static class DependencyInjection
     {
         var jwtSettings = new JwtSettings();
         configuration.Bind(JwtSettings.SectionName, jwtSettings);
+        
         services.AddSingleton(Options.Create(jwtSettings));
-
         services.AddSingleton<IJwtGenerator, JwtGenerator>();
 
         services

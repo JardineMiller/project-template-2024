@@ -7,14 +7,21 @@ namespace PlanningPoker.Infrastructure.Persistence;
 public class DbContextFactory
     : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
-    public const string ConnectionString =
-        "Server=localhost;Database=PlanningPoker.Dev;Trusted_Connection=True;MultipleActiveResultSets=true"; // TODO Get this from AppSettings
+    private readonly DatabaseSettings _databaseSettings;
+
+    public DbContextFactory(DatabaseSettings settings)
+    {
+        this._databaseSettings = settings;
+    }
 
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder =
             new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseSqlServer(ConnectionString);
+
+        optionsBuilder.UseSqlServer(
+            _databaseSettings?.ConnectionString
+        );
 
         return new ApplicationDbContext(
             optionsBuilder.Options,

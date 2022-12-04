@@ -32,12 +32,12 @@ public class EmailService : IEmailService
             .Replace("[email]", toEmail)
             .Replace(
                 "[welcome-link]",
-                $"https://localhost:7097/api/account/confirm?token={encodedToken}&email={toEmail}"
+                $"https://localhost:7097/api/account/confirm?token={encodedToken}&email={toEmail}" //TODO Put url in AppSettings?
             );
 
         this._emailSender.SendEmail(
             toEmail,
-            $"Welcome to File Share, {firstName}",
+            $"Welcome to Planning Poker, {firstName}",
             mailText
         );
     }
@@ -51,12 +51,12 @@ public class EmailService : IEmailService
             .Replace("[email]", toEmail)
             .Replace(
                 "[reset-link]",
-                $"https://localhost:7097/api/account/resetpassword?token={encodedToken}&email={toEmail}"
+                $"https://localhost:7097/api/account/resetpassword?token={encodedToken}&email={toEmail}" //TODO Put url in AppSettings?
             );
 
         this._emailSender.SendEmail(
             toEmail,
-            $"File Share - Reset Password",
+            $"Planning Poker - Reset Password",
             mailText
         );
     }

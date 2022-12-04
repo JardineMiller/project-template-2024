@@ -21,10 +21,10 @@ public class EmailSenderTests
         // Arrange
         var emailSettings = new EmailSettings
         {
-            From = "testing@fileshare.com",
+            From = "testing@planningpoker.com",
             Host = "smtp.mailtrap.io",
             Port = 2525,
-            DisplayName = "File Share - Development",
+            DisplayName = "Planning Poker - Development",
             Username = "790ae629ae2ce0",
             Password = "348bf350b3ee06"
         };
@@ -52,10 +52,10 @@ public class EmailSenderTests
         // Arrange
         var emailSettings = new EmailSettings
         {
-            From = "testing@fileshare.com",
+            From = "testing@planningpoker.com",
             Host = "smtp.mailtrap.io",
             Port = 2525,
-            DisplayName = "File Share - Development",
+            DisplayName = "Planning Poker - Development",
             Username = "",
             Password = ""
         };
