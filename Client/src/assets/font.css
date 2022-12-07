@@ -1,10 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+body {
+    font-family:
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol";
+
+    font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family:
+        Montserrat,
+        Helvetica,
+        Arial,
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol";
+}
+
 h1 {
     font-weight: 300;
     font-size: 3rem;
 }
 
 h2 {
-    font-weight: 350;
+    font-weight: 300;
     font-size: 2.5rem;
 }
 
@@ -14,7 +45,7 @@ h3 {
 }
 
 h4 {
-    font-weight: 450;
+    font-weight: 400;
     font-size: 1.75rem;
 }
 
@@ -24,6 +55,6 @@ h5 {
 }
 
 h6 {
-    font-weight: 550;
+    font-weight: 700;
     font-size: 1.25rem;
 }
