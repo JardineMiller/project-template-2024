@@ -1,22 +1,77 @@
 <script lang="ts">
-    import Validation from "@/validation/validation";
-    export default {
-        data() {
+    import TextInput from "@/components/TextInput/TextInput.vue";
+    import { Validators } from "@/models/Validator";
+    import FormInput from "@/models/FormInput";
+    import { defineComponent } from "vue";
+
+    export default defineComponent({
+        components: { TextInput },
+        data: () => {
             return {
-                username: "",
-                password: "",
-                submitted: false,
-                passwordRegex: Validation.Auth.Password.Pattern,
-                impossibleRegex:
-                    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])(?=.{8,})[A-Za-z\\d@$!%*?&]+$",
+                categories: [
+                    "cat-1",
+                    "cat-2",
+                    "cat-3",
+                    "cat-4",
+                    "cat-5",
+                ],
+                model: {
+                    name: new FormInput("name", "", [
+                        Validators.required(),
+                        Validators.minLength(3),
+                    ]),
+                    email: new FormInput("email", "", [
+                        Validators.required(),
+                        Validators.email(),
+                    ]),
+                    password: new FormInput("password", "", [
+                        Validators.required(),
+                        Validators.minLength(6),
+                        Validators.maxLength(18),
+                    ]),
+                    age: new FormInput("age", "", [
+                        Validators.maxNumber(10),
+                    ]),
+                },
             };
         },
-        methods: {
-            handleSubmit() {
-                this.submitted = true;
+        computed: {
+            formIsValid(): boolean {
+                const inputs = Object.values(
+                    this.model
+                ) as Array<FormInput>;
+                return inputs.every((x) => x.isValid);
             },
         },
-    };
+        methods: {
+            updateIsValid(emitted: { name: string; value: boolean }) {
+                const inputs = Object.values(
+                    this.model
+                ) as Array<FormInput>;
+                const input = inputs.find(
+                    (x) =>
+                        x.propertyName ==
+                        emitted.name.toLocaleLowerCase()
+                );
+                if (input) {
+                    input.isValid = emitted.value;
+                }
+            },
+            updateValue(emitted: { name: string; value: string }) {
+                const inputs = Object.values(
+                    this.model
+                ) as Array<FormInput>;
+                const input = inputs.find(
+                    (x) =>
+                        x.propertyName ==
+                        emitted.name.toLocaleLowerCase()
+                );
+                if (input) {
+                    input.value = emitted.value;
+                }
+            },
+        },
+    });
 </script>
 
 <template>
@@ -29,22 +84,13 @@
                     class="p-fluid"
                 >
                     <div class="field">
-                        <span class="p-float-label p-input-icon-left">
-                            <InputText
-                                id="name"
-                                v-model="username"
-                                :class="{
-                                    'p-invalid': submitted,
-                                }"
-                            />
-                            <i class="pi pi-id-card"></i>
-                            <label for="name">Username *</label>
-                        </span>
-                        <small
-                            v-if="submitted"
-                            class="p-error"
-                            >This is an error</small
-                        >
+                        <TextInput
+                            v-model="model.name.value"
+                            :label="model.name.propertyName"
+                            :validators="model.name.validators"
+                            @update-is-valid="updateIsValid"
+                            @update-value="updateValue"
+                        />
                     </div>
                     <div class="field">
                         <span class="p-float-label p-input-icon-left">
@@ -103,8 +149,12 @@
                         type="submit"
                         label="Submit"
                         class="mt-2"
+                        :disabled="!formIsValid"
                     />
                 </form>
+                <pre>
+                    {{ JSON.stringify(model, null, 2) }}
+                </pre>
             </div>
         </div>
     </div>

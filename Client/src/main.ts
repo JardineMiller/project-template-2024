@@ -3,12 +3,12 @@ import Password from "primevue/password";
 import Calendar from "primevue/calendar";
 import Dropdown from "primevue/dropdown";
 import Checkbox from "primevue/checkbox";
+import router from "./services/router";
 import Divider from "primevue/divider";
 import PrimeVue from "primevue/config";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import { createApp } from "vue";
-import router from "./router";
 import App from "./App.vue";
 import "./assets/main.css";
 
