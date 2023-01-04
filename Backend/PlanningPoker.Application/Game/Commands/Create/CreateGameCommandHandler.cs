@@ -37,7 +37,7 @@ public class CreateGameCommandHandler
 
         if (user is null)
         {
-            return Errors.User.NotFound;
+            return Errors.Common.NotFound(nameof(User));
         }
 
         var game = new Domain.Entities.Game

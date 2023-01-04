@@ -7,4 +7,8 @@
     <RootNamespace>PlanningPoker.Contracts</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PlanningPoker.Domain\PlanningPoker.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

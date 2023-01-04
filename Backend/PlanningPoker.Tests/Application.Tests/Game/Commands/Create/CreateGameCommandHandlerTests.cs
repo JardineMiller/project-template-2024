@@ -79,11 +79,11 @@ public class CreateGameCommandHandlerTests
         result.Errors.Count.ShouldBe(1);
         result.Errors
             .First()
-            .Code.ShouldBe(Errors.User.NotFound.Code);
+            .Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
 
         result.Errors
             .First()
-            .Description.ShouldBe(Errors.User.NotFound.Description);
+            .Description.ShouldBe(Errors.Common.NotFound(nameof(User)).Description);
     }
 
     [Fact]

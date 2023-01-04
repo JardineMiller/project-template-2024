@@ -5,7 +5,7 @@ namespace PlanningPoker.Application.Tests.TestHelpers;
 
 public static class TestDataGenerator
 {
-    public static string GenerateRandomString(int length)
+    public static string GenerateRandomString(int length = 6)
     {
         var random = new Random();
         var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

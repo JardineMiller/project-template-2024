@@ -9,5 +9,5 @@ public class Game : DeletableEntity
     public string Code { get; init; }
 
     public string OwnerId { get; init; }
-    public User Owner { get; }
+    public User? Owner { get; }
 }
