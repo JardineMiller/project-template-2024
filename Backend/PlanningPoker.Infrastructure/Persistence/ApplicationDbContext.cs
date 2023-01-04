@@ -18,6 +18,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
         this._dateTimeProvider = dateTimeProvider;
     }
 
+    public DbSet<Game> Games { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

@@ -15,10 +15,5 @@ public static partial class Errors
             code: "User.CreationFailed",
             description: "Failed to create user"
         );
-
-        public static Error NotFound = Error.NotFound(
-            code: "User.NotFound",
-            description: "User not found"
-        );
     }
 }

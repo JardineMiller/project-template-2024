@@ -6,4 +6,9 @@ public interface IGameRepository
         Domain.Entities.Game game,
         CancellationToken cancellationToken
     );
+
+    Task<Domain.Entities.Game?> GetAsync(
+        string code,
+        CancellationToken cancellationToken
+    );
 }

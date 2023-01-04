@@ -59,4 +59,28 @@ public class GameMappingConfigTests
 
         result.GameCode.ShouldBe(code);
     }
+
+    [Fact]
+    public void GetGameRequest_ShouldMapTo_GetGameCommand()
+    {
+        var generator = new TinyGuidGenerator();
+        var code = generator.Generate();
+
+        var src = new GetGameRequest(code);
+        var result = src.Adapt<GetGameRequest>();
+
+        result.Code.ShouldBe(code);
+    }
+
+    [Fact]
+    public void GetGameResult_ShouldMapTo_GetGameResponse()
+    {
+        var generator = new TinyGuidGenerator();
+        var code = generator.Generate();
+
+        var src = new CreateGameResult(code);
+        var result = src.Adapt<CreateGameResponse>();
+
+        result.GameCode.ShouldBe(code);
+    }
 }

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PlanningPoker.Application.Game.Commands.Create;
+using PlanningPoker.Application.Game.Queries;
 using PlanningPoker.Contracts.Game;
 
 namespace PlanningPoker.Api.Controllers;
@@ -29,6 +30,18 @@ public class GameController : ApiController
 
         return result.Match(
             success => Ok(success.Adapt<CreateGameResponse>()),
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Get(GetGameRequest request)
+    {
+        var query = request.Adapt<GetGameQuery>();
+        var result = await this._mediator.Send(query);
+
+        return result.Match(
+            success => Ok(success.Adapt<GetGameResponse>()),
             errors => Problem(errors)
         );
     }
