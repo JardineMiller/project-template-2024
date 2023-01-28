@@ -16,12 +16,6 @@ public class GameController : ApiController
         this._mediator = mediator;
     }
 
-    [HttpGet(nameof(All))]
-    public IActionResult All()
-    {
-        return Ok(); //TODO: Get all owned by user
-    }
-
     [HttpPost(nameof(Create))]
     public async Task<IActionResult> Create(CreateGameRequest request)
     {

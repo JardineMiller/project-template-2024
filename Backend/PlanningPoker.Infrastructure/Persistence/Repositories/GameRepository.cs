@@ -34,4 +34,14 @@ public class GameRepository : IGameRepository
             cancellationToken
         );
     }
+
+    public async Task<List<Game>> GetAllForUserAsync(
+        string userId,
+        CancellationToken cancellationToken
+    )
+    {
+        return await this._context.Games
+            .Where(x => x.OwnerId == userId)
+            .ToListAsync(cancellationToken);
+    }
 }

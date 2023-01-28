@@ -22,7 +22,9 @@ public class AuditInformationTests
             Id = "0001",
             UserName = "User 1",
             Email = "user1@test.com",
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            FirstName = "First Name",
+            LastName = "Last Name"
         };
 
     public AuditInformationTests()
@@ -65,12 +67,14 @@ public class AuditInformationTests
         var now = DateTimeOffset.Now;
         this._dateTimeProviderMock.Setup(x => x.Now).Returns(now);
 
-        var user2 = new User()
+        var user2 = new User
         {
             Id = "0002",
             UserName = "User 2",
             Email = "user2@test.com",
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            FirstName = "First Name",
+            LastName = "Last Name"
         };
 
         user2.CreatedOn.ShouldBe(default);
@@ -107,7 +111,7 @@ public class AuditInformationTests
         var now = DateTimeOffset.Now;
         this._dateTimeProviderMock.Setup(x => x.Now).Returns(now);
 
-        var user2 = new User()
+        var user2 = new User
         {
             Id = "0002",
             UserName = "User 2",
