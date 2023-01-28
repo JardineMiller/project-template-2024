@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mapster;
 using PlanningPoker.Api.Common.Mapping;
 using PlanningPoker.Application.Game.Commands.Create;
+using PlanningPoker.Application.Game.Queries.GetGame;
+using PlanningPoker.Application.Game.Queries.GetUserGames;
 using PlanningPoker.Application.Tests.TestHelpers;
 using PlanningPoker.Contracts.Game;
 using PlanningPoker.Domain.Common.Validation;
@@ -78,9 +81,52 @@ public class GameMappingConfigTests
         var generator = new TinyGuidGenerator();
         var code = generator.Generate();
 
-        var src = new CreateGameResult(code);
-        var result = src.Adapt<CreateGameResponse>();
+        var src = new GetGameResult(
+            "Name",
+            "Description",
+            code,
+            "OwnerId",
+            null
+        );
 
-        result.GameCode.ShouldBe(code);
+        var result = src.Adapt<GetGameResponse>();
+
+        result.Name.ShouldBe(src.Name);
+        result.Description.ShouldBe(src.Description);
+        result.Code.ShouldBe(src.Code);
+        result.OwnerId.ShouldBe(src.OwnerId);
+        result.Owner.ShouldBe(src.Owner);
+    }
+
+    [Fact]
+    public void GetUserGamesResult_ShouldMapTo_GetUserGamesResponse()
+    {
+        // Arrange
+        var ownerId = "Owner-1";
+
+        var games = new List<Domain.Entities.Game>
+        {
+            new()
+            {
+                Code = "GameCode-1",
+                OwnerId = ownerId,
+                Name = "Name-1"
+            },
+            new()
+            {
+                Code = "GameCode-2",
+                OwnerId = ownerId,
+                Name = "Name-2"
+            }
+        };
+
+        var src = new GetUserGamesResult(ownerId, games);
+
+        // Act
+        var result = src.Adapt<GetUserGamesResponse>();
+
+        // Assert
+        result.Games.ShouldBeEquivalentTo(src.Games);
+        result.UserId.ShouldBe(src.UserId);
     }
 }

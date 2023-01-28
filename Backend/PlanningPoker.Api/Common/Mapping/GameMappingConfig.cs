@@ -1,5 +1,7 @@
 ﻿using Mapster;
 using PlanningPoker.Application.Game.Commands.Create;
+using PlanningPoker.Application.Game.Queries.GetGame;
+using PlanningPoker.Application.Game.Queries.GetUserGames;
 using PlanningPoker.Contracts.Game;
 
 namespace PlanningPoker.Api.Common.Mapping;
@@ -15,5 +17,8 @@ public class GameMappingConfig : IRegister
     {
         config.NewConfig<CreateGameRequest, CreateGameCommand>();
         config.NewConfig<CreateGameResult, CreateGameResponse>();
+
+        config.NewConfig<GetGameResult, GetGameResponse>();
+        config.NewConfig<GetUserGamesResult, GetUserGamesResponse>();
     }
 }

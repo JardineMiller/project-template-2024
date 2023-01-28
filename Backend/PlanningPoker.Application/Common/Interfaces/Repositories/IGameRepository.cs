@@ -11,4 +11,9 @@ public interface IGameRepository
         string code,
         CancellationToken cancellationToken
     );
+
+    Task<List<Domain.Entities.Game>> GetAllForUserAsync(
+        string userId,
+        CancellationToken cancellationToken
+    );
 }
