@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using PlanningPoker.Application.Common.Interfaces.Repositories;
-using PlanningPoker.Application.Game.Queries;
+using PlanningPoker.Application.Game.Queries.GetGame;
 using PlanningPoker.Application.Tests.TestHelpers;
 using PlanningPoker.Domain.Common.Errors;
 using PlanningPoker.Infrastructure.Persistence.Repositories;

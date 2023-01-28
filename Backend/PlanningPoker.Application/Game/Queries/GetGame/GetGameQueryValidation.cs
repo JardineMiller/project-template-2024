@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PlanningPoker.Application.Game.Queries;
+namespace PlanningPoker.Application.Game.Queries.GetGame;
 
 public class GetGameQueryValidation : AbstractValidator<GetGameQuery>
 {

@@ -1,6 +1,6 @@
 ﻿using PlanningPoker.Domain.Entities;
 
-namespace PlanningPoker.Application.Game.Queries;
+namespace PlanningPoker.Application.Game.Queries.GetGame;
 
 public record GetGameResult(
     string Name,

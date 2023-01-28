@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Infrastructure.Email;
 
 namespace PlanningPoker.Infrastructure.Services;
 
@@ -56,7 +55,7 @@ public class EmailService : IEmailService
 
         this._emailSender.SendEmail(
             toEmail,
-            $"Planning Poker - Reset Password",
+            "Planning Poker - Reset Password",
             mailText
         );
     }

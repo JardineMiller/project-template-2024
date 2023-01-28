@@ -3,7 +3,7 @@ using MediatR;
 using PlanningPoker.Application.Common.Interfaces.Repositories;
 using PlanningPoker.Domain.Common.Errors;
 
-namespace PlanningPoker.Application.Game.Queries;
+namespace PlanningPoker.Application.Game.Queries.GetGame;
 
 public class GetGameQueryHandler
     : IRequestHandler<GetGameQuery, ErrorOr<GetGameResult>>

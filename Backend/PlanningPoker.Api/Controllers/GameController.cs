@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PlanningPoker.Application.Game.Commands.Create;
-using PlanningPoker.Application.Game.Queries;
+using PlanningPoker.Application.Game.Queries.GetGame;
 using PlanningPoker.Contracts.Game;
 
 namespace PlanningPoker.Api.Controllers;
@@ -19,7 +19,7 @@ public class GameController : ApiController
     [HttpGet(nameof(All))]
     public IActionResult All()
     {
-        return Ok();
+        return Ok(); //TODO: Get all owned by user
     }
 
     [HttpPost(nameof(Create))]

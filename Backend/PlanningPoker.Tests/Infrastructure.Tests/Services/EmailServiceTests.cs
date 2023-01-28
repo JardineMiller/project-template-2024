@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using Moq;
 using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Infrastructure.Email;
 using PlanningPoker.Infrastructure.Services;
 using Xunit;
 

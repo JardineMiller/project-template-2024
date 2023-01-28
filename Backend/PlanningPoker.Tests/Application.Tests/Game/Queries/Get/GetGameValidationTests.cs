@@ -1,5 +1,5 @@
 ﻿using FluentValidation.TestHelper;
-using PlanningPoker.Application.Game.Queries;
+using PlanningPoker.Application.Game.Queries.GetGame;
 using Xunit;
 
 namespace PlanningPoker.Application.Tests.Application.Tests.Game.Queries.Get;
