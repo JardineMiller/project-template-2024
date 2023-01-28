@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.Options;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Infrastructure.Email;
 
@@ -9,9 +10,9 @@ public class EmailSender : IEmailSender
 {
     private readonly EmailSettings _emailSettings;
 
-    public EmailSender(EmailSettings emailSettings)
+    public EmailSender(IOptions<EmailSettings> emailSettings)
     {
-        this._emailSettings = emailSettings;
+        this._emailSettings = emailSettings.Value;
     }
 
     public bool SendEmail(string toEmail, string subject, string body)

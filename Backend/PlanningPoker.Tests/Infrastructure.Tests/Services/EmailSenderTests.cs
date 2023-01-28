@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using PlanningPoker.Api.Controllers;
 using PlanningPoker.Infrastructure.Email;
 using PlanningPoker.Infrastructure.Services;
@@ -27,7 +28,9 @@ public class EmailSenderTests
             .GetSection(EmailSettings.SectionName)
             .Get<EmailSettings>();
 
-        this._emailSender = new EmailSender(emailSettings);
+        this._emailSender = new EmailSender(
+            Options.Create(emailSettings)
+        );
 
         var result = this._emailSender.SendEmail(
             "test@test.com",
@@ -52,7 +55,9 @@ public class EmailSenderTests
             Password = ""
         };
 
-        this._emailSender = new EmailSender(emailSettings);
+        this._emailSender = new EmailSender(
+            Options.Create(emailSettings)
+        );
 
         var result = this._emailSender.SendEmail(
             "test@test.com",

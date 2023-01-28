@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Options;
 using Moq;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Entities;
@@ -43,7 +44,7 @@ public class JwtGeneratorTests
         // Arrange
         var generator = new JwtGenerator(
             this._dateTimeProviderMock.Object,
-            this._jwtSettings
+            Options.Create(this._jwtSettings)
         );
 
         // Act
