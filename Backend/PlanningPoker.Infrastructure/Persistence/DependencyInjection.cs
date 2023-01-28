@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using PlanningPoker.Application.Common.Interfaces.Repositories;
+using PlanningPoker.Infrastructure.Persistence.Repositories;
 
 namespace PlanningPoker.Infrastructure.Persistence;
 
@@ -29,6 +31,15 @@ public static class DependencyInjection
                 }
             )
             .ApplyMigrations();
+
+        return services;
+    }
+
+    public static IServiceCollection AddRepositories(
+        this IServiceCollection services
+    )
+    {
+        services.AddTransient<IGameRepository, GameRepository>();
 
         return services;
     }

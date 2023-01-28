@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PlanningPoker.Application.Common.Interfaces.Generators;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Entities;
 using PlanningPoker.Infrastructure.Authentication;
@@ -20,9 +21,10 @@ public static class DependencyInjection
     {
         services
             .AddSingleton<IDateTimeProvider, DateTimeProvider>()
-            .AddTransient<TinyGuidGenerator>()
+            .AddTransient<ITinyGuidGenerator, TinyGuidGenerator>()
             .AddAuth(configuration)
             .AddDatabase(configuration)
+            .AddRepositories()
             .AddEmail(configuration)
             .AddIdentity();
 
