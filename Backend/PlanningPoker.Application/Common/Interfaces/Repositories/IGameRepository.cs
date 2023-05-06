@@ -1,4 +1,7 @@
-﻿namespace PlanningPoker.Application.Common.Interfaces.Repositories;
+﻿using System.Linq.Expressions;
+using PlanningPoker.Domain.Entities;
+
+namespace PlanningPoker.Application.Common.Interfaces.Repositories;
 
 public interface IGameRepository
 {
@@ -9,11 +12,19 @@ public interface IGameRepository
 
     Task<Domain.Entities.Game?> GetAsync(
         string code,
-        CancellationToken cancellationToken
+        CancellationToken cancellationToken,
+        params Expression<
+            Func<Domain.Entities.Game, object>
+        >[] includes
     );
 
     Task<List<Domain.Entities.Game>> GetAllForUserAsync(
         string userId,
-        CancellationToken cancellationToken
+        CancellationToken cancellationToken,
+        params Expression<
+            Func<Domain.Entities.Game, object>
+        >[] includes
     );
+
+    Task AddPlayerToGameAsync(Player player, string gameId);
 }

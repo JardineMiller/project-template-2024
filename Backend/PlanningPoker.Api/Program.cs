@@ -1,4 +1,5 @@
 using PlanningPoker.Api;
+using PlanningPoker.Api.Common.Extensions;
 using PlanningPoker.Application;
 using PlanningPoker.Infrastructure;
 
@@ -20,6 +21,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHubs();
 app.Run();
 
 // Configure the HTTP request pipeline.

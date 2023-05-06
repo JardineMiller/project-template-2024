@@ -16,7 +16,7 @@ public class GetGameValidationTests
     [InlineData("test 5")]
     public void ValidInput_ThrowsNoErrors(string code)
     {
-        var result = _validator.TestValidate(new GetGameQuery(code));
+        var result = this._validator.TestValidate(new GetGameQuery(code));
         result.ShouldNotHaveAnyValidationErrors();
     }
 
@@ -27,7 +27,7 @@ public class GetGameValidationTests
     [InlineData(null)]
     public void InvalidInput_Should_ThrowErrors(string code)
     {
-        var result = _validator.TestValidate(new GetGameQuery(code));
+        var result = this._validator.TestValidate(new GetGameQuery(code));
         result.ShouldHaveValidationErrorFor(x => x.Code);
     }
 }

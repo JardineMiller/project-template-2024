@@ -10,11 +10,14 @@ public static class DependencyInjection
         this IServiceCollection services
     )
     {
-        return services
+        services
             .AddMediatR(typeof(DependencyInjection).Assembly)
             .AddTransient(
                 typeof(IPipelineBehavior<,>),
                 typeof(RequestValidationBehaviour<,>)
-            );
+            )
+            .AddSignalR();
+
+        return services;
     }
 }

@@ -30,13 +30,13 @@ public class CreateGameCommandHandlerTests
     public CreateGameCommandHandlerTests()
     {
         var testBase = new CommandTestBase();
-        _gameRepository = new GameRepository(testBase.Context);
+        this._gameRepository = new GameRepository(testBase.Context);
 
-        _tinyGuidGeneratorMock
+        this._tinyGuidGeneratorMock
             .Setup(x => x.Generate())
             .Returns(newGameCode);
 
-        _userManager = new UserManager<User>(
+        this._userManager = new UserManager<User>(
             new UserStore<User>(testBase.Context),
             null,
             null,
@@ -83,7 +83,9 @@ public class CreateGameCommandHandlerTests
 
         result.Errors
             .First()
-            .Description.ShouldBe(Errors.Common.NotFound(nameof(User)).Description);
+            .Description.ShouldBe(
+                Errors.Common.NotFound(nameof(User)).Description
+            );
     }
 
     [Fact]

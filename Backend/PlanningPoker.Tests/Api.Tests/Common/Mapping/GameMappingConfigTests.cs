@@ -6,7 +6,9 @@ using PlanningPoker.Application.Game.Commands.Create;
 using PlanningPoker.Application.Game.Queries.GetGame;
 using PlanningPoker.Application.Game.Queries.GetUserGames;
 using PlanningPoker.Application.Tests.TestHelpers;
-using PlanningPoker.Contracts.Game;
+using PlanningPoker.Contracts.Game.CreateGame;
+using PlanningPoker.Contracts.Game.GetGame;
+using PlanningPoker.Contracts.Game.GetUserGames;
 using PlanningPoker.Domain.Common.Validation;
 using PlanningPoker.Infrastructure.Generators;
 using Shouldly;
@@ -18,15 +20,15 @@ public class GameMappingConfigTests
 {
     private readonly string _validName =
         TestDataGenerator.GenerateRandomString(
-            Validation.Game.Name.MaxLength
+            Validation.Game.Name.maxLength
         );
 
     private readonly string _validDescription =
         TestDataGenerator.GenerateRandomString(
-            Validation.Game.Description.MaxLength
+            Validation.Game.Description.maxLength
         );
 
-    private readonly string validOwnerId = Guid.NewGuid().ToString();
+    private readonly string _validOwnerId = Guid.NewGuid().ToString();
 
     public GameMappingConfigTests()
     {
@@ -40,14 +42,14 @@ public class GameMappingConfigTests
         var src = new CreateGameRequest(
             this._validName,
             this._validDescription,
-            this.validOwnerId
+            this._validOwnerId
         );
 
         var result = src.Adapt<CreateGameCommand>();
 
         result.Name.ShouldBe(this._validName);
         result.Description.ShouldBe(this._validDescription);
-        result.OwnerId.ShouldBe(this.validOwnerId);
+        result.OwnerId.ShouldBe(this._validOwnerId);
     }
 
     [Fact]

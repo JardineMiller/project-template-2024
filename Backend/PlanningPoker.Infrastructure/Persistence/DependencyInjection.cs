@@ -40,6 +40,7 @@ public static class DependencyInjection
     )
     {
         services.AddTransient<IGameRepository, GameRepository>();
+        services.AddTransient<IPlayerRepository, PlayerRepository>();
 
         return services;
     }

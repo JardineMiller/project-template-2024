@@ -13,19 +13,19 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
 
         builder
             .Property(x => x.Name)
-            .HasMaxLength(Validation.Game.Name.MaxLength)
+            .HasMaxLength(Validation.Game.Name.maxLength)
             .IsRequired();
 
         builder
             .Property(x => x.Description)
             .HasMaxLength(
-                Validation.Game.Description.MaxLength
+                Validation.Game.Description.maxLength
             );
 
         builder
             .Property(x => x.Code)
             .IsRequired()
-            .HasMaxLength(Validation.Game.Code.MaxLength);
+            .HasMaxLength(Validation.Game.Code.maxLength);
 
         builder
             .HasOne(x => x.Owner)

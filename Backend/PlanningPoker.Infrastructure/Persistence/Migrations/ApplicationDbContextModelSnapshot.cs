@@ -195,7 +195,7 @@ namespace PlanningPoker.Infrastructure.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("PlanningPoker.Domain.Entities.User", b =>

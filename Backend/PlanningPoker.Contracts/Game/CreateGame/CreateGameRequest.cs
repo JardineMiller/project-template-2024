@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Contracts.Game;
+﻿namespace PlanningPoker.Contracts.Game.CreateGame;
 
 public record CreateGameRequest(
     string Name,

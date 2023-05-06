@@ -1,9 +1,11 @@
 ﻿using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlanningPoker.Application.Game.Commands.Create;
 using PlanningPoker.Application.Game.Queries.GetGame;
-using PlanningPoker.Contracts.Game;
+using PlanningPoker.Contracts.Game.CreateGame;
+using PlanningPoker.Contracts.Game.GetGame;
 
 namespace PlanningPoker.Api.Controllers;
 
@@ -28,6 +30,7 @@ public class GameController : ApiController
         );
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> Get(GetGameRequest request)
     {
@@ -39,4 +42,25 @@ public class GameController : ApiController
             errors => Problem(errors)
         );
     }
+
+    // [AllowAnonymous]
+    // [HttpGet("{gameCode}/join")]
+    // public async Task<IActionResult> Join(
+    //     [FromRoute] string gameCode,
+    //     JoinGameRequest request
+    // )
+    // {
+    //     var query = new JoinGameQuery(
+    //         gameCode,
+    //         request.UserId,
+    //         request.UserName
+    //     );
+    //
+    //     var result = await this._mediator.Send(query);
+    //
+    //     return result.Match(
+    //         success => Ok(success.Adapt<JoinGameResponse>()),
+    //         errors => Problem(errors)
+    //     );
+    // }
 }

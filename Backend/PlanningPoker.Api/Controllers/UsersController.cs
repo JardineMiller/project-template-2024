@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PlanningPoker.Application.Game.Queries.GetUserGames;
-using PlanningPoker.Contracts.Game;
+using PlanningPoker.Contracts.Game.GetUserGames;
 
 namespace PlanningPoker.Api.Controllers;
 

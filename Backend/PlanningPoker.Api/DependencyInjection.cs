@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PlanningPoker.Api.Common.Errors;
@@ -19,7 +18,7 @@ public static class DependencyInjection
             .AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters()
             .AddValidatorsFromAssembly(
-                Assembly.GetExecutingAssembly()
+                typeof(Application.DependencyInjection).Assembly
             )
             .AddMappings()
             .AddSingleton<
