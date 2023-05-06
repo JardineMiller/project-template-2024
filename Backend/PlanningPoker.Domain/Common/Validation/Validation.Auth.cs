@@ -9,7 +9,7 @@ public static partial class Validation
             public const int MinLength = 6;
             public const int MaxLength = 50;
             public const string Pattern =
-                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$";
+                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$";
         }
     }
 }

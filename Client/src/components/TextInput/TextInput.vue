@@ -1,8 +1,8 @@
 <template>
     <span class="p-float-label">
         <InputText
-            :id="label.toLowerCase()"
-            :name="label.toLowerCase()"
+            :id="name.toLowerCase()"
+            :name="name.toLowerCase()"
             :value="modelValue"
             :class="{
                 'p-invalid': errors.length,
@@ -11,31 +11,38 @@
             @blur="onBlur($event.target.value)"
         />
         <label for="name">
-            {{ label }}
+            {{ label.toTitleCase() }}
             <span
                 v-if="isRequired"
                 class="p-error"
-                >*</span
             >
+                *
+            </span>
         </label>
     </span>
     <small
         v-for="error in errors"
         :key="error"
         class="p-error"
-        >{{ error }} <br />
+    >
+        {{ error }} <br />
     </small>
 </template>
 
 <script lang="ts">
     import type { Validator } from "@/models/Validator";
     import { ValidatorType } from "@/models/Validator";
+    import "../../extensions/string-extensions";
     import { defineComponent } from "vue";
     import type { PropType } from "vue";
 
     export default defineComponent({
         name: "TextInput",
         props: {
+            name: {
+                type: String,
+                required: true,
+            },
             label: {
                 type: String,
                 required: true,

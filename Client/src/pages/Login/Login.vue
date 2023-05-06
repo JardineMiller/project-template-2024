@@ -1,38 +1,32 @@
 <script lang="ts">
     import TextInput from "@/components/TextInput/TextInput.vue";
+    import Validation from "@/validation/validation";
     import { Validators } from "@/models/Validator";
     import FormInput from "@/models/FormInput";
     import { defineComponent } from "vue";
+    import "../../validation/validation";
 
     export default defineComponent({
         components: { TextInput },
         data: () => {
             return {
-                categories: [
-                    "cat-1",
-                    "cat-2",
-                    "cat-3",
-                    "cat-4",
-                    "cat-5",
-                ],
                 model: {
-                    name: new FormInput("name", "", [
-                        Validators.required(),
-                        Validators.minLength(3),
-                    ]),
                     email: new FormInput("email", "", [
                         Validators.required(),
                         Validators.email(),
                     ]),
                     password: new FormInput("password", "", [
                         Validators.required(),
-                        Validators.minLength(6),
-                        Validators.maxLength(18),
-                    ]),
-                    age: new FormInput("age", "", [
-                        Validators.maxNumber(10),
+                        Validators.minLength(
+                            Validation.Auth.Password.MinLength
+                        ),
+                        Validators.maxLength(
+                            Validation.Auth.Password.MaxLength
+                        ),
                     ]),
                 },
+                submitted: false,
+                passwordRegex: Validation.Auth.Password.Pattern,
             };
         },
         computed: {
@@ -83,25 +77,28 @@
                     @submit.prevent="handleSubmit()"
                     class="p-fluid"
                 >
+                    <!-- Username-->
                     <div class="field">
                         <TextInput
-                            v-model="model.name.value"
-                            :label="model.name.propertyName"
-                            :validators="model.name.validators"
+                            v-model="model.email.value"
+                            :name="model.email.propertyName"
+                            :label="model.email.propertyName"
+                            :validators="model.email.validators"
                             @update-is-valid="updateIsValid"
                             @update-value="updateValue"
                         />
                     </div>
+
+                    <!-- Password -->
                     <div class="field">
-                        <span class="p-float-label p-input-icon-left">
+                        <span class="p-float-label">
                             <Password
                                 id="password"
-                                v-model="password"
+                                v-model="model.password.value"
                                 :class="{
                                     'p-invalid': submitted,
                                 }"
                                 toggleMask
-                                :medium-regex="impossibleRegex"
                                 :strong-regex="passwordRegex"
                             >
                                 <template #header>
@@ -130,21 +127,25 @@
                                     </ul>
                                 </template>
                             </Password>
-                            <i class="pi pi-lock"></i>
                             <label
                                 for="password"
                                 :class="{
                                     'p-error': submitted,
                                 }"
-                                >Password *</label
                             >
+                                Password
+                                <span class="p-error">*</span>
+                            </label>
                         </span>
                         <small
                             v-if="submitted"
                             class="p-error"
-                            >This is an error</small
                         >
+                            This is an error
+                        </small>
                     </div>
+
+                    <!-- Submit -->
                     <Button
                         type="submit"
                         label="Submit"
