@@ -43,11 +43,7 @@
             },
         },
         methods: {
-            updateValue(emitted: {
-                name: string;
-                value: string;
-                isValid: boolean;
-            }) {
+            updateValue(emitted: { name: string; value: string }) {
                 const inputs = Object.values(
                     this.form
                 ) as Array<FormInput>;
@@ -59,7 +55,7 @@
 
                 if (input) {
                     input.value = emitted.value;
-                    input.isValid = emitted.isValid;
+                    input.touched = true;
                 }
             },
         },
@@ -75,7 +71,7 @@
                     @submit.prevent="handleSubmit()"
                     class="p-fluid"
                 >
-                    <!-- Username-->
+                    <!-- Email -->
                     <div class="field">
                         <TextInput
                             v-model="form.email"

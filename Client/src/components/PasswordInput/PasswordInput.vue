@@ -4,7 +4,7 @@
             id="password"
             v-model="modelValue.value"
             :class="{
-                'p-invalid': errors.length,
+                'p-invalid': isInvalid,
             }"
             :strong-regex="passwordRegex"
             @input="onInput($event.target.value)"
@@ -14,6 +14,7 @@
             <template #header>
                 <h6>Pick a password</h6>
             </template>
+
             <template #footer="sp">
                 {{ sp.level }}
                 <Divider />
@@ -30,6 +31,7 @@
                 </ul>
             </template>
         </Password>
+
         <label :for="modelValue.propertyName.toLowerCase()">
             {{ modelValue.propertyName.toTitleCase() }}
             <span
@@ -40,13 +42,15 @@
             </span>
         </label>
     </span>
-    <small
-        v-for="error in errors"
-        :key="error"
-        class="p-error"
-    >
-        {{ error }} <br />
-    </small>
+    <div v-if="isInvalid">
+        <small
+            v-for="error in modelValue.errors"
+            :key="error"
+            class="p-error"
+        >
+            {{ error }} <br />
+        </small>
+    </div>
 </template>
 
 <script lang="ts">

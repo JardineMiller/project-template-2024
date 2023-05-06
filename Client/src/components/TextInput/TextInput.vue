@@ -5,7 +5,7 @@
             :name="modelValue.propertyName.toLowerCase()"
             :model-value="modelValue.value"
             :class="{
-                'p-invalid': errors.length,
+                'p-invalid': isInvalid,
             }"
             @input="onInput($event.target.value)"
             @blur="onBlur($event.target.value)"
@@ -20,13 +20,15 @@
             </span>
         </label>
     </span>
-    <small
-        v-for="error in errors"
-        :key="error"
-        class="p-error"
-    >
-        {{ error }} <br />
-    </small>
+    <div v-if="isInvalid">
+        <small
+            v-for="error in modelValue.errors"
+            :key="error"
+            class="p-error"
+        >
+            {{ error }} <br />
+        </small>
+    </div>
 </template>
 
 <script lang="ts">
