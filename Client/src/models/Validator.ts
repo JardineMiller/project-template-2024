@@ -6,6 +6,7 @@ export enum ValidatorType {
     maxNumber,
     email,
     pattern,
+    custom,
 }
 
 export class ValidationFnResult {
@@ -158,6 +159,24 @@ export class Validators {
                     ? ""
                     : customMsg ||
                       "This field does not match the required pattern";
+
+                return new ValidationFnResult(isValid, msg);
+            },
+        };
+    }
+
+    static custom(
+        isValidCallback: (input: any) => boolean,
+        customMsg: string | null = null
+    ) {
+        return {
+            type: ValidatorType.pattern,
+            validate: (value: string): ValidationFnResult => {
+                const isValid = isValidCallback(value);
+
+                const msg = isValid
+                    ? ""
+                    : customMsg || "This field is invalid";
 
                 return new ValidationFnResult(isValid, msg);
             },
