@@ -24,11 +24,9 @@ export default class FormInput {
     }
 
     get errors(): string[] {
-        return (
-            this.validators
-                .map((x) => x.validate(this.value))
-                .filter((x) => !x.isValid)
-                .map((x) => x.errorMessage) ?? []
-        );
+        return this.validators
+            .map((x) => x.validate(this.value))
+            .filter((x) => !x.isValid)
+            .map((x) => x.errorMessage);
     }
 }
