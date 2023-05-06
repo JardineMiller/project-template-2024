@@ -33,11 +33,13 @@
     import type { Validator } from "@/models/Validator";
     import { ValidatorType } from "@/models/Validator";
     import "../../extensions/string-extensions";
+    import InputText from "primevue/inputtext";
     import { defineComponent } from "vue";
     import type { PropType } from "vue";
 
     export default defineComponent({
         name: "TextInput",
+        components: { InputText },
         props: {
             name: {
                 type: String,

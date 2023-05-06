@@ -1,22 +1,28 @@
 <template>
     <div class="navbar">
         <RouterLink
+            data-test-id="navbar-link-home"
             class="link"
             to="/"
-            >Home</RouterLink
         >
+            Home
+        </RouterLink>
         <RouterLink
+            data-test-id="navbar-link-login"
             class="link"
             to="/login"
-            >Login</RouterLink
         >
+            Login
+        </RouterLink>
     </div>
 </template>
 
 <script>
+    import { RouterLink } from "vue-router";
+
     export default {
         username: "NavBar",
-        components: {},
+        components: { RouterLink },
     };
 </script>
 
