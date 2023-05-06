@@ -3,7 +3,7 @@
         <InputText
             :id="name.toLowerCase()"
             :name="name.toLowerCase()"
-            :value="modelValue"
+            :model-value="modelValue"
             :class="{
                 'p-invalid': errors.length,
             }"
@@ -48,7 +48,7 @@
                 required: true,
             },
             modelValue: {
-                type: [String],
+                type: String,
                 required: true,
             },
             validators: {
