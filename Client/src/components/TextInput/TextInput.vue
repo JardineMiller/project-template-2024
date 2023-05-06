@@ -8,7 +8,7 @@
                 'p-invalid': isInvalid,
             }"
             @input="onInput($event.target.value)"
-            @blur="onBlur($event.target.value)"
+            @blur="onBlur()"
         />
         <label :for="modelValue.propertyName.toLowerCase()">
             {{ modelValue.propertyName.toTitleCase() }}

@@ -5,6 +5,7 @@ import Dropdown from "primevue/dropdown";
 import Checkbox from "primevue/checkbox";
 import router from "./services/router";
 import Divider from "primevue/divider";
+import Tooltip from "primevue/tooltip";
 import PrimeVue from "primevue/config";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
@@ -25,5 +26,7 @@ app.component("Calendar", Calendar);
 app.component("Dropdown", Dropdown);
 app.component("Checkbox", Checkbox);
 app.component("Button", Button);
+
+app.directive("tooltip", Tooltip);
 
 app.mount("#app");

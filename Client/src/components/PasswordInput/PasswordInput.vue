@@ -2,13 +2,13 @@
     <span class="p-float-label">
         <Password
             id="password"
-            v-model="modelValue.value"
+            :model-value="modelValue.value"
             :class="{
                 'p-invalid': isInvalid,
             }"
             :strong-regex="passwordRegex"
             @input="onInput($event.target.value)"
-            @blur="onBlur($event.target.value)"
+            @blur="onBlur()"
             toggleMask
         >
             <template #header>

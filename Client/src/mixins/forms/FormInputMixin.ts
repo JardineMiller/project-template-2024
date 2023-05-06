@@ -26,19 +26,19 @@ export default defineComponent({
     },
     methods: {
         onInput(value: string): void {
-            this.$emit("updateValue", {
+            this.$emit("onValueChange", {
                 name: this.modelValue.propertyName,
                 value: value,
             });
         },
-        onBlur(value: string): void {
-            this.$emit("updateValue", {
+        onBlur(): void {
+            this.$emit("onBlur", {
                 name: this.modelValue.propertyName,
-                value: value,
             });
         },
     },
     emits: {
-        updateValue: null,
+        onValueChange: null,
+        onBlur: null,
     },
 });
