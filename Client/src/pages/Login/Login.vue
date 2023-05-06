@@ -31,7 +31,6 @@
                         ),
                     ]),
                 },
-                passwordRegex: Validation.Auth.Password.Pattern,
             };
         },
         computed: {
@@ -58,6 +57,7 @@
                     input.touched = true;
                 }
             },
+            handleSubmit(): void {},
         },
     });
 </script>
