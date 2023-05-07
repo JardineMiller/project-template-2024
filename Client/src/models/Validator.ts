@@ -170,7 +170,7 @@ export class Validators {
         customMsg: string | null = null
     ) {
         return {
-            type: ValidatorType.pattern,
+            type: ValidatorType.custom,
             validate: (value: string): ValidationFnResult => {
                 const isValid = isValidCallback(value);
 
