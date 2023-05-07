@@ -1,12 +1,12 @@
-﻿import { ValidatorType } from "@/models/Validator";
-import FormInput from "@/models/forms/FormInput";
+﻿import ModelProperty from "@/models/state/ModelProperty";
+import { ValidatorType } from "@/models/Validator";
 import "../../extensions/string-extensions";
 import { defineComponent } from "vue";
 
 export default defineComponent({
     props: {
         modelValue: {
-            type: FormInput,
+            type: ModelProperty,
             required: true,
         },
     },
@@ -26,15 +26,13 @@ export default defineComponent({
     },
     methods: {
         onInput(value: string): void {
-            this.$emit("onValueChange", {
-                name: this.modelValue.propertyName,
-                value: value,
-            });
+            this.$emit(
+                "onValueChange",
+                this.modelValue.valueChangedEvent(value)
+            );
         },
         onBlur(): void {
-            this.$emit("onBlur", {
-                name: this.modelValue.propertyName,
-            });
+            this.$emit("onBlur", this.modelValue.blurEvent());
         },
     },
     emits: {

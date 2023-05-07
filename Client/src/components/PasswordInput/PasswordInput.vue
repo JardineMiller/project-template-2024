@@ -10,6 +10,7 @@
             @input="onInput($event.target.value)"
             @blur="onBlur()"
             toggleMask
+            :feedback="feedback"
         >
             <template #header>
                 <h6>Pick a password</h6>
@@ -54,7 +55,7 @@
 </template>
 
 <script lang="ts">
-    import FormInputMixin from "@/mixins/forms/FormInputMixin";
+    import StateModelPropertyInputMixin from "@/mixins/forms/StateModelPropertyInputMixin";
     import Validation from "@/validation/validation";
     import "../../extensions/string-extensions";
     import Password from "primevue/password";
@@ -63,7 +64,10 @@
     export default defineComponent({
         name: "PasswordInput",
         components: { Password },
-        mixins: [FormInputMixin],
+        mixins: [StateModelPropertyInputMixin],
+        props: {
+            feedback: Boolean,
+        },
         data: () => {
             return {
                 passwordRegex: Validation.Auth.Password.Pattern,

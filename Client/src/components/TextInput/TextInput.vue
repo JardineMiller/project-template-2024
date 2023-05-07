@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-    import FormInputMixin from "@/mixins/forms/FormInputMixin";
+    import StateModelPropertyInputMixin from "@/mixins/forms/StateModelPropertyInputMixin";
     import "../../extensions/string-extensions";
     import InputText from "primevue/inputtext";
     import { defineComponent } from "vue";
@@ -40,7 +40,7 @@
     export default defineComponent({
         name: "TextInput",
         components: { InputText },
-        mixins: [FormInputMixin],
+        mixins: [StateModelPropertyInputMixin],
     });
 </script>
 
