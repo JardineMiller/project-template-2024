@@ -1,30 +1,7 @@
+﻿import { ValidationFnResult } from "@/models/validation/ValidationFnResult";
+import { ValidatorType } from "@/models/validation/ValidatorType";
+import type { IValidator } from "@/models/validation/IValidator";
 import { hasLengthProperty } from "@/utils/utils";
-
-export enum ValidatorType {
-    required,
-    minLength,
-    maxLength,
-    minNumber,
-    maxNumber,
-    email,
-    pattern,
-    custom,
-}
-
-export class ValidationFnResult {
-    isValid: boolean = true;
-    errorMessage: string = "";
-
-    constructor(isValid: boolean, errorMessage: string) {
-        this.isValid = isValid;
-        this.errorMessage = errorMessage;
-    }
-}
-
-export interface IValidator<T> {
-    type: ValidatorType;
-    validate(input: T | undefined): ValidationFnResult;
-}
 
 export class Validators {
     static required<T>(): IValidator<T> {

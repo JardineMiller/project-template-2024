@@ -1,4 +1,4 @@
-import type { IValidator } from "@/models/IValidator";
+import type { IValidator } from "@/models/validation/IValidator";
 
 export class PropertyValueChangedEvent<T> {
     readonly propertyName: string;

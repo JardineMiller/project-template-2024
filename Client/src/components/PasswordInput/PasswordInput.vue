@@ -55,8 +55,8 @@
 </template>
 
 <script lang="ts">
+    import { ValidatorType } from "@/models/validation/ValidatorType";
     import ModelProperty from "@/models/state/ModelProperty";
-    import { ValidatorType } from "@/models/IValidator";
     import Validation from "@/validation/validation";
     import "../../extensions/string-extensions";
     import Password from "primevue/password";

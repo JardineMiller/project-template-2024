@@ -32,8 +32,8 @@
 </template>
 
 <script lang="ts">
+    import { ValidatorType } from "@/models/validation/ValidatorType";
     import ModelProperty from "@/models/state/ModelProperty";
-    import { ValidatorType } from "@/models/IValidator";
     import "../../extensions/string-extensions";
     import InputText from "primevue/inputtext";
     import { defineComponent } from "vue";

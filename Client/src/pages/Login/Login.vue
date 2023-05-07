@@ -3,10 +3,10 @@
     import PasswordInput from "@/components/PasswordInput/PasswordInput.vue";
     import type { PropertyEvent } from "@/models/state/ModelProperty";
     import TextInput from "@/components/TextInput/TextInput.vue";
+    import { Validators } from "@/models/validation/Validators";
     import ModelProperty from "@/models/state/ModelProperty";
     import StateTracker from "@/models/state/StateTracker";
     import LoginModel from "@/models/forms/LoginModel";
-    import { Validators } from "@/models/IValidator";
     import { defineComponent } from "vue";
     import "../../validation/validation";
 
