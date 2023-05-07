@@ -6,7 +6,7 @@
     import ModelProperty from "@/models/state/ModelProperty";
     import StateTracker from "@/models/state/StateTracker";
     import LoginModel from "@/models/forms/LoginModel";
-    import { Validators } from "@/models/Validator";
+    import { Validators } from "@/models/IValidator";
     import { defineComponent } from "vue";
     import "../../validation/validation";
 
@@ -16,10 +16,11 @@
             return {
                 state: new StateTracker<LoginModel>(
                     new LoginModel(
-                        new ModelProperty("email", "", [
+                        new ModelProperty<string>("email", "", [
+                            Validators.required(),
                             Validators.email(),
                         ]),
-                        new ModelProperty("password", "", [
+                        new ModelProperty<string>("password", "", [
                             Validators.required(),
                         ])
                     ),
@@ -28,15 +29,15 @@
             };
         },
         computed: {
-            email(): ModelProperty {
+            email(): ModelProperty<string> {
                 return this.state.getProperty("email");
             },
-            password(): ModelProperty {
+            password(): ModelProperty<string> {
                 return this.state.getProperty("password");
             },
         },
         methods: {
-            onValueChange(event: PropertyValueChangedEvent) {
+            onValueChange<T>(event: PropertyValueChangedEvent<T>) {
                 this.state.setProperty(
                     event.propertyName,
                     event.value

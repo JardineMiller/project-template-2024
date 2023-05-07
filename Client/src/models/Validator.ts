@@ -1,3 +1,5 @@
+import { hasLengthProperty } from "@/utils/utils";
+
 export enum ValidatorType {
     required,
     minLength,
@@ -19,20 +21,26 @@ export class ValidationFnResult {
     }
 }
 
-export interface Validator {
+export interface IValidator<T> {
     type: ValidatorType;
-    validate(input: string): ValidationFnResult;
+    validate(input: T | undefined): ValidationFnResult;
 }
 
 export class Validators {
-    static required(): Validator {
+    static required<T>(): IValidator<T> {
         return {
             type: ValidatorType.required,
             validate: (
-                value: string,
+                value: T,
                 customMsg: string | null = null
             ): ValidationFnResult => {
-                const isValid = value !== undefined && !!value.length;
+                const exists = value !== undefined;
+                const hasLength = hasLengthProperty(value)
+                    ? value.length > 0
+                    : false;
+
+                const isValid = exists && hasLength;
+
                 const msg = isValid
                     ? ""
                     : customMsg || "This field is required";
@@ -42,17 +50,22 @@ export class Validators {
         };
     }
 
-    static minLength(
+    static minLength<T>(
         length: number,
         customMsg: string | null = null
-    ): Validator {
+    ): IValidator<T> {
         const min = length;
 
         return {
             type: ValidatorType.minLength,
-            validate: (value: string): ValidationFnResult => {
-                const isValid =
-                    value !== undefined && value.length >= min;
+            validate: (value: T): ValidationFnResult => {
+                const exists = value !== undefined;
+                const hasLength = hasLengthProperty(value)
+                    ? value.length >= min
+                    : false;
+
+                const isValid = exists && hasLength;
+
                 const msg = isValid
                     ? ""
                     : customMsg ||
@@ -63,17 +76,22 @@ export class Validators {
         };
     }
 
-    static maxLength(
+    static maxLength<T>(
         length: number,
         customMsg: string | null = null
-    ): Validator {
+    ): IValidator<T> {
         const max = length;
 
         return {
             type: ValidatorType.maxLength,
-            validate: (value: string): ValidationFnResult => {
-                const isValid =
-                    value !== undefined && value.length <= max;
+            validate: (value: T): ValidationFnResult => {
+                const exists = value !== undefined;
+                const hasLength = hasLengthProperty(value)
+                    ? value.length >= max
+                    : false;
+
+                const isValid = exists && hasLength;
+
                 const msg = isValid
                     ? ""
                     : customMsg ||
@@ -84,7 +102,7 @@ export class Validators {
         };
     }
 
-    static email(): Validator {
+    static email(): IValidator<string> {
         return {
             type: ValidatorType.email,
             validate: (
@@ -108,14 +126,13 @@ export class Validators {
     static minNumber(
         min: number,
         customMsg: string | null = null
-    ): Validator {
+    ): IValidator<number> {
         return {
             type: ValidatorType.minNumber,
-            validate: (value: string): ValidationFnResult => {
+            validate: (value: number): ValidationFnResult => {
                 const exists = value !== undefined;
-                const number = exists ? parseInt(value) : 0;
+                const isValid = exists && value >= min;
 
-                const isValid = number >= min;
                 const msg = isValid
                     ? ""
                     : customMsg || `Minimum value: ${min}`;
@@ -128,14 +145,13 @@ export class Validators {
     static maxNumber(
         max: number,
         customMsg: string | null = null
-    ): Validator {
+    ): IValidator<number> {
         return {
             type: ValidatorType.maxNumber,
-            validate: (value: string): ValidationFnResult => {
+            validate: (value: number): ValidationFnResult => {
                 const exists = value !== undefined;
-                const number = exists ? parseInt(value) : 0;
+                const isValid = exists && value <= max;
 
-                const isValid = number <= max;
                 const msg = isValid
                     ? ""
                     : customMsg || `Maximum value: ${max}`;
@@ -148,7 +164,7 @@ export class Validators {
     static pattern(
         regex: RegExp,
         customMsg: string | null = null
-    ): Validator {
+    ): IValidator<string> {
         return {
             type: ValidatorType.pattern,
             validate: (value: string): ValidationFnResult => {
@@ -165,13 +181,13 @@ export class Validators {
         };
     }
 
-    static custom(
-        isValidCallback: (input: any) => boolean,
+    static custom<T>(
+        isValidCallback: (input: T) => boolean,
         customMsg: string | null = null
-    ) {
+    ): IValidator<T> {
         return {
             type: ValidatorType.custom,
-            validate: (value: string): ValidationFnResult => {
+            validate: (value: T): ValidationFnResult => {
                 const isValid = isValidCallback(value);
 
                 const msg = isValid

@@ -2,15 +2,18 @@
 import type { IModel } from "@/models/state/IModel";
 
 export default class LoginModel implements IModel {
-    email: ModelProperty;
-    password: ModelProperty;
+    email: ModelProperty<string>;
+    password: ModelProperty<string>;
 
-    constructor(email: ModelProperty, password: ModelProperty) {
+    constructor(
+        email: ModelProperty<string>,
+        password: ModelProperty<string>
+    ) {
         this.email = email;
         this.password = password;
     }
 
-    get(propertyName: string): ModelProperty {
+    get(propertyName: string): ModelProperty<any> {
         const property = this.properties.find(
             (x) => x.propertyName === propertyName
         );
@@ -28,7 +31,7 @@ export default class LoginModel implements IModel {
         return this.properties.every((x) => x.isValid);
     }
 
-    get properties(): ModelProperty[] {
+    get properties(): ModelProperty<any>[] {
         return [this.email, this.password];
     }
 }

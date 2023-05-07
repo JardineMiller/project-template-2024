@@ -1,10 +1,10 @@
-import type { Validator } from "@/models/Validator";
+import type { IValidator } from "@/models/IValidator";
 
-export class PropertyValueChangedEvent {
+export class PropertyValueChangedEvent<T> {
     readonly propertyName: string;
-    readonly value: string;
+    readonly value: T;
 
-    constructor(propertyName: string, value: string) {
+    constructor(propertyName: string, value: T) {
         this.propertyName = propertyName;
         this.value = value;
     }
@@ -18,16 +18,16 @@ export class PropertyEvent {
     }
 }
 
-export default class ModelProperty {
-    private _value: string;
+export default class ModelProperty<T> {
+    private _value: T;
     propertyName: string;
-    validators: Array<Validator>;
+    validators: Array<IValidator<T>>;
     touched: boolean = false;
 
     constructor(
         propertyName: string,
-        initialValue: string = "",
-        validators: Array<Validator> = []
+        initialValue: T,
+        validators: Array<IValidator<T>> = []
     ) {
         this.propertyName = propertyName;
         this.validators = validators;
@@ -47,16 +47,19 @@ export default class ModelProperty {
             .map((x) => x.errorMessage);
     }
 
-    get value(): string {
+    get value(): T {
         return this._value;
     }
 
-    set value(val: string) {
+    set value(val: T) {
         this._value = val;
     }
 
-    valueChangedEvent(val: string): PropertyValueChangedEvent {
-        return new PropertyValueChangedEvent(this.propertyName, val);
+    valueChangedEvent(val: T): PropertyValueChangedEvent<T> {
+        return new PropertyValueChangedEvent<T>(
+            this.propertyName,
+            val
+        );
     }
 
     blurEvent(): PropertyEvent {

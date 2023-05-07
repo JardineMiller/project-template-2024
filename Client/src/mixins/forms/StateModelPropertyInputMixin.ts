@@ -1,5 +1,5 @@
 ﻿import ModelProperty from "@/models/state/ModelProperty";
-import { ValidatorType } from "@/models/Validator";
+import { ValidatorType } from "@/models/IValidator";
 import "../../extensions/string-extensions";
 import { defineComponent } from "vue";
 

@@ -64,12 +64,12 @@ export default class StateTracker<T extends IModel> {
         this.changes.clear();
     }
 
-    getProperty(propertyName: string): ModelProperty {
+    getProperty<T>(propertyName: string): ModelProperty<T> {
         return this.model.get(propertyName);
     }
 
-    setProperty(propertyName: string, newValue: any): void {
-        const property = this.getProperty(propertyName);
+    setProperty<T>(propertyName: string, newValue: T): void {
+        const property = this.getProperty<T>(propertyName);
 
         if (!property) {
             return;
@@ -88,7 +88,7 @@ export default class StateTracker<T extends IModel> {
     }
 
     touchProperty(propertyName: string): void {
-        const property = this.getProperty(propertyName);
+        const property = this.getProperty<T>(propertyName);
 
         if (!property) {
             return;
