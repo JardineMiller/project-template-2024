@@ -94,7 +94,7 @@
         methods: {
             onInput(value: string): void {
                 this.$emit(
-                    "onValueChange",
+                    "onChange",
                     this.modelValue.valueChangedEvent(value)
                 );
             },
@@ -103,7 +103,7 @@
             },
         },
         emits: {
-            onValueChange: null,
+            onChange: null,
             onBlur: null,
         },
     });

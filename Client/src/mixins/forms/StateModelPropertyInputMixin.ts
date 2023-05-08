@@ -27,7 +27,7 @@ export default defineComponent({
     methods: {
         onInput(value: string): void {
             this.$emit(
-                "onValueChange",
+                "onChange",
                 this.modelValue.valueChangedEvent(value)
             );
         },
@@ -36,7 +36,7 @@ export default defineComponent({
         },
     },
     emits: {
-        onValueChange: null,
+        onChange: null,
         onBlur: null,
     },
 });

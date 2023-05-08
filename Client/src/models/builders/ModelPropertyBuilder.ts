@@ -31,7 +31,7 @@ export class ModelPropertyBuilder<T extends IModel, K> {
         return this._modelBuilder;
     }
 
-    public build(): ModelProperty<K> {
+    private build(): ModelProperty<K> {
         return new ModelProperty<K>(
             this._propertyName,
             this._value,

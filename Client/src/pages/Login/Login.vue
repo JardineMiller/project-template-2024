@@ -43,7 +43,7 @@
             },
         },
         methods: {
-            onValueChange<T>(event: PropertyValueChangedEvent<T>) {
+            onChange<T>(event: PropertyValueChangedEvent<T>) {
                 this.state.setProperty<T>(
                     event.propertyName,
                     event.value
@@ -102,7 +102,7 @@
                 <div class="field">
                     <TextInput
                         v-model="email"
-                        @on-value-change="onValueChange"
+                        @on-change="onChange"
                         @on-blur="onBlur"
                     />
                 </div>
@@ -111,7 +111,7 @@
                 <div class="field">
                     <PasswordInput
                         v-model="password"
-                        @on-value-change="onValueChange"
+                        @on-change="onChange"
                         @on-blur="onBlur"
                     />
                 </div>
