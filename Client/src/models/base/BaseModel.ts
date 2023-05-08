@@ -1,16 +1,11 @@
 ﻿import type ModelProperty from "@/models/state/ModelProperty";
-import type { IModel } from "@/models/state/IModel";
+import type { IModel } from "@/models/base/IModel";
 
-export default class LoginModel implements IModel {
-    email: ModelProperty<string>;
-    password: ModelProperty<string>;
+export default abstract class BaseModel implements IModel {
+    private readonly properties: Array<ModelProperty<any>>;
 
-    constructor(
-        email: ModelProperty<string>,
-        password: ModelProperty<string>
-    ) {
-        this.email = email;
-        this.password = password;
+    protected constructor(properties: Array<ModelProperty<any>>) {
+        this.properties = properties;
     }
 
     get(propertyName: string): ModelProperty<any> {
@@ -29,9 +24,5 @@ export default class LoginModel implements IModel {
 
     get isValid(): boolean {
         return this.properties.every((x) => x.isValid);
-    }
-
-    get properties(): ModelProperty<any>[] {
-        return [this.email, this.password];
     }
 }

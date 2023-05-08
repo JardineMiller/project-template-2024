@@ -1,13 +1,14 @@
 <script lang="ts">
-    import ModelProperty, {
+    import type {
         PropertyEvent,
         PropertyValueChangedEvent,
     } from "@/models/state/ModelProperty";
     import PasswordInput from "@/components/PasswordInput/PasswordInput.vue";
+    import type ModelProperty from "@/models/state/ModelProperty";
     import TextInput from "@/components/TextInput/TextInput.vue";
     import { Validators } from "@/models/validation/Validators";
     import StateTracker from "@/models/state/StateTracker";
-    import LoginModel from "@/models/forms/LoginModel";
+    import LoginModel from "@/models/login/LoginModel";
     import { defineComponent } from "vue";
     import "../../validation/validation";
 
@@ -16,22 +17,20 @@
         data: () => {
             return {
                 state: new StateTracker<LoginModel>(
-                    new LoginModel(
-                        new ModelProperty<string>(
-                            "email",
-                            undefined,
-                            [
-                                Validators.required(),
-                                Validators.email(),
-                            ]
-                        ),
-                        new ModelProperty<string>(
-                            "password",
-                            undefined,
-                            [Validators.required()]
-                        )
-                    ),
-                    true
+                    LoginModel.Builder()
+                        .property<string>("email")
+                        .validators([
+                            Validators.required(),
+                            Validators.email(),
+                        ])
+                        .ok()
+
+                        .property<string>("password")
+                        .validators([Validators.required()])
+                        .ok()
+
+                        .build(),
+                    { trackChanges: true }
                 ),
             };
         },

@@ -1,6 +1,6 @@
 ﻿import type ModelProperty from "@/models/state/ModelProperty";
 import { Change, Changes } from "@/models/state/Change";
-import type { IModel } from "@/models/state/IModel";
+import type { IModel } from "@/models/base/IModel";
 
 export default class StateTracker<T extends IModel> {
     private readonly changes = new Changes();
@@ -8,9 +8,9 @@ export default class StateTracker<T extends IModel> {
     trackChanges: boolean;
     model: T;
 
-    constructor(model: T, trackChanges: boolean = false) {
+    constructor(model: T, options: { trackChanges: boolean }) {
         this.model = model;
-        this.trackChanges = trackChanges;
+        this.trackChanges = options.trackChanges ?? false;
     }
 
     get canUndo(): boolean {
