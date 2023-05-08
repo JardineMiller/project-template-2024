@@ -1,9 +1,44 @@
 ﻿import { ValidationFnResult } from "@/models/validation/ValidationFnResult";
 import { ValidatorType } from "@/models/validation/ValidatorType";
 import type { IValidator } from "@/models/validation/IValidator";
-import { hasLengthProperty } from "@/utils/utils";
+import { EMAIL_REGEX, hasLengthProperty } from "@/utils/utils";
 
 export class Validators {
+    private static exists<T>(val: T | undefined | null): boolean {
+        return val !== undefined && val !== null;
+    }
+
+    private static hasLength<T>(
+        val: T,
+        predicate: (length: number) => boolean
+    ): boolean {
+        return hasLengthProperty(val) ? predicate(val.length) : false;
+    }
+
+    private static simpleReduce<T>(value: T) {
+        return (
+            accumulatedValue: boolean,
+            currentFn: (value: T) => boolean
+        ) => {
+            return accumulatedValue && currentFn(value);
+        };
+    }
+
+    private static predicateReduce<T, K>(
+        value: T,
+        predicate: (input: K) => boolean
+    ) {
+        return (
+            accumulatedValue: boolean,
+            currentFn: (
+                value: T,
+                predicate: (input: K) => boolean
+            ) => boolean
+        ) => {
+            return accumulatedValue && currentFn(value, predicate);
+        };
+    }
+
     static required<T>(): IValidator<T> {
         return {
             type: ValidatorType.required,
@@ -11,12 +46,15 @@ export class Validators {
                 value: T,
                 customMsg: string | null = null
             ): ValidationFnResult => {
-                const exists = value !== undefined;
-                const hasLength = hasLengthProperty(value)
-                    ? value.length > 0
-                    : false;
+                const conditions = [this.exists, this.hasLength];
 
-                const isValid = exists && hasLength;
+                const isValid = conditions.reduce(
+                    this.predicateReduce(
+                        value,
+                        (valueLength) => valueLength > 0
+                    ),
+                    true
+                );
 
                 const msg = isValid
                     ? ""
@@ -36,12 +74,15 @@ export class Validators {
         return {
             type: ValidatorType.minLength,
             validate: (value: T): ValidationFnResult => {
-                const exists = value !== undefined;
-                const hasLength = hasLengthProperty(value)
-                    ? value.length >= min
-                    : false;
+                const conditions = [this.exists, this.hasLength];
 
-                const isValid = exists && hasLength;
+                const isValid = conditions.reduce(
+                    this.predicateReduce(
+                        value,
+                        (valueLength) => valueLength >= min
+                    ),
+                    true
+                );
 
                 const msg = isValid
                     ? ""
@@ -62,12 +103,15 @@ export class Validators {
         return {
             type: ValidatorType.maxLength,
             validate: (value: T): ValidationFnResult => {
-                const exists = value !== undefined;
-                const hasLength = hasLengthProperty(value)
-                    ? value.length >= max
-                    : false;
+                const conditions = [this.exists, this.hasLength];
 
-                const isValid = exists && hasLength;
+                const isValid = conditions.reduce(
+                    this.predicateReduce(
+                        value,
+                        (valueLength) => valueLength <= max
+                    ),
+                    true
+                );
 
                 const msg = isValid
                     ? ""
@@ -86,9 +130,15 @@ export class Validators {
                 value: string,
                 customMsg: string | null = null
             ): ValidationFnResult => {
-                const isValid =
-                    value !== undefined &&
-                    /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
+                const conditions = [
+                    this.exists,
+                    EMAIL_REGEX.test.bind(EMAIL_REGEX),
+                ];
+
+                const isValid = conditions.reduce(
+                    this.simpleReduce(value),
+                    true
+                );
 
                 const msg = isValid
                     ? ""
@@ -107,8 +157,15 @@ export class Validators {
         return {
             type: ValidatorType.minNumber,
             validate: (value: number): ValidationFnResult => {
-                const exists = value !== undefined;
-                const isValid = exists && value >= min;
+                const conditions = [
+                    this.exists,
+                    (value: number) => value >= min,
+                ];
+
+                const isValid = conditions.reduce(
+                    this.simpleReduce(value),
+                    true
+                );
 
                 const msg = isValid
                     ? ""
@@ -126,8 +183,15 @@ export class Validators {
         return {
             type: ValidatorType.maxNumber,
             validate: (value: number): ValidationFnResult => {
-                const exists = value !== undefined;
-                const isValid = exists && value <= max;
+                const conditions = [
+                    this.exists,
+                    (value: number) => value <= max,
+                ];
+
+                const isValid = conditions.reduce(
+                    this.simpleReduce(value),
+                    true
+                );
 
                 const msg = isValid
                     ? ""
@@ -145,8 +209,15 @@ export class Validators {
         return {
             type: ValidatorType.pattern,
             validate: (value: string): ValidationFnResult => {
-                const exists = value !== undefined;
-                const isValid = exists && regex.test(value);
+                const conditions = [
+                    this.exists,
+                    regex.test.bind(regex),
+                ];
+
+                const isValid = conditions.reduce(
+                    this.simpleReduce(value),
+                    true
+                );
 
                 const msg = isValid
                     ? ""

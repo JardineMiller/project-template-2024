@@ -19,19 +19,19 @@ export class PropertyEvent {
 }
 
 export default class ModelProperty<T> {
-    private _value: T;
+    value: T | undefined;
     propertyName: string;
     validators: Array<IValidator<T>>;
     touched: boolean = false;
 
     constructor(
         propertyName: string,
-        initialValue: T,
+        initialValue: T | undefined = undefined,
         validators: Array<IValidator<T>> = []
     ) {
         this.propertyName = propertyName;
         this.validators = validators;
-        this._value = initialValue;
+        this.value = initialValue;
     }
 
     get isValid(): boolean {
@@ -45,14 +45,6 @@ export default class ModelProperty<T> {
             .map((x) => x.validate(this.value))
             .filter((x) => !x.isValid)
             .map((x) => x.errorMessage);
-    }
-
-    get value(): T {
-        return this._value;
-    }
-
-    set value(val: T) {
-        this._value = val;
     }
 
     valueChangedEvent(val: T): PropertyValueChangedEvent<T> {

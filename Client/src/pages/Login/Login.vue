@@ -1,10 +1,11 @@
 <script lang="ts">
-    import type { PropertyValueChangedEvent } from "@/models/state/ModelProperty";
+    import ModelProperty, {
+        PropertyEvent,
+        PropertyValueChangedEvent,
+    } from "@/models/state/ModelProperty";
     import PasswordInput from "@/components/PasswordInput/PasswordInput.vue";
-    import type { PropertyEvent } from "@/models/state/ModelProperty";
     import TextInput from "@/components/TextInput/TextInput.vue";
     import { Validators } from "@/models/validation/Validators";
-    import ModelProperty from "@/models/state/ModelProperty";
     import StateTracker from "@/models/state/StateTracker";
     import LoginModel from "@/models/forms/LoginModel";
     import { defineComponent } from "vue";
@@ -16,13 +17,19 @@
             return {
                 state: new StateTracker<LoginModel>(
                     new LoginModel(
-                        new ModelProperty<string>("email", "", [
-                            Validators.required(),
-                            Validators.email(),
-                        ]),
-                        new ModelProperty<string>("password", "", [
-                            Validators.required(),
-                        ])
+                        new ModelProperty<string>(
+                            "email",
+                            undefined,
+                            [
+                                Validators.required(),
+                                Validators.email(),
+                            ]
+                        ),
+                        new ModelProperty<string>(
+                            "password",
+                            undefined,
+                            [Validators.required()]
+                        )
                     ),
                     true
                 ),
@@ -38,7 +45,7 @@
         },
         methods: {
             onValueChange<T>(event: PropertyValueChangedEvent<T>) {
-                this.state.setProperty(
+                this.state.setProperty<T>(
                     event.propertyName,
                     event.value
                 );
