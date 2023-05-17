@@ -19,15 +19,13 @@
                 state: new StateTracker<LoginModel>(
                     LoginModel.Builder()
                         .property<string>("email")
-                        .validators([
-                            Validators.required(),
-                            Validators.email(),
-                        ])
-                        .ok()
+                        .required()
+                        .validators([Validators.email()])
+                        .buildProperty()
 
                         .property<string>("password")
-                        .validators([Validators.required()])
-                        .ok()
+                        .required()
+                        .buildProperty()
 
                         .build(),
                     { trackChanges: true }

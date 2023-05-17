@@ -1,5 +1,6 @@
 ﻿import type { ModelBuilder } from "@/models/builders/ModelBuilder";
 import type { IValidator } from "@/models/validation/IValidator";
+import { Validators } from "@/models/validation/Validators";
 import ModelProperty from "@/models/state/ModelProperty";
 import type { IModel } from "@/models/base/IModel";
 
@@ -7,6 +8,7 @@ export class ModelPropertyBuilder<T extends IModel, K> {
     private readonly _propertyName: string;
     private _value: K | undefined = undefined;
     private _validators: Array<IValidator<K>> = [];
+    private _isRequired: boolean = false;
     private readonly _modelBuilder: ModelBuilder<T>;
 
     constructor(modelBuilder: ModelBuilder<T>, propertyName: string) {
@@ -19,6 +21,11 @@ export class ModelPropertyBuilder<T extends IModel, K> {
         return this;
     }
 
+    public required(): ModelPropertyBuilder<T, K> {
+        this._isRequired = true;
+        return this;
+    }
+
     public validators(
         validators: Array<IValidator<K>>
     ): ModelPropertyBuilder<T, K> {
@@ -26,7 +33,7 @@ export class ModelPropertyBuilder<T extends IModel, K> {
         return this;
     }
 
-    public ok(): ModelBuilder<T> {
+    public buildProperty(): ModelBuilder<T> {
         this._modelBuilder.add(this.build());
         return this._modelBuilder;
     }
@@ -35,6 +42,7 @@ export class ModelPropertyBuilder<T extends IModel, K> {
         return new ModelProperty<K>(
             this._propertyName,
             this._value,
+            this._isRequired,
             this._validators
         );
     }

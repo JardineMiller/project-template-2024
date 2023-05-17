@@ -1,4 +1,5 @@
 import type { IValidator } from "@/models/validation/IValidator";
+import { Validators } from "@/models/validation/Validators";
 
 export class PropertyValueChangedEvent<T> {
     readonly propertyName: string;
@@ -23,24 +24,43 @@ export default class ModelProperty<T> {
     propertyName: string;
     validators: Array<IValidator<T>>;
     touched: boolean = false;
+    isRequired: boolean;
 
     constructor(
         propertyName: string,
         initialValue: T | undefined = undefined,
+        isRequired: boolean = false,
         validators: Array<IValidator<T>> = []
     ) {
         this.propertyName = propertyName;
         this.validators = validators;
         this.value = initialValue;
+        this.isRequired = isRequired;
     }
 
     get isValid(): boolean {
+        if (this.isRequired) {
+            const result = Validators.required().validate(this.value);
+
+            if (!result.isValid) {
+                return false;
+            }
+        }
+
         return this.validators.every(
             (x) => x.validate(this.value).isValid
         );
     }
 
     get errors(): string[] {
+        if (this.isRequired) {
+            const result = Validators.required().validate(this.value);
+
+            if (!result.isValid) {
+                return [result.errorMessage];
+            }
+        }
+
         return this.validators
             .map((x) => x.validate(this.value))
             .filter((x) => !x.isValid)

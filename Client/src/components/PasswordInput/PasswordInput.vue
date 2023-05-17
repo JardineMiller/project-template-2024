@@ -36,7 +36,7 @@
         <label :for="modelValue.propertyName.toLowerCase()">
             {{ modelValue.propertyName.toTitleCase() }}
             <span
-                v-if="isRequired"
+                v-if="modelValue.isRequired"
                 class="p-error"
             >
                 *
@@ -78,11 +78,6 @@
             feedback: Boolean,
         },
         computed: {
-            isRequired(): boolean {
-                return this.modelValue.validators.some(
-                    (x) => x.type === ValidatorType.required
-                );
-            },
             isInvalid(): boolean {
                 return (
                     (Boolean(this.modelValue.value) ||
