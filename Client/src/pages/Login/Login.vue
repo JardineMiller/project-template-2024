@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {
-        PropertyEvent,
-        PropertyValueChangedEvent,
+        ModelPropertyEvent,
+        ModelPropertyChangeEvent,
     } from "@/models/state/ModelProperty";
     import PasswordInput from "@/components/PasswordInput/PasswordInput.vue";
     import type ModelProperty from "@/models/state/ModelProperty";
@@ -11,6 +11,7 @@
     import LoginModel from "@/models/login/LoginModel";
     import { defineComponent } from "vue";
     import "../../validation/validation";
+    import axios from "axios";
 
     export default defineComponent({
         components: { TextInput, PasswordInput },
@@ -41,16 +42,18 @@
             },
         },
         methods: {
-            onChange<T>(event: PropertyValueChangedEvent<T>) {
+            onChange<T>(event: ModelPropertyChangeEvent<T>) {
                 this.state.setProperty<T>(
                     event.propertyName,
                     event.value
                 );
             },
-            onBlur(event: PropertyEvent) {
+            onBlur(event: ModelPropertyEvent) {
                 this.state.touchProperty(event.propertyName);
             },
-            handleSubmit(): void {},
+            handleSubmit(): void {
+                axios.get(`${import.meta.env.VITE_API_URL}/login`);
+            },
         },
     });
 </script>

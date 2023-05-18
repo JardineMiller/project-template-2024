@@ -1,7 +1,7 @@
 import type { IValidator } from "@/models/validation/IValidator";
 import { Validators } from "@/models/validation/Validators";
 
-export class PropertyValueChangedEvent<T> {
+export class ModelPropertyChangeEvent<T> {
     readonly propertyName: string;
     readonly value: T;
 
@@ -11,7 +11,7 @@ export class PropertyValueChangedEvent<T> {
     }
 }
 
-export class PropertyEvent {
+export class ModelPropertyEvent {
     readonly propertyName: string;
 
     constructor(propertyName: string) {
@@ -67,14 +67,14 @@ export default class ModelProperty<T> {
             .map((x) => x.errorMessage);
     }
 
-    valueChangedEvent(val: T): PropertyValueChangedEvent<T> {
-        return new PropertyValueChangedEvent<T>(
+    changeEvent(val: T): ModelPropertyChangeEvent<T> {
+        return new ModelPropertyChangeEvent<T>(
             this.propertyName,
             val
         );
     }
 
-    blurEvent(): PropertyEvent {
-        return new PropertyEvent(this.propertyName);
+    blurEvent(): ModelPropertyEvent {
+        return new ModelPropertyEvent(this.propertyName);
     }
 }

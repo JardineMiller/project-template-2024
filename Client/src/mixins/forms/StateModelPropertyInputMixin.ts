@@ -28,7 +28,7 @@ export default defineComponent({
         onInput(value: string): void {
             this.$emit(
                 "onChange",
-                this.modelValue.valueChangedEvent(value)
+                this.modelValue.changeEvent(value)
             );
         },
         onBlur(): void {
