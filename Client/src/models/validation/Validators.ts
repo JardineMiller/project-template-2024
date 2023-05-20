@@ -1,5 +1,4 @@
 ﻿import { ValidationFnResult } from "@/models/validation/ValidationFnResult";
-import { ValidatorType } from "@/models/validation/ValidatorType";
 import type { IValidator } from "@/models/validation/IValidator";
 import { EMAIL_REGEX, hasLengthProperty } from "@/utils/utils";
 
@@ -23,7 +22,6 @@ export class Validators {
         customMsg: string | null = null
     ): IValidator<T> {
         return {
-            type: ValidatorType.required,
             validate: (value: T): ValidationFnResult => {
                 const isValid = this.exists(value);
 
@@ -43,7 +41,6 @@ export class Validators {
         const min = length;
 
         return {
-            type: ValidatorType.minLength,
             validate: (value: T): ValidationFnResult => {
                 const isValid =
                     !this.exists(value) ||
@@ -66,7 +63,6 @@ export class Validators {
         const max = length;
 
         return {
-            type: ValidatorType.maxLength,
             validate: (value: T): ValidationFnResult => {
                 const isValid =
                     !this.exists(value) ||
@@ -86,7 +82,6 @@ export class Validators {
         customMsg: string | null = null
     ): IValidator<string> {
         return {
-            type: ValidatorType.email,
             validate: (value: string): ValidationFnResult => {
                 const isValid =
                     !this.exists(value) || EMAIL_REGEX.test(value);
@@ -106,7 +101,6 @@ export class Validators {
         customMsg: string | null = null
     ): IValidator<number> {
         return {
-            type: ValidatorType.minNumber,
             validate: (value: number): ValidationFnResult => {
                 const isValid = !this.exists(value) || value >= min;
 
@@ -124,7 +118,6 @@ export class Validators {
         customMsg: string | null = null
     ): IValidator<number> {
         return {
-            type: ValidatorType.maxNumber,
             validate: (value: number): ValidationFnResult => {
                 const isValid = !this.exists(value) || value <= max;
 
@@ -142,7 +135,6 @@ export class Validators {
         customMsg: string | null = null
     ): IValidator<string> {
         return {
-            type: ValidatorType.pattern,
             validate: (value: string): ValidationFnResult => {
                 const isValid =
                     !this.exists(value) || regex.test(value);
@@ -162,7 +154,6 @@ export class Validators {
         customMsg: string | null = null
     ): IValidator<T> {
         return {
-            type: ValidatorType.custom,
             validate: (value: T): ValidationFnResult => {
                 const isValid =
                     !this.exists(value) || isValidCallback(value);

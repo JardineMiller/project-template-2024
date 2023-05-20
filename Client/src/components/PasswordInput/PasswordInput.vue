@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-    import { ValidatorType } from "@/models/validation/ValidatorType";
+    import StateModelPropertyInputMixin from "@/mixins/forms/StateModelPropertyInputMixin";
     import ModelProperty from "@/models/state/ModelProperty";
     import Validation from "@/validation/validation";
     import "../../extensions/string-extensions";
@@ -65,6 +65,7 @@
     export default defineComponent({
         name: "PasswordInput",
         components: { Password },
+        mixins: [StateModelPropertyInputMixin],
         data: () => {
             return {
                 passwordRegex: Validation.Auth.Password.Pattern,
@@ -76,30 +77,6 @@
                 required: true,
             },
             feedback: Boolean,
-        },
-        computed: {
-            isInvalid(): boolean {
-                return (
-                    (Boolean(this.modelValue.value) ||
-                        this.modelValue.touched) &&
-                    this.modelValue.errors.length > 0
-                );
-            },
-        },
-        methods: {
-            onInput(value: string): void {
-                this.$emit(
-                    "onChange",
-                    this.modelValue.changeEvent(value)
-                );
-            },
-            onBlur(): void {
-                this.$emit("onBlur", this.modelValue.blurEvent());
-            },
-        },
-        emits: {
-            onChange: null,
-            onBlur: null,
         },
     });
 </script>
