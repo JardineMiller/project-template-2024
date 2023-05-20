@@ -1,3 +1,4 @@
+import { addJwtInterceptor } from "@/features/auth/interceptors/httpInterceptor";
 import InputText from "primevue/inputtext";
 import Password from "primevue/password";
 import Calendar from "primevue/calendar";
@@ -13,20 +14,25 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import "./assets/main.css";
 
-const app = createApp(App);
+function addVue() {
+    const app = createApp(App);
 
-app.use(router);
-app.use(PrimeVue);
+    app.use(router);
+    app.use(PrimeVue);
 
-app.component("Dialog", Dialog);
-app.component("InputText", InputText);
-app.component("Divider", Divider);
-app.component("Password", Password);
-app.component("Calendar", Calendar);
-app.component("Dropdown", Dropdown);
-app.component("Checkbox", Checkbox);
-app.component("Button", Button);
+    app.component("Dialog", Dialog);
+    app.component("InputText", InputText);
+    app.component("Divider", Divider);
+    app.component("Password", Password);
+    app.component("Calendar", Calendar);
+    app.component("Dropdown", Dropdown);
+    app.component("Checkbox", Checkbox);
+    app.component("Button", Button);
 
-app.directive("tooltip", Tooltip);
+    app.directive("tooltip", Tooltip);
 
-app.mount("#app");
+    app.mount("#app");
+}
+
+addVue();
+addJwtInterceptor();
