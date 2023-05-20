@@ -5,6 +5,6 @@ export interface IModelConstructor<T extends IModel> {
 }
 
 export interface IModel {
-    get(propertyName: string): ModelProperty<any>;
+    get<T>(propertyName: string): ModelProperty<T>;
     get isValid(): boolean;
 }

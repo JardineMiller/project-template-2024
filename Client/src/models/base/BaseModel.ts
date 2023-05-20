@@ -1,4 +1,4 @@
-﻿import type ModelProperty from "@/models/state/ModelProperty";
+﻿import ModelProperty from "@/models/state/ModelProperty";
 import type { IModel } from "@/models/base/IModel";
 
 export default abstract class BaseModel implements IModel {
@@ -8,9 +8,11 @@ export default abstract class BaseModel implements IModel {
         this.properties = properties;
     }
 
-    get(propertyName: string): ModelProperty<any> {
+    get<T>(propertyName: string): ModelProperty<T> {
         const property = this.properties.find(
-            (x) => x.propertyName === propertyName
+            (x) =>
+                x.propertyName === propertyName &&
+                x instanceof ModelProperty<T>
         );
 
         if (!property) {
@@ -19,7 +21,7 @@ export default abstract class BaseModel implements IModel {
             );
         }
 
-        return property;
+        return property as ModelProperty<T>;
     }
 
     get isValid(): boolean {

@@ -11,7 +11,7 @@ export class ModelPropertyChangeEvent<T> {
     }
 }
 
-export class ModelPropertyEvent {
+export class ModelPropertyEvent<T> {
     readonly propertyName: string;
 
     constructor(propertyName: string) {
@@ -66,6 +66,10 @@ export default class ModelProperty<T> {
             .filter((x) => !x.isValid)
             .map((x) => x.errorMessage);
     }
+    
+    blurEvent(): ModelPropertyEvent<T> {
+        return new ModelPropertyEvent<T>(this.propertyName);
+    }
 
     changeEvent(val: T): ModelPropertyChangeEvent<T> {
         return new ModelPropertyChangeEvent<T>(
@@ -74,7 +78,7 @@ export default class ModelProperty<T> {
         );
     }
 
-    blurEvent(): ModelPropertyEvent {
-        return new ModelPropertyEvent(this.propertyName);
+    touch(): void {
+        this.touched = true;
     }
 }

@@ -1,5 +1,4 @@
-﻿import type ModelProperty from "@/models/state/ModelProperty";
-import { Change, Changes } from "@/models/state/Change";
+﻿import { Change, Changes } from "@/models/state/Change";
 import type { IModel } from "@/models/base/IModel";
 
 export default class StateTracker<T extends IModel> {
@@ -64,12 +63,8 @@ export default class StateTracker<T extends IModel> {
         this.changes.clear();
     }
 
-    getProperty<T>(propertyName: string): ModelProperty<T> {
-        return this.model.get(propertyName);
-    }
-
     setProperty<T>(propertyName: string, newValue: T): void {
-        const property = this.getProperty<T>(propertyName);
+        const property = this.model.get<T>(propertyName);
 
         if (!property) {
             return;
@@ -82,18 +77,8 @@ export default class StateTracker<T extends IModel> {
         );
 
         property.value = change.newVal;
-        property.touched = true;
+        property.touch();
 
         this.changes.add(change);
-    }
-
-    touchProperty(propertyName: string): void {
-        const property = this.getProperty<T>(propertyName);
-
-        if (!property) {
-            return;
-        }
-
-        property.touched = true;
     }
 }

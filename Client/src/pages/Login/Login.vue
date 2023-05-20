@@ -4,41 +4,43 @@
         ModelPropertyChangeEvent,
     } from "@/models/state/ModelProperty";
     import PasswordInput from "@/components/PasswordInput/PasswordInput.vue";
-    import type ModelProperty from "@/models/state/ModelProperty";
     import TextInput from "@/components/TextInput/TextInput.vue";
     import { Validators } from "@/models/validation/Validators";
+    import ModelProperty from "@/models/state/ModelProperty";
     import StateTracker from "@/models/state/StateTracker";
     import LoginModel from "@/models/login/LoginModel";
+    import Auth from "@/features/auth/services/Auth";
     import { defineComponent } from "vue";
     import "../../validation/validation";
-    import axios from "axios";
 
     export default defineComponent({
         components: { TextInput, PasswordInput },
         data: () => {
             return {
                 state: new StateTracker<LoginModel>(
-                    LoginModel.Builder()
-                        .property<string>("email")
-                        .required()
-                        .validators([Validators.email()])
-                        .buildProperty()
-
-                        .property<string>("password")
-                        .required()
-                        .buildProperty()
-
-                        .build(),
+                    new LoginModel([
+                        new ModelProperty<string>(
+                            "email",
+                            undefined,
+                            true,
+                            [Validators.email()]
+                        ),
+                        new ModelProperty<string>(
+                            "password",
+                            undefined,
+                            true
+                        ),
+                    ]),
                     { trackChanges: true }
                 ),
             };
         },
         computed: {
             email(): ModelProperty<string> {
-                return this.state.getProperty("email");
+                return this.state.model.email;
             },
             password(): ModelProperty<string> {
-                return this.state.getProperty("password");
+                return this.state.model.password;
             },
         },
         methods: {
@@ -48,11 +50,11 @@
                     event.value
                 );
             },
-            onBlur(event: ModelPropertyEvent) {
-                this.state.touchProperty(event.propertyName);
+            onBlur<T>(event: ModelPropertyEvent<T>) {
+                this.state.model.get<T>(event.propertyName).touch();
             },
             handleSubmit(): void {
-                axios.get(`${import.meta.env.VITE_API_URL}/login`);
+                Auth.login(this.state.model.toRequest());
             },
         },
     });
@@ -124,10 +126,6 @@
                     :disabled="!state.model.isValid"
                 />
             </form>
-
-            <pre>
-                    {{ JSON.stringify(state.model, null, 2) }}
-            </pre>
         </div>
     </div>
 </template>
