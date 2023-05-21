@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using Mapster;
+﻿using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -56,22 +55,14 @@ public class AuthController : ApiController
         );
     }
 
-    [HttpPost(nameof(RefreshToken))]
+    [HttpGet(nameof(RefreshToken))]
     public async Task<IActionResult> RefreshToken()
     {
         var refreshToken = this.Request.Cookies["refreshToken"];
 
-        if (refreshToken == null)
+        if (refreshToken is null)
         {
-            return Problem(
-                new List<Error>
-                {
-                    Error.Validation(
-                        code: "Auth.InvalidCredentials",
-                        description: "Invalid credentials."
-                    )
-                }
-            );
+            return Ok();
         }
 
         var cmd = new RefreshTokenCommand { Token = refreshToken };
@@ -87,7 +78,7 @@ public class AuthController : ApiController
         );
     }
 
-    [HttpPost(nameof(RevokeToken))]
+    [HttpGet(nameof(RevokeToken))]
     public async Task<IActionResult> RevokeToken()
     {
         var refreshToken = this.Request.Cookies["refreshToken"];
@@ -129,7 +120,6 @@ public class AuthController : ApiController
             Secure = true
         };
 
-        this.Response.Cookies.Delete("refreshToken");
         this.Response.Cookies.Append(
             "refreshToken",
             refreshToken,

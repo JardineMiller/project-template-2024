@@ -5,6 +5,5 @@ public record AuthenticationResponse(
     string FirstName,
     string LastName,
     string Email,
-    string? Token = null,
-    string? RefreshToken = null
+    string? Token = null
 );

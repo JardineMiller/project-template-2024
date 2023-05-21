@@ -1,4 +1,5 @@
 import { addJwtInterceptor } from "@/features/auth/interceptors/httpInterceptor";
+import Auth from "@/features/auth/services/Auth";
 import InputText from "primevue/inputtext";
 import Password from "primevue/password";
 import Calendar from "primevue/calendar";
@@ -14,7 +15,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import "./assets/main.css";
 
-function addVue() {
+async function startApp() {
     const app = createApp(App);
 
     app.use(router);
@@ -31,8 +32,15 @@ function addVue() {
 
     app.directive("tooltip", Tooltip);
 
+    // attempt to auto refresh token before startup
+    try {
+        await Auth.refreshToken();
+    } catch {
+        // catch error to start app on success or failure
+    }
+
     app.mount("#app");
 }
 
-addVue();
 addJwtInterceptor();
+startApp();
