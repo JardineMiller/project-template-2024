@@ -10,8 +10,7 @@
             @input="onInput($event.target.value)"
             @blur="onBlur()"
             toggleMask
-            :feedback="feedback"
-        >
+            :feedback="feedback">
             <template #header>
                 <h6>Pick a password</h6>
             </template>
@@ -22,8 +21,7 @@
                 <p class="m-2">Requirements:</p>
                 <ul
                     class="pl-2 ml-2 mt-0"
-                    style="line-height: 1.5"
-                >
+                    style="line-height: 1.5">
                     <li>At least one lowercase</li>
                     <li>At least one uppercase</li>
                     <li>At least one numeric</li>
@@ -37,8 +35,7 @@
             {{ modelValue.propertyName.toTitleCase() }}
             <span
                 v-if="modelValue.isRequired"
-                class="p-error"
-            >
+                class="p-error">
                 *
             </span>
         </label>
@@ -47,8 +44,7 @@
         <small
             v-for="error in modelValue.errors"
             :key="error"
-            class="p-error"
-        >
+            class="p-error">
             {{ error }} <br />
         </small>
     </div>
