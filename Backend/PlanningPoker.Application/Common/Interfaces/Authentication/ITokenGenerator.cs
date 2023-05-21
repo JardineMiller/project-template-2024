@@ -2,7 +2,8 @@
 
 namespace PlanningPoker.Application.Common.Interfaces.Authentication;
 
-public interface IJwtGenerator
+public interface ITokenGenerator
 {
-    string GenerateToken(User user);
+    string GenerateJwt(User user);
+    RefreshToken GenerateRefreshToken();
 }

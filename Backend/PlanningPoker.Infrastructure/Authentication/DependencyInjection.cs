@@ -19,7 +19,7 @@ public static class DependencyInjection
         configuration.Bind(JwtSettings.SectionName, jwtSettings);
         
         services.AddSingleton(Options.Create(jwtSettings));
-        services.AddSingleton<IJwtGenerator, JwtGenerator>();
+        services.AddSingleton<ITokenGenerator, TokenGenerator>();
 
         services
             .AddAuthentication(

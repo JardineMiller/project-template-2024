@@ -2,4 +2,8 @@
 
 namespace PlanningPoker.Application.Authentication.Common;
 
-public record AuthenticationResult(User User, string? Token = null);
+public record AuthenticationResult(
+    User User,
+    string? Token = null,
+    string? RefreshToken = null
+);

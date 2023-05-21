@@ -1,10 +1,14 @@
-﻿using Mapster;
+﻿using ErrorOr;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
+using PlanningPoker.Application.Authentication.Commands.RefreshToken;
 using PlanningPoker.Application.Authentication.Commands.Register;
+using PlanningPoker.Application.Authentication.Commands.RevokeToken;
 using PlanningPoker.Application.Authentication.Queries.Login;
+using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Contracts.Authentication;
 
 namespace PlanningPoker.Api.Controllers;
@@ -13,10 +17,15 @@ namespace PlanningPoker.Api.Controllers;
 public class AuthController : ApiController
 {
     private readonly ISender _mediator;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
-    public AuthController(ISender mediator)
+    public AuthController(
+        ISender mediator,
+        IDateTimeProvider dateTimeProvider
+    )
     {
         this._mediator = mediator;
+        this._dateTimeProvider = dateTimeProvider;
     }
 
     [HttpPost(nameof(Register))]
@@ -38,9 +47,57 @@ public class AuthController : ApiController
         var authResult = await this._mediator.Send(qry);
 
         return authResult.Match(
-            result => Ok(result.Adapt<AuthenticationResponse>()),
+            result =>
+            {
+                SetTokenCookie(result.RefreshToken);
+                return Ok(result.Adapt<AuthenticationResponse>());
+            },
             errors => Problem(errors)
         );
+    }
+
+    [HttpPost(nameof(RefreshToken))]
+    public async Task<IActionResult> RefreshToken()
+    {
+        var refreshToken = this.Request.Cookies["refreshToken"];
+
+        if (refreshToken == null)
+        {
+            return Problem(
+                new List<Error>
+                {
+                    Error.Validation(
+                        code: "Auth.InvalidCredentials",
+                        description: "Invalid credentials."
+                    )
+                }
+            );
+        }
+
+        var cmd = new RefreshTokenCommand { Token = refreshToken };
+        var result = await this._mediator.Send(cmd);
+
+        return result.Match(
+            result =>
+            {
+                SetTokenCookie(result.RefreshToken);
+                return Ok(result.Adapt<AuthenticationResponse>());
+            },
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpPost(nameof(RevokeToken))]
+    public async Task<IActionResult> RevokeToken()
+    {
+        var refreshToken = this.Request.Cookies["refreshToken"];
+        var cmd = new RevokeTokenCommand { Token = refreshToken };
+
+        this.Response.Cookies.Delete("refreshToken");
+
+        var result = await this._mediator.Send(cmd);
+
+        return result.Match(_ => Ok(), errors => Problem(errors));
     }
 
     [HttpGet(nameof(Confirm))]
@@ -53,8 +110,30 @@ public class AuthController : ApiController
         var authResult = await this._mediator.Send(cmd);
 
         return authResult.Match(
-            result => Ok(result.Adapt<AuthenticationResponse>()),
+            result =>
+            {
+                SetTokenCookie(result.RefreshToken);
+                return Ok(result.Adapt<AuthenticationResponse>());
+            },
             errors => Problem(errors)
+        );
+    }
+
+    private void SetTokenCookie(string refreshToken)
+    {
+        var cookieOptions = new CookieOptions
+        {
+            Expires = this._dateTimeProvider.UtcNow.AddDays(7),
+            HttpOnly = true,
+            SameSite = SameSiteMode.None,
+            Secure = true
+        };
+
+        this.Response.Cookies.Delete("refreshToken");
+        this.Response.Cookies.Append(
+            "refreshToken",
+            refreshToken,
+            cookieOptions
         );
     }
 }

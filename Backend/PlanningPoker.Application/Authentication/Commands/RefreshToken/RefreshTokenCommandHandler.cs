@@ -1,4 +1,4 @@
-﻿using ErrorOr;
+using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,68 +8,61 @@ using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Common.Errors;
 using PlanningPoker.Domain.Entities;
 
-namespace PlanningPoker.Application.Authentication.Queries.Login;
+namespace PlanningPoker.Application.Authentication.Commands.RefreshToken;
 
-public class LoginQueryHandler
-    : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
+public class RefreshTokenCommandHandler
+    : IRequestHandler<
+          RefreshTokenCommand,
+          ErrorOr<AuthenticationResult>
+      >
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
 
-    public LoginQueryHandler(
-        ITokenGenerator tokenGenerator,
+    public RefreshTokenCommandHandler(
         UserManager<User> userManager,
+        ITokenGenerator tokenGenerator,
         IDateTimeProvider dateTimeProvider
     )
     {
-        this._tokenGenerator = tokenGenerator;
         this._userManager = userManager;
+        this._tokenGenerator = tokenGenerator;
         this._dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
-        LoginQuery qry,
+        RefreshTokenCommand request,
         CancellationToken cancellationToken
     )
     {
         var user = this._userManager.Users
             .Include(x => x.RefreshTokens)
-            .FirstOrDefault(u => u.Email == qry.Email);
+            .FirstOrDefault(
+                u =>
+                    u.RefreshTokens.Any(t => t.Token == request.Token)
+            );
 
-        if (user == null)
+        if (user is null)
         {
-            return Errors.Authentication.InvalidCredentials;
+            return Errors.Common.NotFound(nameof(User));
         }
 
-        if (!user.EmailConfirmed)
-        {
-            return Errors.Authentication.EmailNotConfirmed;
-        }
+        var oldRefreshToken = user.RefreshTokens.Single(
+            x => x.Token == request.Token
+        );
 
-        if (
-            !await this._userManager.CheckPasswordAsync(
-                user,
-                qry.Password
-            )
-        )
+        if (!oldRefreshToken.IsActive)
         {
-            return Errors.Authentication.InvalidCredentials;
+            return Errors.Authentication.TokenExpired;
         }
-
-        var oldRefreshToken = user.RefreshTokens
-            .Where(x => x.IsActive)
-            .MaxBy(x => x.CreatedOn);
 
         // replace old refresh token with a new one and save
         var newRefreshToken =
             this._tokenGenerator.GenerateRefreshToken();
 
-        if (oldRefreshToken is not null)
-        {
-            oldRefreshToken.RevokedOn = this._dateTimeProvider.UtcNow;
-            oldRefreshToken.ReplacedBy = newRefreshToken.Token;
-        }
+        oldRefreshToken.RevokedOn = this._dateTimeProvider.UtcNow;
+        oldRefreshToken.ReplacedBy = newRefreshToken.Token;
 
         user.RefreshTokens.Add(newRefreshToken);
         await this._userManager.UpdateAsync(user);

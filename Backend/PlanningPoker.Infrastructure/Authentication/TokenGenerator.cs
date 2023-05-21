@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -9,12 +10,12 @@ using PlanningPoker.Domain.Entities;
 
 namespace PlanningPoker.Infrastructure.Authentication;
 
-public class JwtGenerator : IJwtGenerator
+public class TokenGenerator : ITokenGenerator
 {
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly JwtSettings _jwtSettings;
 
-    public JwtGenerator(
+    public TokenGenerator(
         IDateTimeProvider dateTimeProvider,
         IOptions<JwtSettings> jwtSettings
     )
@@ -23,7 +24,7 @@ public class JwtGenerator : IJwtGenerator
         this._jwtSettings = jwtSettings.Value;
     }
 
-    public string GenerateToken(User user)
+    public string GenerateJwt(User user)
     {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(
@@ -55,5 +56,21 @@ public class JwtGenerator : IJwtGenerator
         return new JwtSecurityTokenHandler().WriteToken(
             securityToken
         );
+    }
+
+    public RefreshToken GenerateRefreshToken()
+    {
+        using var rngCryptoServiceProvider =
+            new RNGCryptoServiceProvider();
+
+        var randomBytes = new byte[64];
+        rngCryptoServiceProvider.GetBytes(randomBytes);
+
+        return new RefreshToken
+        {
+            Token = Convert.ToBase64String(randomBytes),
+            Expires = this._dateTimeProvider.UtcNow.AddDays(7),
+            CreatedOn = this._dateTimeProvider.UtcNow,
+        };
     }
 }
