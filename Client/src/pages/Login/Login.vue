@@ -54,7 +54,9 @@
                 this.state.model.get<T>(event.propertyName).touch();
             },
             handleSubmit(): void {
-                Auth.login(this.state.model.toRequest());
+                Auth.login(this.state.model.toRequest())
+                    .then()
+                    .catch();
             },
         },
     });
@@ -63,8 +65,7 @@
 <template>
     <div
         class="mt-3 mr-3 flex gap-1 absolute top-0 right-0"
-        v-if="state.trackChanges"
-    >
+        v-if="state.trackChanges">
         <Button
             icon="pi pi-undo"
             severity="secondary"
@@ -72,8 +73,7 @@
             aria-label="Undo"
             v-tooltip.top="'Undo'"
             @click="state.undo()"
-            :disabled="!state.canUndo"
-        />
+            :disabled="!state.canUndo" />
 
         <Button
             icon="pi pi-undo"
@@ -83,15 +83,13 @@
             v-tooltip.top="'Redo'"
             :style="'transform: scale(-1, 1)'"
             @click="state.redo()"
-            :disabled="!state.canRedo"
-        />
+            :disabled="!state.canRedo" />
         <Button
             type="button"
             label="Clear"
             outlined
             @click="state.clear()"
-            :disabled="!state.canUndo && !state.canRedo"
-        />
+            :disabled="!state.canUndo && !state.canRedo" />
     </div>
 
     <div class="flex justify-content-center align-content-center">
@@ -99,15 +97,13 @@
             <h5 class="text-center">Login</h5>
             <form
                 @submit.prevent="handleSubmit()"
-                class="p-fluid"
-            >
+                class="p-fluid">
                 <!-- Email -->
                 <div class="field">
                     <TextInput
                         v-model="email"
                         @on-change="onChange"
-                        @on-blur="onBlur"
-                    />
+                        @on-blur="onBlur" />
                 </div>
 
                 <!-- Password -->
@@ -115,16 +111,14 @@
                     <PasswordInput
                         v-model="password"
                         @on-change="onChange"
-                        @on-blur="onBlur"
-                    />
+                        @on-blur="onBlur" />
                 </div>
 
                 <!-- Submit -->
                 <Button
                     type="submit"
                     label="Submit"
-                    :disabled="!state.model.isValid"
-                />
+                    :disabled="!state.model.isValid" />
             </form>
         </div>
     </div>

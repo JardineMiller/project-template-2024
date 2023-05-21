@@ -4,14 +4,16 @@ import User from "@/features/auth/models/User";
 import router from "@/services/router";
 import axios from "axios";
 
-const LOGIN_URL = `${import.meta.env.VITE_API_URL}/login`;
+const LOGIN_URL = `https://localhost:7097/api/auth/login`;
 
 let authToken: string | null = null;
 let user: User | null = null;
 
 const login = async (request: LoginRequest): Promise<void> => {
     return axios
-        .post<AuthenticationResponse>(LOGIN_URL, request)
+        .post<AuthenticationResponse>(LOGIN_URL, request, {
+            headers: { "Content-Type": "application/json" },
+        })
         .then(async (response) => {
             const { id, firstName, lastName, email, token } =
                 response.data;
