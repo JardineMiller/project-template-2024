@@ -8,14 +8,12 @@
                 'p-invalid': isInvalid,
             }"
             @input="onInput($event.target.value)"
-            @blur="onBlur()"
-        />
+            @blur="onBlur()" />
         <label :for="modelValue.propertyName.toLowerCase()">
             {{ modelValue.propertyName.toTitleCase() }}
             <span
                 v-if="modelValue.isRequired"
-                class="p-error"
-            >
+                class="p-error">
                 *
             </span>
         </label>
@@ -24,8 +22,7 @@
         <small
             v-for="error in modelValue.errors"
             :key="error"
-            class="p-error"
-        >
+            class="p-error">
             {{ error }} <br />
         </small>
     </div>

@@ -3,15 +3,13 @@
         <RouterLink
             data-test-id="navbar-link-home"
             class="link"
-            to="/"
-        >
+            to="/">
             Home
         </RouterLink>
         <RouterLink
             data-test-id="navbar-link-login"
             class="link"
-            to="/login"
-        >
+            to="/login">
             Login
         </RouterLink>
     </div>

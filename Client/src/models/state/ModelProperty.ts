@@ -66,7 +66,7 @@ export default class ModelProperty<T> {
             .filter((x) => !x.isValid)
             .map((x) => x.errorMessage);
     }
-    
+
     blurEvent(): ModelPropertyEvent<T> {
         return new ModelPropertyEvent<T>(this.propertyName);
     }
