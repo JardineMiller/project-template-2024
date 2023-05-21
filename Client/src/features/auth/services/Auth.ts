@@ -6,8 +6,12 @@ import axios from "axios";
 
 const LOGIN_URL = `https://localhost:7097/api/auth/login`;
 
-let authToken: string | null = null;
-let user: User | null = null;
+let _authToken: string | null = null;
+let _user: User | null = null;
+
+const isAuthenticated = () => {
+    return Boolean(_user) && Boolean(_authToken);
+};
 
 const login = async (request: LoginRequest): Promise<void> => {
     return axios
@@ -18,8 +22,8 @@ const login = async (request: LoginRequest): Promise<void> => {
             const { id, firstName, lastName, email, token } =
                 response.data;
 
-            user = new User(id, firstName, lastName, email);
-            authToken = token;
+            _user = new User(id, firstName, lastName, email);
+            _authToken = token;
             await router.push("/");
 
             return response;
@@ -30,14 +34,23 @@ const login = async (request: LoginRequest): Promise<void> => {
 };
 
 const logout = async (): Promise<void> => {
-    user = null;
-    authToken = null;
+    _user = null;
+    _authToken = null;
     await router.push("/login");
+};
+
+const user = () => {
+    return _user;
+};
+
+const token = () => {
+    return _authToken;
 };
 
 export default {
     user: user,
-    token: authToken,
+    token: token,
+    isAuthenticated: isAuthenticated,
     login: login,
     logout: logout,
 };

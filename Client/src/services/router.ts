@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Auth from "@/features/auth/services/Auth";
 import HomeView from "../pages/Home/Home.vue";
 
 const routes = [
@@ -17,6 +18,12 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: routes,
+});
+
+router.beforeEach(async (to, from) => {
+    if (!Auth.isAuthenticated() && to.name !== "login") {
+        return { name: "login" };
+    }
 });
 
 export { routes };

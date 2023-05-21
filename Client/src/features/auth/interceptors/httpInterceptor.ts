@@ -4,7 +4,7 @@ import axios from "axios";
 export function addJwtInterceptor() {
     axios.interceptors.request.use((request) => {
         // add auth header with jwt if account is logged in and request is to the api url
-        const isLoggedIn = Auth.token != null && Auth.user != null;
+        const isLoggedIn = Auth.isAuthenticated();
 
         if (!request.url) {
             return request;
