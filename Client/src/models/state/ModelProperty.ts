@@ -1,8 +1,5 @@
-import {
-    Validators,
-    ValidatorType,
-} from "@/models/validation/Validators";
 import type { IValidator } from "@/models/validation/IValidator";
+import { ValidatorType } from "@/models/validation/Validators";
 
 export class ModelPropertyChangeEvent<T> {
     readonly propertyName: string;
@@ -24,10 +21,13 @@ export class ModelPropertyEvent<T> {
 
 export default class ModelProperty<T> {
     value: T | undefined;
-    propertyName: string;
-    validators: Array<IValidator<T>>;
     touched: boolean = false;
-    isRequired: boolean;
+
+    readonly propertyName: string;
+    readonly validators: Array<IValidator<T>>;
+    readonly isRequired: boolean;
+
+    readonly requiredValidator: IValidator<T> | undefined;
 
     constructor(
         propertyName: string,
@@ -37,15 +37,19 @@ export default class ModelProperty<T> {
         this.propertyName = propertyName;
         this.validators = validators;
         this.value = initialValue;
-        this.isRequired = this.validators
-            .map((x) => x.type)
-            .includes(ValidatorType.required);
+
+        this.requiredValidator = this.validators.find(
+            (x) => x.type === ValidatorType.required
+        );
+
+        this.isRequired = Boolean(this.requiredValidator);
     }
 
     get isValid(): boolean {
         if (this.isRequired) {
-            const result = Validators.required().validate(this.value);
-
+            const result = this.requiredValidator!.validate(
+                this.value
+            );
             if (!result.isValid) {
                 return false;
             }
@@ -58,7 +62,9 @@ export default class ModelProperty<T> {
 
     get errors(): string[] {
         if (this.isRequired) {
-            const result = Validators.required().validate(this.value);
+            const result = this.requiredValidator!.validate(
+                this.value
+            );
 
             if (!result.isValid) {
                 return [result.errorMessage];
