@@ -29,7 +29,7 @@ function startRefreshTokenTimer() {
 }
 
 function stopRefreshTokenTimer() {
-    refreshTokenTimeout?.refresh();
+    clearTimeout(refreshTokenTimeout);
 }
 
 const isAuthenticated = () => {
@@ -61,13 +61,10 @@ const login = async (request: LoginRequest): Promise<void> => {
 };
 
 const logout = async (): Promise<void> => {
-    axios.post(
-        REVOKE_TOKEN_URL,
-        {},
-        {
-            headers: { "Content-Type": "application/json" },
-        }
-    );
+    await axios.get(REVOKE_TOKEN_URL, {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+    });
 
     _user = null;
     _authToken = null;

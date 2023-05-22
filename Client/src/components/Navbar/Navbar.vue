@@ -12,16 +12,29 @@
             to="/login">
             Login
         </RouterLink>
+        <Button
+            @click="logout()"
+            label="Logout"
+            plain
+            text />
     </div>
 </template>
 
 <script>
+    import Auth from "@/features/auth/services/Auth";
     import { RouterLink } from "vue-router";
+    import { defineComponent } from "vue";
+    import Button from "primevue/button";
 
-    export default {
+    export default defineComponent({
         username: "NavBar",
-        components: { RouterLink },
-    };
+        components: { RouterLink, Button },
+        methods: {
+            logout() {
+                Auth.logout();
+            },
+        },
+    });
 </script>
 
 <style scoped>

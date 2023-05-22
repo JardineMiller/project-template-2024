@@ -15,7 +15,7 @@ export function addJwtInterceptor() {
         );
 
         if (isLoggedIn && isApiUrl) {
-            request.headers.Authorization = `Bearer ${Auth.token}`;
+            request.headers.Authorization = `Bearer ${Auth.token()}`;
         }
 
         return request;
