@@ -26,78 +26,92 @@
                     { name: "Paris", code: "PRS" },
                 ],
                 state: new StateTracker<LoginModel>(
-                    // LoginModel.Builder()
-                    //     .property<string>("email")
-                    //     .required()
-                    //     .validators([Validators.email()])
-                    //     .buildProperty()
-                    //
-                    //     .property<string>("password")
-                    //     .required()
-                    //     .buildProperty()
-                    //
-                    //     .build(),
-
                     new LoginModel([
+                        // SIMPLE EXAMPLE
+
                         new ModelProperty<string>(
                             "email",
                             undefined,
                             [
                                 Validators.required(),
-                                Validators
-                                    .email
-                                    // "Emails suck. But you gotta include one"
-                                    (),
-                                // Validators.minLength(3),
-                                // Validators.maxLength(10),
-                                // Validators.custom(
-                                //     (val) => val !== "Jardine",
-                                //     "We don't take kindly to Jardines round here."
-                                // ),
+                                Validators.email(),
                             ]
                         ),
                         new ModelProperty<string>(
                             "password",
                             undefined,
-                            [
-                                Validators.required(),
-                                // Validators.pattern(
-                                //     ValidationAuth.Password.Pattern
-                                // ),
-                                // Validators.custom((val) => {
-                                //     return ![
-                                //         "password",
-                                //         "Password",
-                                //         "pass1234",
-                                //     ].includes(val);
-                                // }, "Pick a decent password. Seriously."),
-                            ]
+                            [Validators.required()]
                         ),
+
+                        // CUSTOM EXAMPLE
+
+                        // new ModelProperty<string>(
+                        //     "email",
+                        //     undefined,
+                        //     [
+                        //         Validators.required(),
+                        //         Validators.email(
+                        //             "Emails suck. But you gotta include one"
+                        //         ),
+                        //         Validators.minLength(3),
+                        //         Validators.maxLength(10),
+                        //         Validators.custom(
+                        //             (val) => val !== "Jardine",
+                        //             "We don't take kindly to Jardines round here."
+                        //         ),
+                        //     ]
+                        // ),
+
+                        // new ModelProperty<string>(
+                        //     "password",
+                        //     undefined,
+                        //     [
+                        //         Validators.required(),
+                        //         Validators.pattern(
+                        //             ValidationAuth.Password.Pattern
+                        //         ),
+                        //         Validators.custom((val) => {
+                        //             return ![
+                        //                 "password",
+                        //                 "Password",
+                        //                 "pass1234",
+                        //             ].includes(val);
+                        //         }, "Pick a decent password. Seriously."),
+                        //     ]
+                        // ),
+
+                        // COMPLEX OBJECT EXAMPLE
+
                         // new ModelProperty<
                         //     Array<{ name: string; code: string }>
-                        // >("cities", undefined, [
-                        //     Validators.required(),
-                        //     Validators.minLength(
-                        //         2,
-                        //         "This field must contain at least 2 items"
-                        //     ),
-                        //     Validators.maxLength(
-                        //         3,
-                        //         "This field must contain no more than 3 items"
-                        //     ),
-                        //     Validators.custom(
-                        //         (
-                        //             val: Array<{
-                        //                 name: string;
-                        //                 code: string;
-                        //             }>
-                        //         ) =>
-                        //             !val.find(
-                        //                 (x) => x.name === "New York"
-                        //             ),
-                        //         "Boo! New York!"
-                        //     ),
-                        // ]),
+                        // >(
+                        //     "cities",
+                        //     [{ name: "Rome", code: "RM" }],
+                        //     [
+                        //         Validators.required(),
+                        //         Validators.minLength(
+                        //             2,
+                        //             "This field must contain at least 2 items"
+                        //         ),
+                        //         Validators.maxLength(
+                        //             3,
+                        //             "This field must contain no more than 3 items"
+                        //         ),
+                        //         Validators.custom(
+                        //             (
+                        //                 val: Array<{
+                        //                     name: string;
+                        //                     code: string;
+                        //                 }>
+                        //             ) =>
+                        //                 !val.find(
+                        //                     (x) =>
+                        //                         x.name === "New York"
+                        //                 ),
+                        //             "Boo! New York!"
+                        //         ),
+                        //     ]
+                        // ),
                     ]),
                     { trackChanges: false }
                 ),
@@ -188,47 +202,47 @@
                 </div>
 
                 <!-- Complex objects -->
-                <!--                <div class="field">-->
-                <!--                    <span class="p-float-label">-->
-                <!--                        <MultiSelect-->
-                <!--                            v-model="cities.value"-->
-                <!--                            :options="seletableCities"-->
-                <!--                            :class="{-->
-                <!--                                'p-invalid':-->
-                <!--                                    cities.touched && !cities.isValid,-->
-                <!--                            }"-->
-                <!--                            @change="-->
-                <!--                                cities.touch();-->
-                <!--                                state.setProperty(-->
-                <!--                                    'cities',-->
-                <!--                                    $event.value-->
-                <!--                                );-->
-                <!--                            "-->
-                <!--                            @blur="cities.touch()"-->
-                <!--                            optionLabel="name"-->
-                <!--                            placeholder="Select Cities"-->
-                <!--                            :maxSelectedLabels="3" />-->
+                <div class="field">
+                    <span class="p-float-label">
+                        <MultiSelect
+                            v-model="cities.value"
+                            :options="seletableCities"
+                            :class="{
+                                'p-invalid':
+                                    cities.touched && !cities.isValid,
+                            }"
+                            @change="
+                                cities.touch();
+                                state.setProperty(
+                                    'cities',
+                                    $event.value
+                                );
+                            "
+                            @blur="cities.touch()"
+                            optionLabel="name"
+                            placeholder="Select Cities"
+                            :maxSelectedLabels="3" />
 
-                <!--                        <label-->
-                <!--                            :for="cities.propertyName.toLowerCase()">-->
-                <!--                            {{ cities.propertyName.toTitleCase() }}-->
-                <!--                            <span-->
-                <!--                                v-if="cities.isRequired"-->
-                <!--                                class="p-error">-->
-                <!--                                *-->
-                <!--                            </span>-->
-                <!--                        </label>-->
-                <!--                    </span>-->
+                        <label
+                            :for="cities.propertyName.toLowerCase()">
+                            {{ cities.propertyName.toTitleCase() }}
+                            <span
+                                v-if="cities.isRequired"
+                                class="p-error">
+                                *
+                            </span>
+                        </label>
+                    </span>
 
-                <!--                    <div v-if="cities.touched && !cities.isValid">-->
-                <!--                        <small-->
-                <!--                            v-for="error in cities.errors"-->
-                <!--                            :key="error"-->
-                <!--                            class="p-error">-->
-                <!--                            {{ error }} <br />-->
-                <!--                        </small>-->
-                <!--                    </div>-->
-                <!--                </div>-->
+                    <div v-if="cities.touched && !cities.isValid">
+                        <small
+                            v-for="error in cities.errors"
+                            :key="error"
+                            class="p-error">
+                            {{ error }} <br />
+                        </small>
+                    </div>
+                </div>
 
                 <!-- Submit -->
                 <Button
