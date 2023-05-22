@@ -202,47 +202,47 @@
                 </div>
 
                 <!-- Complex objects -->
-                <div class="field">
-                    <span class="p-float-label">
-                        <MultiSelect
-                            v-model="cities.value"
-                            :options="seletableCities"
-                            :class="{
-                                'p-invalid':
-                                    cities.touched && !cities.isValid,
-                            }"
-                            @change="
-                                cities.touch();
-                                state.setProperty(
-                                    'cities',
-                                    $event.value
-                                );
-                            "
-                            @blur="cities.touch()"
-                            optionLabel="name"
-                            placeholder="Select Cities"
-                            :maxSelectedLabels="3" />
+                <!--                <div class="field">-->
+                <!--                    <span class="p-float-label">-->
+                <!--                        <MultiSelect-->
+                <!--                            v-model="cities.value"-->
+                <!--                            :options="seletableCities"-->
+                <!--                            :class="{-->
+                <!--                                'p-invalid':-->
+                <!--                                    cities.touched && !cities.isValid,-->
+                <!--                            }"-->
+                <!--                            @change="-->
+                <!--                                cities.touch();-->
+                <!--                                state.setProperty(-->
+                <!--                                    'cities',-->
+                <!--                                    $event.value-->
+                <!--                                );-->
+                <!--                            "-->
+                <!--                            @blur="cities.touch()"-->
+                <!--                            optionLabel="name"-->
+                <!--                            placeholder="Select Cities"-->
+                <!--                            :maxSelectedLabels="3" />-->
 
-                        <label
-                            :for="cities.propertyName.toLowerCase()">
-                            {{ cities.propertyName.toTitleCase() }}
-                            <span
-                                v-if="cities.isRequired"
-                                class="p-error">
-                                *
-                            </span>
-                        </label>
-                    </span>
+                <!--                        <label-->
+                <!--                            :for="cities.propertyName.toLowerCase()">-->
+                <!--                            {{ cities.propertyName.toTitleCase() }}-->
+                <!--                            <span-->
+                <!--                                v-if="cities.isRequired"-->
+                <!--                                class="p-error">-->
+                <!--                                *-->
+                <!--                            </span>-->
+                <!--                        </label>-->
+                <!--                    </span>-->
 
-                    <div v-if="cities.touched && !cities.isValid">
-                        <small
-                            v-for="error in cities.errors"
-                            :key="error"
-                            class="p-error">
-                            {{ error }} <br />
-                        </small>
-                    </div>
-                </div>
+                <!--                    <div v-if="cities.touched && !cities.isValid">-->
+                <!--                        <small-->
+                <!--                            v-for="error in cities.errors"-->
+                <!--                            :key="error"-->
+                <!--                            class="p-error">-->
+                <!--                            {{ error }} <br />-->
+                <!--                        </small>-->
+                <!--                    </div>-->
+                <!--                </div>-->
 
                 <!-- Submit -->
                 <Button
