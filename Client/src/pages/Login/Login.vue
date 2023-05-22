@@ -11,13 +11,20 @@
     import LoginModel from "@/models/login/LoginModel";
     import Auth from "@/features/auth/services/Auth";
     import MultiSelect from "primevue/multiselect";
+    import Message from "primevue/message";
     import { defineComponent } from "vue";
     import "../../validation/validation";
 
     export default defineComponent({
-        components: { TextInput, PasswordInput, MultiSelect },
+        components: {
+            TextInput,
+            PasswordInput,
+            MultiSelect,
+            Message,
+        },
         data: () => {
             return {
+                invalidCreds: false,
                 seletableCities: [
                     { name: "New York", code: "NY" },
                     { name: "Rome", code: "RM" },
@@ -143,7 +150,7 @@
             handleSubmit(): void {
                 Auth.login(this.state.model.toRequest())
                     .then()
-                    .catch();
+                    .catch((_) => (this.invalidCreds = true));
             },
         },
     });
@@ -243,6 +250,13 @@
                 <!--                        </small>-->
                 <!--                    </div>-->
                 <!--                </div>-->
+
+                <Message
+                    severity="error"
+                    v-if="invalidCreds"
+                    @close="invalidCreds = false">
+                    Login failed: invalid credentials
+                </Message>
 
                 <!-- Submit -->
                 <Button

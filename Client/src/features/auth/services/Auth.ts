@@ -11,7 +11,7 @@ const REVOKE_TOKEN_URL = `https://localhost:7097/api/auth/revokeToken`;
 let _authToken: string | null = null;
 let _user: User | null = null;
 
-let refreshTokenTimeout: NodeJS.Timeout | null = null;
+let refreshTokenTimeout: number | undefined = undefined;
 
 function startRefreshTokenTimer() {
     // parse json object from base64 encoded jwt token
@@ -25,7 +25,7 @@ function startRefreshTokenTimer() {
     // set a timeout to refresh the token a minute before it expires
     const expires = new Date(jwtToken.exp * 1000);
     const timeout = expires.getTime() - Date.now() - 60 * 1000;
-    refreshTokenTimeout = setTimeout(refreshToken, timeout);
+    refreshTokenTimeout = window.setTimeout(refreshToken, timeout);
 }
 
 function stopRefreshTokenTimer() {
@@ -36,7 +36,7 @@ const isAuthenticated = () => {
     return Boolean(_user) && Boolean(_authToken);
 };
 
-const login = async (request: LoginRequest): Promise<void> => {
+const login = async (request: LoginRequest) => {
     return axios
         .post<AuthenticationResponse>(LOGIN_URL, request, {
             withCredentials: true,
@@ -52,11 +52,10 @@ const login = async (request: LoginRequest): Promise<void> => {
             startRefreshTokenTimer();
 
             await router.push("/");
-
             return response;
         })
         .catch((error) => {
-            return error;
+            throw new Error(error);
         });
 };
 
@@ -94,7 +93,7 @@ const refreshToken = async (): Promise<void> => {
             return response;
         })
         .catch((error) => {
-            return error;
+            // return error;
         });
 };
 
