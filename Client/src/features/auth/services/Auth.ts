@@ -53,9 +53,6 @@ const login = async (request: LoginRequest) => {
 
             await router.push("/");
             return response;
-        })
-        .catch((error) => {
-            throw new Error(error);
         });
 };
 

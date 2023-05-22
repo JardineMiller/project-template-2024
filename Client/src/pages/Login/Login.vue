@@ -189,6 +189,13 @@
     <div class="flex justify-content-center align-content-center">
         <div class="card">
             <h5 class="text-center">Demo Form</h5>
+            <Message
+                severity="error"
+                v-if="invalidCreds"
+                @close="invalidCreds = false">
+                Login failed: Invalid Credentials
+            </Message>
+
             <form
                 @submit.prevent="handleSubmit()"
                 class="p-fluid">
@@ -250,13 +257,6 @@
                 <!--                        </small>-->
                 <!--                    </div>-->
                 <!--                </div>-->
-
-                <Message
-                    severity="error"
-                    v-if="invalidCreds"
-                    @close="invalidCreds = false">
-                    Login failed: invalid credentials
-                </Message>
 
                 <!-- Submit -->
                 <Button
