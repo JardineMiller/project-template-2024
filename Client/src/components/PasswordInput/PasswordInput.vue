@@ -64,7 +64,8 @@
         mixins: [StateModelPropertyInputMixin],
         data: () => {
             return {
-                passwordRegex: Validation.Auth.Password.Pattern,
+                passwordRegex:
+                    Validation.Auth.Password.Pattern.toString(),
             };
         },
         props: {

@@ -21,6 +21,14 @@ export default class LoginModel
         return this.get<string>("password");
     }
 
+    get cities(): ModelProperty<
+        Array<{ name: string; code: string }>
+    > {
+        return this.get<Array<{ name: string; code: string }>>(
+            "cities"
+        );
+    }
+
     static Builder(): ModelBuilder<LoginModel> {
         return new ModelBuilder<LoginModel>(
             LoginModel as IModelConstructor<LoginModel>

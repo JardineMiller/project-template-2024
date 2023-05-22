@@ -1,5 +1,6 @@
 ﻿import type { ModelBuilder } from "@/models/builders/ModelBuilder";
 import type { IValidator } from "@/models/validation/IValidator";
+import { Validators } from "@/models/validation/Validators";
 import ModelProperty from "@/models/state/ModelProperty";
 import type { IModel } from "@/models/base/IModel";
 
@@ -21,14 +22,14 @@ export class ModelPropertyBuilder<T extends IModel, K> {
     }
 
     public required(): ModelPropertyBuilder<T, K> {
-        this._isRequired = true;
+        this._validators.push(Validators.required());
         return this;
     }
 
     public validators(
         validators: Array<IValidator<K>>
     ): ModelPropertyBuilder<T, K> {
-        this._validators = validators;
+        this._validators = this._validators.concat(validators);
         return this;
     }
 
