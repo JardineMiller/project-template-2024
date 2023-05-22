@@ -22,16 +22,18 @@
                         new ModelProperty<string>(
                             "email",
                             undefined,
-                            true,
-                            [Validators.email()]
+                            [
+                                Validators.required(),
+                                Validators.email(),
+                            ]
                         ),
                         new ModelProperty<string>(
                             "password",
                             undefined,
-                            true
+                            [Validators.required()]
                         ),
                     ]),
-                    { trackChanges: true }
+                    { trackChanges: false }
                 ),
             };
         },
@@ -94,7 +96,7 @@
 
     <div class="flex justify-content-center align-content-center">
         <div class="card">
-            <h5 class="text-center">Login</h5>
+            <h5 class="text-center">Demo Form</h5>
             <form
                 @submit.prevent="handleSubmit()"
                 class="p-fluid">

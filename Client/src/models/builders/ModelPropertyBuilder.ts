@@ -41,7 +41,6 @@ export class ModelPropertyBuilder<T extends IModel, K> {
         return new ModelProperty<K>(
             this._propertyName,
             this._value,
-            this._isRequired,
             this._validators
         );
     }

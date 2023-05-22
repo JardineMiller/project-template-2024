@@ -1,5 +1,8 @@
+import {
+    Validators,
+    ValidatorType,
+} from "@/models/validation/Validators";
 import type { IValidator } from "@/models/validation/IValidator";
-import { Validators } from "@/models/validation/Validators";
 
 export class ModelPropertyChangeEvent<T> {
     readonly propertyName: string;
@@ -29,13 +32,14 @@ export default class ModelProperty<T> {
     constructor(
         propertyName: string,
         initialValue: T | undefined = undefined,
-        isRequired: boolean = false,
         validators: Array<IValidator<T>> = []
     ) {
         this.propertyName = propertyName;
         this.validators = validators;
         this.value = initialValue;
-        this.isRequired = isRequired;
+        this.isRequired = this.validators
+            .map((x) => x.type)
+            .includes(ValidatorType.required);
     }
 
     get isValid(): boolean {
