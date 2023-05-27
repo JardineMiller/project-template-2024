@@ -1,4 +1,4 @@
-﻿import LoginRequest from "@/features/auth/models/LoginRequest";
+﻿import LoginRequest from "@/modules/auth/models/LoginRequest";
 import { ModelBuilder } from "@/models/builders/ModelBuilder";
 import type ModelProperty from "@/models/state/ModelProperty";
 import type { IModelConstructor } from "@/models/base/IModel";
@@ -21,12 +21,8 @@ export default class LoginModel
         return this.get<string>("password");
     }
 
-    get cities(): ModelProperty<
-        Array<{ name: string; code: string }>
-    > {
-        return this.get<Array<{ name: string; code: string }>>(
-            "cities"
-        );
+    get rememberMe(): ModelProperty<boolean> {
+        return this.get<boolean>("rememberMe");
     }
 
     static Builder(): ModelBuilder<LoginModel> {

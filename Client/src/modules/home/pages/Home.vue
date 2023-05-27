@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type User from "@/features/auth/models/User";
-    import Auth from "@/features/auth/services/Auth";
+    import type User from "@/modules/auth/models/User";
+    import Auth from "@/modules/auth/services/Auth";
     import { defineComponent } from "vue";
     export default defineComponent({
         computed: {

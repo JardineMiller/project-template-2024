@@ -1,5 +1,7 @@
 <template>
-    <div class="navbar">
+    <div
+        class="navbar"
+        v-if="isAuthenticated">
         <RouterLink
             data-test-id="navbar-link-home"
             class="link"
@@ -21,7 +23,7 @@
 </template>
 
 <script>
-    import Auth from "@/features/auth/services/Auth";
+    import Auth from "@/modules/auth/services/Auth";
     import { RouterLink } from "vue-router";
     import { defineComponent } from "vue";
     import Button from "primevue/button";
@@ -29,6 +31,11 @@
     export default defineComponent({
         username: "NavBar",
         components: { RouterLink, Button },
+        computed: {
+            isAuthenticated() {
+                return Auth.isAuthenticated();
+            },
+        },
         methods: {
             logout() {
                 Auth.logout();

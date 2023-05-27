@@ -8,8 +8,10 @@
 </script>
 
 <template>
-    <NavBar></NavBar>
-    <RouterView />
+    <div class="surface-ground h-screen">
+        <NavBar></NavBar>
+        <RouterView />
+    </div>
 </template>
 
 <style></style>

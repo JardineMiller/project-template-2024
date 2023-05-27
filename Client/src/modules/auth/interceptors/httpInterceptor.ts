@@ -1,4 +1,4 @@
-﻿import Auth from "@/features/auth/services/Auth";
+﻿import Auth from "@/modules/auth/services/Auth";
 import axios from "axios";
 
 export function addJwtInterceptor() {

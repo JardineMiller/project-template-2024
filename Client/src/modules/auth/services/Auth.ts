@@ -1,7 +1,7 @@
-﻿import type AuthenticationResponse from "@/features/auth/models/AuthResponse";
-import type LoginRequest from "@/features/auth/models/LoginRequest";
-import User from "@/features/auth/models/User";
-import router from "@/services/router";
+﻿import type AuthenticationResponse from "@/modules/auth/models/AuthResponse";
+import type LoginRequest from "@/modules/auth/models/LoginRequest";
+import User from "@/modules/auth/models/User";
+import router from "@/router/router";
 import axios from "axios";
 
 const LOGIN_URL = `https://localhost:7097/api/auth/login`;
