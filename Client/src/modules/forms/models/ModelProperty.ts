@@ -1,5 +1,5 @@
-import type { IValidator } from "@/models/validation/IValidator";
-import { ValidatorType } from "@/models/validation/Validators";
+import type { IValidator } from "@/modules/forms/validation/IValidator";
+import { ValidatorType } from "@/modules/forms/validation/Validators";
 
 export class ModelPropertyChangeEvent<T> {
     readonly propertyName: string;

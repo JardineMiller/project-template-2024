@@ -1,4 +1,4 @@
-﻿import type { IModel } from "@/models/base/IModel";
+﻿import type {IModel} from "@/modules/common/models/IModel";
 
 export default interface IRequestModel<T extends IModel, K> {
     toRequest(): K;

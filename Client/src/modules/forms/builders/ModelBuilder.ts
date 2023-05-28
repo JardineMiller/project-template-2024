@@ -1,8 +1,8 @@
-﻿import { ModelPropertyBuilder } from "@/models/builders/ModelPropertyBuilder";
-import type { IModel, IModelConstructor } from "@/models/base/IModel";
-import type ModelProperty from "@/models/state/ModelProperty";
+﻿import { ModelPropertyBuilder } from "@/modules/forms/builders/ModelPropertyBuilder";
+import type ModelProperty from "@/modules/forms/models/ModelProperty";
+import type {IModel, IModelConstructor} from "@/modules/common/models/IModel";
 
-export class ModelBuilder<T extends IModel> {
+export default class ModelBuilder<T extends IModel> {
     private readonly _modelConstructor: IModelConstructor<T>;
     private readonly _properties: Array<ModelProperty<any>> = [];
 

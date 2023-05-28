@@ -1,9 +1,9 @@
 <script lang="ts">
     import type HttpErrorResponse from "@/modules/http/models/HttpErrorResponse";
-    import { Validators } from "@/models/validation/Validators";
-    import ModelProperty from "@/models/state/ModelProperty";
-    import StateTracker from "@/models/state/StateTracker";
-    import LoginModel from "@/models/login/LoginModel";
+    import StateTracker from "@/modules/stateTracker/models/StateTracker";
+    import { Validators } from "@/modules/forms/validation/Validators";
+    import ModelProperty from "@/modules/forms/models/ModelProperty";
+    import LoginModel from "@/modules/auth/models/login/LoginModel";
     import Validation from "@/validation/validation";
     import Auth from "@/modules/auth/services/Auth";
     import "@/utils/extensions/string-extensions";

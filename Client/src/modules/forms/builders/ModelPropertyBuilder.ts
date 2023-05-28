@@ -1,8 +1,8 @@
-﻿import type { ModelBuilder } from "@/models/builders/ModelBuilder";
-import type { IValidator } from "@/models/validation/IValidator";
-import { Validators } from "@/models/validation/Validators";
-import ModelProperty from "@/models/state/ModelProperty";
-import type { IModel } from "@/models/base/IModel";
+﻿import type { IValidator } from "@/modules/forms/validation/IValidator";
+import type ModelBuilder from "@/modules/forms/builders/ModelBuilder";
+import { Validators } from "@/modules/forms/validation/Validators";
+import ModelProperty from "@/modules/forms/models/ModelProperty";
+import type {IModel} from "@/modules/common/models/IModel";
 
 export class ModelPropertyBuilder<T extends IModel, K> {
     private readonly _propertyName: string;

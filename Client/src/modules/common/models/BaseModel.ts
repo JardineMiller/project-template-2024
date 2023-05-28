@@ -1,5 +1,5 @@
-﻿import ModelProperty from "@/models/state/ModelProperty";
-import type { IModel } from "@/models/base/IModel";
+﻿import ModelProperty from "@/modules/forms/models/ModelProperty";
+import type { IModel } from "@/modules/common/models/IModel";
 
 export default abstract class BaseModel implements IModel {
     private readonly properties: Array<ModelProperty<any>>;

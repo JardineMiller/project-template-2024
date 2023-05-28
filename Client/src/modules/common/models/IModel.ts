@@ -1,4 +1,4 @@
-﻿import type ModelProperty from "@/models/state/ModelProperty";
+﻿import type ModelProperty from "@/modules/forms/models/ModelProperty";
 
 export interface IModelConstructor<T extends IModel> {
     new (properties: Array<ModelProperty<any>>): T;

@@ -1,5 +1,5 @@
-﻿import { ValidationFnResult } from "@/models/validation/ValidationFnResult";
-import type { IValidator } from "@/models/validation/IValidator";
+﻿import { ValidationFnResult } from "@/modules/forms/validation/ValidationFnResult";
+import type { IValidator } from "@/modules/forms/validation/IValidator";
 import { EMAIL_REGEX, hasLengthProperty } from "@/utils/utils";
 
 export enum ValidatorType {

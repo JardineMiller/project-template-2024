@@ -1,6 +1,6 @@
-﻿import type AuthenticationResponse from "@/modules/auth/models/AuthResponse";
-import type LoginRequest from "@/modules/auth/models/LoginRequest";
-import User from "@/modules/auth/models/User";
+﻿import type AuthenticationResponse from "@/modules/auth/models/common/AuthResponse";
+import type LoginRequest from "@/modules/auth/models/login/LoginRequest";
+import User from "@/modules/auth/models/common/User";
 import router from "@/router/router";
 import axios from "axios";
 

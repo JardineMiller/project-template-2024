@@ -1,5 +1,5 @@
-﻿import { Change, Changes } from "@/models/state/Change";
-import type { IModel } from "@/models/base/IModel";
+﻿import { Change, Changes } from "./Change";
+import type {IModel} from "@/modules/common/models/IModel";
 
 export default class StateTracker<T extends IModel> {
     private readonly changes = new Changes();

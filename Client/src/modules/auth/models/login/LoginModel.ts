@@ -1,11 +1,11 @@
 ﻿import type IErrorResponseHandler from "@/modules/http/models/IErrorResponseHandler";
 import type HttpErrorResponse from "@/modules/http/models/HttpErrorResponse";
-import LoginRequest from "@/modules/auth/models/LoginRequest";
-import { ModelBuilder } from "@/models/builders/ModelBuilder";
-import type ModelProperty from "@/models/state/ModelProperty";
-import type { IModelConstructor } from "@/models/base/IModel";
-import type IRequestModel from "@/models/IRequestModel";
-import BaseModel from "@/models/base/BaseModel";
+import type ModelProperty from "@/modules/forms/models/ModelProperty";
+import type IRequestModel from "@/modules/http/models/IRequestModel";
+import LoginRequest from "@/modules/auth/models/login/LoginRequest";
+import ModelBuilder from "@/modules/forms/builders/ModelBuilder";
+import BaseModel from "@/modules/common/models/BaseModel";
+import type {IModelConstructor} from "@/modules/common/models/IModel";
 
 export default class LoginModel
     extends BaseModel

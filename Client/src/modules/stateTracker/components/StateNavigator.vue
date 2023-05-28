@@ -1,5 +1,5 @@
 ﻿<script lang="ts">
-    import StateTracker from "@/models/state/StateTracker";
+    import StateTracker from "@/modules/stateTracker/models/StateTracker";
     import { defineComponent } from "Vue";
 
     export default defineComponent({
