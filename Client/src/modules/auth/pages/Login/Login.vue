@@ -6,13 +6,19 @@
     import Validation from "@/validation/validation";
     import Auth from "@/modules/auth/services/Auth";
     import "@/utils/extensions/string-extensions";
+    import InputText from "primevue/inputtext";
+    import Password from "primevue/password";
     import Message from "primevue/message";
     import { defineComponent } from "vue";
+    import Button from "primevue/button";
     import "@/validation/validation";
 
     export default defineComponent({
         components: {
             Message,
+            InputText,
+            Password,
+            Button,
         },
         data: () => {
             return {
@@ -33,7 +39,6 @@
                     new ModelProperty<string>("password", undefined, [
                         Validators.required(),
                     ]),
-                    new ModelProperty<boolean>("rememberMe", false),
                 ]),
                 { trackChanges: false }
             );
@@ -44,9 +49,6 @@
             },
             password(): ModelProperty<string> {
                 return this.state.model.password;
-            },
-            rememberMe(): ModelProperty<boolean> {
-                return this.state.model.rememberMe;
             },
         },
         methods: {
@@ -102,6 +104,9 @@
                             :id="email.propertyName.toLowerCase()"
                             :name="email.propertyName.toLowerCase()"
                             :model-value="email.value"
+                            :autocomplete="
+                                email.propertyName.toLowerCase()
+                            "
                             class="w-full"
                             :class="{
                                 'p-invalid':
@@ -138,10 +143,17 @@
                 <div class="field">
                     <span class="p-float-label">
                         <Password
-                            :id="password.propertyName.toLowerCase()"
+                            :name="
+                                password.propertyName.toLowerCase()
+                            "
                             :model-value="password.value"
                             class="w-full"
                             :input-class="'w-full'"
+                            :input-props="{
+                                id: password.propertyName.toLowerCase(),
+                                autocomplete:
+                                    password.propertyName.toLowerCase(),
+                            }"
                             :class="{
                                 'p-invalid':
                                     password.touched &&
@@ -179,31 +191,6 @@
                             {{ error }} <br />
                         </small>
                     </div>
-                </div>
-
-                <!-- Remember Me -->
-                <div
-                    class="flex align-items-center justify-content-between mb-6">
-                    <div class="flex align-items-center">
-                        <Checkbox
-                            :id="
-                                rememberMe.propertyName.toLowerCase()
-                            "
-                            :binary="true"
-                            v-model="rememberMe.value"
-                            class="mr-2">
-                        </Checkbox>
-                        <label
-                            :for="
-                                rememberMe.propertyName.toLowerCase()
-                            ">
-                            Remember me
-                        </label>
-                    </div>
-                    <a
-                        class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">
-                        Forgot password?
-                    </a>
                 </div>
 
                 <!-- Submit -->

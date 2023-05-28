@@ -1,15 +1,7 @@
 import { addJwtInterceptor } from "@/modules/auth/interceptors/httpInterceptor";
 import Auth from "@/modules/auth/services/Auth";
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import Calendar from "primevue/calendar";
-import Dropdown from "primevue/dropdown";
-import Checkbox from "primevue/checkbox";
-import Divider from "primevue/divider";
 import Tooltip from "primevue/tooltip";
 import PrimeVue from "primevue/config";
-import Dialog from "primevue/dialog";
-import Button from "primevue/button";
 import router from "@/router/router";
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -20,15 +12,6 @@ async function startApp() {
 
     app.use(router);
     app.use(PrimeVue);
-
-    app.component("Dialog", Dialog);
-    app.component("InputText", InputText);
-    app.component("Divider", Divider);
-    app.component("Password", Password);
-    app.component("Calendar", Calendar);
-    app.component("Dropdown", Dropdown);
-    app.component("Checkbox", Checkbox);
-    app.component("Button", Button);
 
     app.directive("tooltip", Tooltip);
 

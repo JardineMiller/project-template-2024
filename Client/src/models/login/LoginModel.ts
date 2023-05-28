@@ -21,10 +21,6 @@ export default class LoginModel
         return this.get<string>("password");
     }
 
-    get rememberMe(): ModelProperty<boolean> {
-        return this.get<boolean>("rememberMe");
-    }
-
     static Builder(): ModelBuilder<LoginModel> {
         return new ModelBuilder<LoginModel>(
             LoginModel as IModelConstructor<LoginModel>

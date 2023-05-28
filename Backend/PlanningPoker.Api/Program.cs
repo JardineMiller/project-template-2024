@@ -7,22 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication()
-    .AddPresentation()
-    .AddCors(
-        options =>
-        {
-            options.AddDefaultPolicy(
-                policy =>
-                {
-                    policy
-                        .WithOrigins("http://127.0.0.1:5173")
-                        .AllowCredentials()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                }
-            );
-        }
-    );
+    .AddPresentation(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // builder.Services.AddEndpointsApiExplorer();
