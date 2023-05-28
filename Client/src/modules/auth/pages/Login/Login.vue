@@ -69,7 +69,7 @@
         class="px-4 py-8 md:px-6 lg:px-6 flex align-items-center justify-content-center">
         <div
             class="surface-card p-4 shadow-2 border-round w-full lg:w-5 md:w-8">
-            <div class="text-center mb-5">
+            <div class="text-center">
                 <img
                     src="@/assets/logo.svg"
                     alt="Image"
@@ -91,13 +91,12 @@
                 <Message
                     severity="error"
                     v-if="invalidCredentials"
-                    class="mb-5"
                     @close="invalidCredentials = false">
                     Login failed: Invalid credentials
                 </Message>
 
                 <!-- Email -->
-                <div class="field">
+                <div class="field mt-5">
                     <span class="p-float-label">
                         <InputText
                             :id="email.propertyName.toLowerCase()"
