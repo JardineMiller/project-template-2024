@@ -88,9 +88,6 @@ const refreshToken = async (): Promise<void> => {
             await router.push("/");
 
             return response;
-        })
-        .catch((error) => {
-            // return error;
         });
 };
 
