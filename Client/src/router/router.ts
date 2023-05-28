@@ -12,7 +12,13 @@ const routes = [
         path: "/login",
         name: "login",
         component: () =>
-            import("@/modules/auth/pages/Login/Login.vue"),
+            import("@/modules/auth/pages/login/Login.vue"),
+    },
+    {
+        path: "/register",
+        name: "register",
+        component: () =>
+            import("@/modules/auth/pages/register/Register.vue"),
     },
 ];
 
@@ -21,8 +27,13 @@ const router = createRouter({
     routes: routes,
 });
 
+const anonymousRoutes = ["login", "register", "confirm"];
+
 router.beforeEach(async (to, from) => {
-    if (!Auth.isAuthenticated() && to.name !== "login") {
+    if (
+        !Auth.isAuthenticated() &&
+        !anonymousRoutes.includes(to.name?.toString() ?? "")
+    ) {
         return { name: "login" };
     }
 });

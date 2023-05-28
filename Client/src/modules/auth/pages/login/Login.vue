@@ -9,6 +9,7 @@
     import "@/utils/extensions/string-extensions";
     import InputText from "primevue/inputtext";
     import Password from "primevue/password";
+    import { RouterLink } from "vue-router";
     import type { AxiosError } from "axios";
     import Message from "primevue/message";
     import { defineComponent } from "vue";
@@ -20,10 +21,11 @@
             title: "Login",
         },
         components: {
-            Message,
-            InputText,
-            Password,
             Button,
+            InputText,
+            Message,
+            Password,
+            RouterLink,
         },
         data: () => {
             return {
@@ -88,10 +90,11 @@
                 <span class="text-600 font-medium line-height-3">
                     Don't have an account?
                 </span>
-                <a
-                    class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
-                    Create today!
-                </a>
+                <RouterLink
+                    class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+                    to="/register">
+                    Create one
+                </RouterLink>
             </div>
 
             <form @submit.prevent="handleSubmit()">

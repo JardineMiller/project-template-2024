@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import LoginView from "@/pages/Login/Login.vue";
 import { mount } from "@vue/test-utils";
+import LoginView from "./Login.vue";
 
 describe("LoginView", () => {
     it("renders properly", () => {
