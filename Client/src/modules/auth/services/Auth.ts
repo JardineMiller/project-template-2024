@@ -9,6 +9,7 @@ const meta = import.meta.env;
 
 const LOGIN_URL = `${meta.VITE_API_URL}/auth/login`;
 const REGISTER_URL = `${meta.VITE_API_URL}/auth/register`;
+const CONFIRM_URL = `${meta.VITE_API_URL}/auth/confirm`;
 const REFRESH_TOKEN_URL = `${meta.VITE_API_URL}/auth/refreshToken`;
 const REVOKE_TOKEN_URL = `${meta.VITE_API_URL}/auth/revokeToken`;
 
@@ -38,6 +39,30 @@ function stopRefreshTokenTimer() {
 
 const isAuthenticated = () => {
     return Boolean(_user) && Boolean(_authToken);
+};
+
+const confirm = async (token: string, email: string) => {
+    return axios
+        .get<AuthenticationResponse>(CONFIRM_URL, {
+            params: { email: email, token: token },
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(async (response) => {
+            const { id, firstName, lastName, email, token } =
+                response.data;
+
+            _user = new User(id, firstName, lastName, email);
+            _authToken = token;
+
+            startRefreshTokenTimer();
+
+            await router.push("/");
+            return response;
+        })
+        .catch(async (_) => {
+            await router.push("/login");
+            return;
+        });
 };
 
 const login = async (request: LoginRequest) => {
@@ -127,5 +152,6 @@ export default {
     login: login,
     logout: logout,
     register: register,
+    confirm: confirm,
     refreshToken: refreshToken,
 };

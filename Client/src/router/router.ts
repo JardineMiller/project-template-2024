@@ -20,6 +20,12 @@ const routes = [
         component: () =>
             import("@/modules/auth/pages/register/Register.vue"),
     },
+    {
+        path: "/confirm",
+        name: "confirm",
+        component: () =>
+            import("@/modules/auth/pages/confirm/Confirm.vue"),
+    },
 ];
 
 const router = createRouter({

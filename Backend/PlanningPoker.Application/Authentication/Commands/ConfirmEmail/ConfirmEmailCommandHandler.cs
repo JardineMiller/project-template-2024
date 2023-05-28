@@ -10,9 +10,9 @@ namespace PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler
     : IRequestHandler<
-          ConfirmEmailCommand,
-          ErrorOr<AuthenticationResult>
-      >
+        ConfirmEmailCommand,
+        ErrorOr<AuthenticationResult>
+    >
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
@@ -52,6 +52,17 @@ public class ConfirmEmailCommandHandler
 
         var token = this._tokenGenerator.GenerateJwt(user);
 
-        return new AuthenticationResult(user, token);
+        // replace old refresh token with a new one and save
+        var newRefreshToken =
+            this._tokenGenerator.GenerateRefreshToken();
+
+        user.RefreshTokens.Add(newRefreshToken);
+        await this._userManager.UpdateAsync(user);
+
+        return new AuthenticationResult(
+            user,
+            token,
+            newRefreshToken.Token
+        );
     }
 }
