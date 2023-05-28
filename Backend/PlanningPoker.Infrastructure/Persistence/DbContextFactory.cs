@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using PlanningPoker.Infrastructure.Services;
 
 namespace PlanningPoker.Infrastructure.Persistence;
@@ -7,20 +8,28 @@ namespace PlanningPoker.Infrastructure.Persistence;
 public class DbContextFactory
     : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
-    private readonly DatabaseSettings _databaseSettings;
-
-    public DbContextFactory(DatabaseSettings settings)
-    {
-        this._databaseSettings = settings;
-    }
-
     public ApplicationDbContext CreateDbContext(string[] args)
     {
+        var config = new ConfigurationBuilder()
+            .SetBasePath(
+                Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "../PlanningPoker.Api"
+                )
+            )
+            .AddJsonFile("appsettings.Development.json", false, false)
+            .AddEnvironmentVariables()
+            .Build();
+
+        var databaseSettings = config
+            .GetSection(DatabaseSettings.SectionName)
+            .Get<DatabaseSettings>();
+
         var optionsBuilder =
             new DbContextOptionsBuilder<ApplicationDbContext>();
 
         optionsBuilder.UseSqlServer(
-            _databaseSettings?.ConnectionString
+            databaseSettings.ConnectionString!
         );
 
         return new ApplicationDbContext(

@@ -1,5 +1,5 @@
-﻿using MediatR;
-using ErrorOr;
+﻿using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using PlanningPoker.Application.Authentication.Common;
 using PlanningPoker.Application.Common.Interfaces.Authentication;
@@ -15,15 +15,15 @@ public class ConfirmEmailCommandHandler
       >
 {
     private readonly UserManager<User> _userManager;
-    private readonly IJwtGenerator _jwtGenerator;
+    private readonly ITokenGenerator _tokenGenerator;
 
     public ConfirmEmailCommandHandler(
         UserManager<User> userManager,
-        IJwtGenerator jwtGenerator
+        ITokenGenerator tokenGenerator
     )
     {
         this._userManager = userManager;
-        this._jwtGenerator = jwtGenerator;
+        this._tokenGenerator = tokenGenerator;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -50,7 +50,7 @@ public class ConfirmEmailCommandHandler
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var token = this._jwtGenerator.GenerateToken(user);
+        var token = this._tokenGenerator.GenerateJwt(user);
 
         return new AuthenticationResult(user, token);
     }

@@ -15,5 +15,10 @@ public static partial class Errors
             code: "Auth.EmailNotConfirmed",
             description: "Email not confirmed."
         );
+
+        public static Error TokenExpired = Error.Validation(
+            code: "Auth.ExpiredToken",
+            description: "Unable to refresh token as it is expired"
+        );
     }
 }

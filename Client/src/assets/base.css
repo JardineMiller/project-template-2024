@@ -1,22 +1,21 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-
 }
 
 /* semantic color variables for this project */
 :root {
-
+    font-size: 14px;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-  }
+    :root {
+    }
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    position: relative;
 }

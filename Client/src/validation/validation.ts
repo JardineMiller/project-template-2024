@@ -1,41 +1,14 @@
 /**
- * Must match Validation.cs in the backend. TODO: Should we actually get these values from the backend and save the duplication?
+ * Must match Validation.cs in the backend.
+ * TODO: Should we actually get these values from the backend and save the duplication?
  */
+
+import Auth from "./validation.auth";
+import Game from "./validation.game";
+import User from "./validation.user";
+
 export default {
-    Auth: {
-        Password: {
-            MinLength: 6,
-            MaxLength: 50,
-            Pattern:
-                "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])(?=.{8,})[A-Za-z\\d@$!%*?&]+$",
-        },
-    },
-
-    Game: {
-        Name: {
-            MinLength: 3,
-            MaxLength: 100,
-        },
-
-        Description: {
-            MinLength: 3,
-            MaxLength: 250,
-        },
-
-        Code: {
-            MaxLength: 25,
-        },
-    },
-
-    User: {
-        FirstName: {
-            MinLength: 2,
-            MaxLength: 50,
-        },
-
-        LastName: {
-            MinLength: 2,
-            MaxLength: 50,
-        },
-    },
+    Auth: Auth,
+    Game: Game,
+    User: User,
 };

@@ -14,7 +14,7 @@ namespace PlanningPoker.Application.Tests.Application.Tests.Authentication.Comma
 public class ConfirmEmailCommandHandlerTests
 {
     private readonly Mock<UserManager<User>> _userManagerMock;
-    private readonly Mock<IJwtGenerator> _jwtGeneratorMock = new();
+    private readonly Mock<ITokenGenerator> _jwtGeneratorMock = new();
 
     private const string validEmail = "test2@email.com";
     private const string validToken = "tokens-are-awesome";
@@ -136,7 +136,7 @@ public class ConfirmEmailCommandHandlerTests
             .ReturnsAsync(IdentityResult.Success);
 
         this._jwtGeneratorMock
-            .Setup(x => x.GenerateToken(It.IsAny<User>()))
+            .Setup(x => x.GenerateJwt(It.IsAny<User>()))
             .Returns("token");
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
