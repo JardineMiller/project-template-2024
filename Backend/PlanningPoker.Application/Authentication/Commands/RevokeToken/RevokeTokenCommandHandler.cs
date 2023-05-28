@@ -35,7 +35,7 @@ public class RevokeTokenCommandHandler
                     u.RefreshTokens.Any(t => t.Token == request.Token)
             );
 
-        // return false if no user found with token
+        // return error if no user found with token
         if (user is null)
         {
             return Errors.Common.NotFound(nameof(User));
