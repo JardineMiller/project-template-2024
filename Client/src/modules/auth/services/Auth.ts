@@ -4,9 +4,11 @@ import User from "@/modules/auth/models/User";
 import router from "@/router/router";
 import axios from "axios";
 
-const LOGIN_URL = `https://localhost:7097/api/auth/login`;
-const REFRESH_TOKEN_URL = `https://localhost:7097/api/auth/refreshToken`;
-const REVOKE_TOKEN_URL = `https://localhost:7097/api/auth/revokeToken`;
+const meta = import.meta.env;
+
+const LOGIN_URL = `${meta.VITE_API_URL}/auth/login`;
+const REFRESH_TOKEN_URL = `${meta.VITE_API_URL}/auth/refreshToken`;
+const REVOKE_TOKEN_URL = `${meta.VITE_API_URL}/auth/revokeToken`;
 
 let _authToken: string | null = null;
 let _user: User | null = null;
