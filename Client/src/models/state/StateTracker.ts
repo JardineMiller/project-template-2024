@@ -7,7 +7,10 @@ export default class StateTracker<T extends IModel> {
     trackChanges: boolean;
     model: T;
 
-    constructor(model: T, options: { trackChanges: boolean }) {
+    constructor(
+        model: T,
+        options: { trackChanges: boolean } = { trackChanges: false }
+    ) {
         this.model = model;
         this.trackChanges = options.trackChanges ?? false;
     }

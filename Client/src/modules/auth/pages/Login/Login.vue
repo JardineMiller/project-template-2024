@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type HttpErrorResponse from "@/modules/http/models/HttpErrorResponse";
     import { Validators } from "@/models/validation/Validators";
     import ModelProperty from "@/models/state/ModelProperty";
     import StateTracker from "@/models/state/StateTracker";
@@ -8,6 +9,7 @@
     import "@/utils/extensions/string-extensions";
     import InputText from "primevue/inputtext";
     import Password from "primevue/password";
+    import type { AxiosError } from "axios";
     import Message from "primevue/message";
     import { defineComponent } from "vue";
     import Button from "primevue/button";
@@ -22,7 +24,6 @@
         },
         data: () => {
             return {
-                invalidCredentials: false,
                 passwordRegex:
                     Validation.Auth.Password.Pattern.toString(),
                 state: {} as StateTracker<LoginModel>,
@@ -39,8 +40,7 @@
                     new ModelProperty<string>("password", undefined, [
                         Validators.required(),
                     ]),
-                ]),
-                { trackChanges: false }
+                ])
             );
         },
         computed: {
@@ -55,8 +55,10 @@
             handleSubmit(): void {
                 this.loading = true;
                 Auth.login(this.state.model.toRequest())
-                    .catch(
-                        (_: Error) => (this.invalidCredentials = true)
+                    .catch((error: AxiosError) =>
+                        this.state.model.handleErrorResponse(
+                            error.response?.data as HttpErrorResponse
+                        )
                     )
                     .finally(() => {
                         this.loading = false;
@@ -92,9 +94,24 @@
             <form @submit.prevent="handleSubmit()">
                 <Message
                     severity="error"
-                    v-if="invalidCredentials"
-                    @close="invalidCredentials = false">
+                    v-if="
+                        state.model.responseErrors.invalidCredentials
+                    "
+                    @close="
+                        state.model.responseErrors.invalidCredentials = false
+                    ">
                     Login failed: Invalid credentials
+                </Message>
+
+                <Message
+                    severity="warn"
+                    v-if="
+                        state.model.responseErrors.emailNotConfirmed
+                    "
+                    @close="
+                        state.model.responseErrors.emailNotConfirmed = false
+                    ">
+                    Login failed: Email not confirmed
                 </Message>
 
                 <!-- Email -->

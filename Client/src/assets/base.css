@@ -4,6 +4,7 @@
 
 /* semantic color variables for this project */
 :root {
+    font-size: 14px;
 }
 
 @media (prefers-color-scheme: dark) {
