@@ -62,7 +62,7 @@ public class AuthController : ApiController
 
         if (refreshToken is null)
         {
-            return Ok();
+            return NoContent();
         }
 
         var cmd = new RefreshTokenCommand { Token = refreshToken };

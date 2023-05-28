@@ -1,4 +1,5 @@
 ﻿import type AuthenticationResponse from "@/modules/auth/models/common/AuthResponse";
+import type RegisterRequest from "@/modules/auth/models/register/RegisterRequest";
 import type LoginRequest from "@/modules/auth/models/login/LoginRequest";
 import User from "@/modules/auth/models/common/User";
 import router from "@/router/router";
@@ -7,6 +8,7 @@ import axios from "axios";
 const meta = import.meta.env;
 
 const LOGIN_URL = `${meta.VITE_API_URL}/auth/login`;
+const REGISTER_URL = `${meta.VITE_API_URL}/auth/register`;
 const REFRESH_TOKEN_URL = `${meta.VITE_API_URL}/auth/refreshToken`;
 const REVOKE_TOKEN_URL = `${meta.VITE_API_URL}/auth/revokeToken`;
 
@@ -58,6 +60,21 @@ const login = async (request: LoginRequest) => {
         });
 };
 
+const register = async (request: RegisterRequest) => {
+    return axios
+        .post<AuthenticationResponse>(REGISTER_URL, request, {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(async (response) => {
+            const { id, firstName, lastName, email } = response.data;
+
+            _user = new User(id, firstName, lastName, email);
+
+            return response;
+        });
+};
+
 const logout = async (): Promise<void> => {
     await axios.get(REVOKE_TOKEN_URL, {
         withCredentials: true,
@@ -82,12 +99,14 @@ const refreshToken = async (): Promise<void> => {
             const { id, firstName, lastName, email, token } =
                 response.data;
 
-            _user = new User(id, firstName, lastName, email);
-            _authToken = token;
+            if (response.status == 200) {
+                _user = new User(id, firstName, lastName, email);
+                _authToken = token;
 
-            startRefreshTokenTimer();
+                startRefreshTokenTimer();
 
-            await router.push("/");
+                await router.push("/");
+            }
 
             return response;
         });
@@ -107,5 +126,6 @@ export default {
     isAuthenticated: isAuthenticated,
     login: login,
     logout: logout,
+    register: register,
     refreshToken: refreshToken,
 };

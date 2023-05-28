@@ -4,9 +4,8 @@
     import { Validators } from "@/modules/forms/validation/Validators";
     import ModelProperty from "@/modules/forms/models/ModelProperty";
     import LoginModel from "@/modules/auth/models/login/LoginModel";
-    import Validation from "@/validation/validation";
+    import "@/utils/extensions/string/string-extensions";
     import Auth from "@/modules/auth/services/Auth";
-    import "@/utils/extensions/string-extensions";
     import InputText from "primevue/inputtext";
     import Password from "primevue/password";
     import { RouterLink } from "vue-router";
@@ -29,8 +28,6 @@
         },
         data: () => {
             return {
-                passwordRegex:
-                    Validation.Auth.Password.Pattern.toString(),
                 state: {} as StateTracker<LoginModel>,
                 loading: false,
             };
@@ -182,7 +179,6 @@
                                     password.touched &&
                                     !password.isValid,
                             }"
-                            :strong-regex="passwordRegex"
                             @input="
                                 this.state.setProperty<string>(
                                     password.propertyName,

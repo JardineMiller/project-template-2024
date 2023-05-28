@@ -37,4 +37,12 @@ describe("toTitleCase", () => {
     ])("handles sentences words", (input, expected) => {
         expect(input.toTitleCase()).toBe(expected);
     });
+
+    it.each([
+        ["firstName", "First Name"],
+        ["lastName", "Last Name"],
+        ["someOtherName", "Some Other Name"],
+    ])("handles camelCase words", (input, expected) => {
+        expect(input.toTitleCase()).toBe(expected);
+    });
 });
