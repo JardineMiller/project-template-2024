@@ -59,6 +59,6 @@ export default class RegisterModel
     }
 
     get responseErrors(): { [p: string]: boolean } {
-        return {};
+        return this._errors;
     }
 }

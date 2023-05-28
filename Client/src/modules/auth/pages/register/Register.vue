@@ -29,6 +29,8 @@
         },
         data: () => {
             return {
+                loading: false,
+                awaitingConfirmation: false,
                 passwordRegex:
                     Validation.Auth.Password.Pattern.source,
                 state: new StateTracker<RegisterModel>(
@@ -87,7 +89,6 @@
                         ),
                     ])
                 ),
-                loading: false,
             };
         },
         computed: {
@@ -108,6 +109,9 @@
             handleSubmit(): void {
                 this.loading = true;
                 Auth.register(this.state.model.toRequest())
+                    .then((_) => {
+                        this.awaitingConfirmation = true;
+                    })
                     .catch((error: AxiosError) =>
                         this.state.model.handleErrorResponse(
                             error.response?.data as HttpErrorResponse
@@ -145,16 +149,25 @@
                 </RouterLink>
             </div>
 
-            <form @submit.prevent="handleSubmit()">
+            <form
+                v-if="!awaitingConfirmation"
+                @submit.prevent="handleSubmit()">
                 <Message
                     severity="error"
-                    v-if="
-                        state.model.responseErrors.invalidCredentials
-                    "
+                    v-if="state.model.responseErrors.duplicateEmail"
                     @close="
-                        state.model.responseErrors.invalidCredentials = false
+                        state.model.responseErrors.duplicateEmail = false
                     ">
-                    Login failed: Invalid credentials
+                    Create Account Failed: Duplicate Email
+                </Message>
+
+                <Message
+                    severity="error"
+                    v-if="state.model.responseErrors.creationFailed"
+                    @close="
+                        state.model.responseErrors.creationFailed = false
+                    ">
+                    Create Account Failed: Something went wrong
                 </Message>
 
                 <!-- Email -->
@@ -381,6 +394,14 @@
                     :disabled="!state.model.isValid">
                 </Button>
             </form>
+            <div v-if="awaitingConfirmation">
+                <Message
+                    severity="success"
+                    :closable="false">
+                    Please confirm email address to complete
+                    registration
+                </Message>
+            </div>
         </div>
     </div>
 </template>

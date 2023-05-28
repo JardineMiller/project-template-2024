@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Api.Common.Settings;
+﻿namespace PlanningPoker.Application.Settings;
 
 public class ClientAppSettings
 {
