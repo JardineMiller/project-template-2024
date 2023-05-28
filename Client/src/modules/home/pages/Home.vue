@@ -3,6 +3,9 @@
     import Auth from "@/modules/auth/services/Auth";
     import { defineComponent } from "vue";
     export default defineComponent({
+        head: {
+            title: "Home",
+        },
         computed: {
             user(): User | null {
                 return Auth.user();

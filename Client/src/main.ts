@@ -1,4 +1,5 @@
 import { addJwtInterceptor } from "@/modules/auth/interceptors/httpInterceptor";
+import { createHead, VueHeadMixin } from "@unhead/vue";
 import Auth from "@/modules/auth/services/Auth";
 import Tooltip from "primevue/tooltip";
 import PrimeVue from "primevue/config";
@@ -10,6 +11,9 @@ import "./assets/main.css";
 async function startApp() {
     const app = createApp(App);
 
+    // Create a global head instance
+    app.mixin(VueHeadMixin);
+    app.use(createHead());
     app.use(router);
     app.use(PrimeVue);
 

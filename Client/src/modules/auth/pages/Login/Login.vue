@@ -16,6 +16,9 @@
     import "@/validation/validation";
 
     export default defineComponent({
+        head: {
+            title: "Login",
+        },
         components: {
             Message,
             InputText,
