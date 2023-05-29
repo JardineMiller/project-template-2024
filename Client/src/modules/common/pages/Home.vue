@@ -8,14 +8,16 @@
         },
         computed: {
             user(): User | null {
-                return Auth.user();
+                return Auth.user.value;
             },
         },
     });
 </script>
 
 <template>
-    <h1>Welcome {{ user.firstName }} {{ user.lastName }}</h1>
+    <h1 v-if="user">
+        Welcome {{ user.firstName }} {{ user.lastName }}
+    </h1>
 </template>
 
 <style scoped></style>

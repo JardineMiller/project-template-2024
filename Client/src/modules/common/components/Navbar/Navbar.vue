@@ -33,7 +33,7 @@
         components: { RouterLink, Button },
         computed: {
             isAuthenticated() {
-                return Auth.isAuthenticated();
+                return Boolean(Auth.user.value);
             },
         },
         methods: {

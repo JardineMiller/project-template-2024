@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PlanningPoker.Application.Authentication.Common;
 using PlanningPoker.Application.Common.Interfaces.Authentication;
 using PlanningPoker.Domain.Common.Errors;
@@ -31,9 +32,9 @@ public class ConfirmEmailCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userManager.FindByEmailAsync(
-            cmd.Email
-        );
+        var user = this._userManager.Users
+            .Include(x => x.RefreshTokens)
+            .FirstOrDefault(u => u.Email == cmd.Email);
 
         if (user == null)
         {

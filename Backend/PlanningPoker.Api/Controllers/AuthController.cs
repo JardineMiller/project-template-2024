@@ -74,7 +74,11 @@ public class AuthController : ApiController
                 SetTokenCookie(result.RefreshToken);
                 return Ok(result.Adapt<AuthenticationResponse>());
             },
-            errors => Problem(errors)
+            errors =>
+            {
+                this.RemoveCookie();
+                return Problem(errors);
+            }
         );
     }
 
@@ -84,11 +88,11 @@ public class AuthController : ApiController
         var refreshToken = this.Request.Cookies["refreshToken"];
         var cmd = new RevokeTokenCommand { Token = refreshToken };
 
-        this.Response.Cookies.Delete("refreshToken");
+        this.RemoveCookie();
 
         var result = await this._mediator.Send(cmd);
 
-        return result.Match(_ => Ok(), errors => Problem(errors));
+        return result.Match(_ => Ok(true), errors => Problem(errors));
     }
 
     [HttpGet(nameof(Confirm))]
@@ -117,12 +121,29 @@ public class AuthController : ApiController
             Expires = this._dateTimeProvider.UtcNow.AddDays(7),
             HttpOnly = true,
             SameSite = SameSiteMode.None,
-            Secure = true
+            Secure = true,
         };
 
         this.Response.Cookies.Append(
             "refreshToken",
             refreshToken,
+            cookieOptions
+        );
+    }
+
+    private void RemoveCookie()
+    {
+        var cookieOptions = new CookieOptions
+        {
+            Expires = this._dateTimeProvider.UtcNow.AddDays(-1),
+            HttpOnly = true,
+            SameSite = SameSiteMode.None,
+            Secure = true,
+        };
+
+        this.Response.Cookies.Append(
+            "refreshToken",
+            string.Empty,
             cookieOptions
         );
     }

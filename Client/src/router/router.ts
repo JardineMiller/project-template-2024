@@ -37,7 +37,7 @@ const anonymousRoutes = ["login", "register", "confirm"];
 
 router.beforeEach(async (to, from) => {
     if (
-        !Auth.isAuthenticated() &&
+        !Auth.user.value &&
         !anonymousRoutes.includes(to.name?.toString() ?? "")
     ) {
         return { name: "login" };

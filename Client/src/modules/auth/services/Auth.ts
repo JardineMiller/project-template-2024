@@ -3,28 +3,31 @@ import type RegisterRequest from "@/modules/auth/models/register/RegisterRequest
 import type LoginRequest from "@/modules/auth/models/login/LoginRequest";
 import User from "@/modules/auth/models/common/User";
 import router from "@/router/router";
+import { type Ref, ref } from "vue";
 import axios from "axios";
 
 const meta = import.meta.env;
 
-const LOGIN_URL = `${meta.VITE_API_URL}/auth/login`;
-const REGISTER_URL = `${meta.VITE_API_URL}/auth/register`;
-const CONFIRM_URL = `${meta.VITE_API_URL}/auth/confirm`;
-const REFRESH_TOKEN_URL = `${meta.VITE_API_URL}/auth/refreshToken`;
-const REVOKE_TOKEN_URL = `${meta.VITE_API_URL}/auth/revokeToken`;
+const URLs: { [key: string]: string } = {
+    LOGIN: `${meta.VITE_API_URL}/auth/login`,
+    REGISTER: `${meta.VITE_API_URL}/auth/register`,
+    CONFIRM: `${meta.VITE_API_URL}/auth/confirm`,
+    REFRESH_TOKEN: `${meta.VITE_API_URL}/auth/refreshToken`,
+    REVOKE_TOKEN: `${meta.VITE_API_URL}/auth/revokeToken`,
+};
 
-let _authToken: string | null = null;
-let _user: User | null = null;
+const user: Ref<User | null> = ref(null);
+const authToken: Ref<string | null> = ref(null);
 
 let refreshTokenTimeout: number | undefined = undefined;
 
 function startRefreshTokenTimer() {
     // parse json object from base64 encoded jwt token
-    if (!_authToken) {
+    if (!authToken.value) {
         return;
     }
 
-    const jwtBase64 = _authToken.split(".")[1];
+    const jwtBase64 = authToken.value.split(".")[1];
     const jwtToken = JSON.parse(atob(jwtBase64));
 
     // set a timeout to refresh the token a minute before it expires
@@ -37,13 +40,10 @@ function stopRefreshTokenTimer() {
     clearTimeout(refreshTokenTimeout);
 }
 
-const isAuthenticated = () => {
-    return Boolean(_user) && Boolean(_authToken);
-};
-
 const confirm = async (token: string, email: string) => {
     return axios
-        .get<AuthenticationResponse>(CONFIRM_URL, {
+        .get<AuthenticationResponse>(URLs.CONFIRM, {
+            withCredentials: true,
             params: { email: email, token: token },
             headers: { "Content-Type": "application/json" },
         })
@@ -51,8 +51,8 @@ const confirm = async (token: string, email: string) => {
             const { id, firstName, lastName, email, token } =
                 response.data;
 
-            _user = new User(id, firstName, lastName, email);
-            _authToken = token;
+            user.value = new User(id, firstName, lastName, email);
+            authToken.value = token;
 
             startRefreshTokenTimer();
 
@@ -67,7 +67,7 @@ const confirm = async (token: string, email: string) => {
 
 const login = async (request: LoginRequest) => {
     return axios
-        .post<AuthenticationResponse>(LOGIN_URL, request, {
+        .post<AuthenticationResponse>(URLs.LOGIN, request, {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
         })
@@ -75,48 +75,46 @@ const login = async (request: LoginRequest) => {
             const { id, firstName, lastName, email, token } =
                 response.data;
 
-            _user = new User(id, firstName, lastName, email);
-            _authToken = token;
+            user.value = new User(id, firstName, lastName, email);
+            authToken.value = token;
 
             startRefreshTokenTimer();
 
             await router.push("/");
-            return response;
         });
 };
 
 const register = async (request: RegisterRequest) => {
     return axios
-        .post<AuthenticationResponse>(REGISTER_URL, request, {
-            withCredentials: true,
+        .post<AuthenticationResponse>(URLs.REGISTER, request, {
             headers: { "Content-Type": "application/json" },
         })
-        .then(async (response) => {
-            const { id, firstName, lastName, email } = response.data;
-
-            _user = new User(id, firstName, lastName, email);
-
-            return response;
+        .then(async (response) => {})
+        .catch((err) => {
+            console.table(err);
         });
 };
 
 const logout = async (): Promise<void> => {
-    await axios.get(REVOKE_TOKEN_URL, {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-    });
+    return axios
+        .get(URLs.REVOKE_TOKEN, {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+            user.value = null;
+            authToken.value = null;
 
-    _user = null;
-    _authToken = null;
-
-    stopRefreshTokenTimer();
-
-    await router.push("/login");
+            stopRefreshTokenTimer();
+        })
+        .finally(async () => {
+            await router.push("/login");
+        });
 };
 
 const refreshToken = async (): Promise<void> => {
-    axios
-        .get<AuthenticationResponse>(REFRESH_TOKEN_URL, {
+    return axios
+        .get<AuthenticationResponse>(URLs.REFRESH_TOKEN, {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
         })
@@ -125,30 +123,19 @@ const refreshToken = async (): Promise<void> => {
                 response.data;
 
             if (response.status == 200) {
-                _user = new User(id, firstName, lastName, email);
-                _authToken = token;
+                user.value = new User(id, firstName, lastName, email);
+                authToken.value = token;
 
                 startRefreshTokenTimer();
 
                 await router.push("/");
             }
-
-            return response;
         });
-};
-
-const user = () => {
-    return _user;
-};
-
-const token = () => {
-    return _authToken;
 };
 
 export default {
     user: user,
-    token: token,
-    isAuthenticated: isAuthenticated,
+    token: authToken,
     login: login,
     logout: logout,
     register: register,
