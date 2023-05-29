@@ -158,7 +158,7 @@
                     @close="
                         state.model.responseErrors.duplicateEmail = false
                     ">
-                    Create Account Failed: Duplicate Email
+                    An account with this email already exists
                 </Message>
 
                 <Message

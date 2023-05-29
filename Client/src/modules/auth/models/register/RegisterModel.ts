@@ -46,16 +46,13 @@ export default class RegisterModel
     }
 
     handleErrorResponse(error: HttpErrorResponse): void {
-        if (!Object.keys(error.errors).length) {
+        //
+        if (error.status === 409) {
+            this._errors.duplicateEmail = true;
             return;
         }
 
-        if (error.errors["User.DuplicateEmail"]) {
-            this._errors.duplicateEmail = true;
-        }
-        if (error.errors["User.CreationFailed"]) {
-            this._errors.creationFailed = true;
-        }
+        this._errors.creationFailed = true;
     }
 
     get responseErrors(): { [p: string]: boolean } {

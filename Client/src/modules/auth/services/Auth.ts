@@ -85,14 +85,13 @@ const login = async (request: LoginRequest) => {
 };
 
 const register = async (request: RegisterRequest) => {
-    return axios
-        .post<AuthenticationResponse>(URLs.REGISTER, request, {
+    return axios.post<AuthenticationResponse>(
+        URLs.REGISTER,
+        request,
+        {
             headers: { "Content-Type": "application/json" },
-        })
-        .then(async (response) => {})
-        .catch((err) => {
-            console.table(err);
-        });
+        }
+    );
 };
 
 const logout = async (): Promise<void> => {

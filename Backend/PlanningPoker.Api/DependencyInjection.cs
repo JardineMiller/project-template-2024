@@ -23,7 +23,7 @@ public static class DependencyInjection
             .AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters()
             .AddValidatorsFromAssembly(
-                Assembly.GetExecutingAssembly()
+                typeof(PlanningPoker.Application.DependencyInjection).Assembly
             )
             .AddMappings()
             .AddCors(configuration)
