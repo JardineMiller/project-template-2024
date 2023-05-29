@@ -2,6 +2,11 @@
 
 ---
 
+### State Tracker
+
+1. It's broken. Fix it.
+2. Use a Doubly Linked List to store changes 
+
 ### HTTP
 
 1. Register some sort of automatic server error handling
