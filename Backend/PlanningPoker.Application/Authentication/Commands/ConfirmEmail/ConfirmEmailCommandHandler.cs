@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PlanningPoker.Application.Authentication.Common;
 using PlanningPoker.Application.Common.Interfaces.Authentication;
 using PlanningPoker.Domain.Common.Errors;
@@ -10,9 +11,9 @@ namespace PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler
     : IRequestHandler<
-          ConfirmEmailCommand,
-          ErrorOr<AuthenticationResult>
-      >
+        ConfirmEmailCommand,
+        ErrorOr<AuthenticationResult>
+    >
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
@@ -31,9 +32,9 @@ public class ConfirmEmailCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userManager.FindByEmailAsync(
-            cmd.Email
-        );
+        var user = this._userManager.Users
+            .Include(x => x.RefreshTokens)
+            .FirstOrDefault(u => u.Email == cmd.Email);
 
         if (user == null)
         {
@@ -52,6 +53,17 @@ public class ConfirmEmailCommandHandler
 
         var token = this._tokenGenerator.GenerateJwt(user);
 
-        return new AuthenticationResult(user, token);
+        // replace old refresh token with a new one and save
+        var newRefreshToken =
+            this._tokenGenerator.GenerateRefreshToken();
+
+        user.RefreshTokens.Add(newRefreshToken);
+        await this._userManager.UpdateAsync(user);
+
+        return new AuthenticationResult(
+            user,
+            token,
+            newRefreshToken.Token
+        );
     }
 }

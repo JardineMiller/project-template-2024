@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Navbar from "@/modules/home/components/Navbar/Navbar.vue";
+    import Navbar from "@/modules/common/components/Navbar/Navbar.vue";
 
     export default {
         head: {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Options;
 using PlanningPoker.Api.Common.Errors;
 using PlanningPoker.Api.Common.Mapping;
-using PlanningPoker.Api.Common.Settings;
+using PlanningPoker.Application.Settings;
 using PlanningPoker.Infrastructure.Email;
 
 namespace PlanningPoker.Api;
@@ -23,7 +23,7 @@ public static class DependencyInjection
             .AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters()
             .AddValidatorsFromAssembly(
-                Assembly.GetExecutingAssembly()
+                typeof(PlanningPoker.Application.DependencyInjection).Assembly
             )
             .AddMappings()
             .AddCors(configuration)
@@ -38,19 +38,16 @@ public static class DependencyInjection
         IConfiguration configuration
     )
     {
-        var clientAppSettings = new ClientAppSettings();
-        configuration.Bind(
-            ClientAppSettings.SectionName,
-            clientAppSettings
-        );
-        services.AddSingleton(Options.Create(clientAppSettings));
+        var clientUrl = configuration
+            .GetSection(ClientAppSettings.SectionName + ":Url")
+            .Value;
 
         return services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
             {
                 policy
-                    .WithOrigins(clientAppSettings.Url)
+                    .WithOrigins(clientUrl)
                     .AllowCredentials()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
