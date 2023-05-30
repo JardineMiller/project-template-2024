@@ -15,9 +15,11 @@
 </script>
 
 <template>
-    <h1 v-if="user">
-        Welcome {{ user.firstName }} {{ user.lastName }}
-    </h1>
+    <div class="p-4">
+        <h4 v-if="user">
+            Welcome {{ user.firstName }} {{ user.lastName }}
+        </h4>
+    </div>
 </template>
 
 <style scoped></style>
