@@ -48,7 +48,7 @@ public class AuthController : ApiController
         return authResult.Match(
             result =>
             {
-                SetTokenCookie(result.RefreshToken);
+                SetTokenCookie(result.RefreshToken!);
                 return Ok(result.Adapt<AuthenticationResponse>());
             },
             errors => Problem(errors)
@@ -65,18 +65,19 @@ public class AuthController : ApiController
             return NoContent();
         }
 
-        var cmd = new RefreshTokenCommand { Token = refreshToken };
+        var cmd = new RefreshTokenCommand(refreshToken);
+
         var result = await this._mediator.Send(cmd);
 
         return result.Match(
-            result =>
+            authResult =>
             {
-                SetTokenCookie(result.RefreshToken);
-                return Ok(result.Adapt<AuthenticationResponse>());
+                SetTokenCookie(authResult.RefreshToken!);
+                return Ok(authResult.Adapt<AuthenticationResponse>());
             },
             errors =>
             {
-                this.RemoveCookie();
+                RemoveCookie();
                 return Problem(errors);
             }
         );
@@ -86,13 +87,13 @@ public class AuthController : ApiController
     public async Task<IActionResult> RevokeToken()
     {
         var refreshToken = this.Request.Cookies["refreshToken"];
-        var cmd = new RevokeTokenCommand { Token = refreshToken };
+        var cmd = new RevokeTokenCommand(refreshToken!);
 
-        this.RemoveCookie();
+        RemoveCookie();
 
         var result = await this._mediator.Send(cmd);
 
-        return result.Match(_ => Ok(true), errors => Problem(errors));
+        return result.Match(_ => Ok(), errors => Problem(errors));
     }
 
     [HttpGet(nameof(Confirm))]
@@ -107,7 +108,7 @@ public class AuthController : ApiController
         return authResult.Match(
             result =>
             {
-                SetTokenCookie(result.RefreshToken);
+                SetTokenCookie(result.RefreshToken!);
                 return Ok(result.Adapt<AuthenticationResponse>());
             },
             errors => Problem(errors)

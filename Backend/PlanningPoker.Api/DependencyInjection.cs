@@ -1,12 +1,9 @@
-﻿using System.Reflection;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Options;
 using PlanningPoker.Api.Common.Errors;
 using PlanningPoker.Api.Common.Mapping;
 using PlanningPoker.Application.Settings;
-using PlanningPoker.Infrastructure.Email;
 
 namespace PlanningPoker.Api;
 
@@ -23,7 +20,7 @@ public static class DependencyInjection
             .AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters()
             .AddValidatorsFromAssembly(
-                typeof(PlanningPoker.Application.DependencyInjection).Assembly
+                typeof(Application.DependencyInjection).Assembly
             )
             .AddMappings()
             .AddCors(configuration)

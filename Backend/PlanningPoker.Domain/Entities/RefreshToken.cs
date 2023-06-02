@@ -1,5 +1,8 @@
 using System.Text.Json.Serialization;
-using PlanningPoker.Domain.Entities;
+
+#pragma warning disable CS8618
+
+namespace PlanningPoker.Domain.Entities;
 
 public class RefreshToken
 {
