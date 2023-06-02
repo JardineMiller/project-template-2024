@@ -8,6 +8,8 @@ using PlanningPoker.Application.Common.Interfaces.Authentication;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Entities;
 
+#pragma warning disable SYSLIB0023
+
 namespace PlanningPoker.Infrastructure.Authentication;
 
 public class TokenGenerator : ITokenGenerator
@@ -35,8 +37,8 @@ public class TokenGenerator : ITokenGenerator
         var claims = new Claim[]
         {
             new(JwtRegisteredClaimNames.Sub, user.Id),
-            new(JwtRegisteredClaimNames.GivenName, user.FirstName),
-            new(JwtRegisteredClaimNames.FamilyName, user.LastName),
+            new(JwtRegisteredClaimNames.GivenName, user.FirstName!),
+            new(JwtRegisteredClaimNames.FamilyName, user.LastName!),
             new(
                 JwtRegisteredClaimNames.Jti,
                 Guid.NewGuid().ToString()

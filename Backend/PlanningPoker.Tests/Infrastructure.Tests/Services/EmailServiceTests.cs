@@ -23,7 +23,7 @@ public class EmailServiceTests
         this._emailService = new EmailService(
             this._emailSenderMock.Object,
             this._emailPathServiceMock.Object,
-            Options.Create(_clientAppSettings)
+            Options.Create(this._clientAppSettings)
         );
     }
 

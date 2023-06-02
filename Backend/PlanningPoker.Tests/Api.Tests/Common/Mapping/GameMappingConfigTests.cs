@@ -26,7 +26,7 @@ public class GameMappingConfigTests
             Validation.Game.Description.MaxLength
         );
 
-    private readonly string validOwnerId = Guid.NewGuid().ToString();
+    private readonly string _validOwnerId = Guid.NewGuid().ToString();
 
     public GameMappingConfigTests()
     {
@@ -40,14 +40,14 @@ public class GameMappingConfigTests
         var src = new CreateGameRequest(
             this._validName,
             this._validDescription,
-            this.validOwnerId
+            this._validOwnerId
         );
 
         var result = src.Adapt<CreateGameCommand>();
 
         result.Name.ShouldBe(this._validName);
         result.Description.ShouldBe(this._validDescription);
-        result.OwnerId.ShouldBe(this.validOwnerId);
+        result.OwnerId.ShouldBe(this._validOwnerId);
     }
 
     [Fact]

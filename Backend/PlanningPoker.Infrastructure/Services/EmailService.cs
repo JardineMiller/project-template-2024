@@ -17,9 +17,9 @@ public class EmailService : IEmailService
         IOptions<ClientAppSettings> clientAppSettings
     )
     {
-        _emailSender = emailSender;
-        _emailPathService = emailPathService;
-        _clientAppSettings = clientAppSettings.Value;
+        this._emailSender = emailSender;
+        this._emailPathService = emailPathService;
+        this._clientAppSettings = clientAppSettings.Value;
     }
 
     public void SendConfirmationEmail(
@@ -36,7 +36,7 @@ public class EmailService : IEmailService
             .Replace("[email]", toEmail)
             .Replace(
                 "[welcome-link]",
-                $"{_clientAppSettings.Url}/confirm?token={encodedToken}&email={toEmail}"
+                $"{this._clientAppSettings.Url}/confirm?token={encodedToken}&email={toEmail}"
             );
 
         this._emailSender.SendEmail(
