@@ -15,7 +15,9 @@ jobs:
         with:
           dotnet-version: "6.0.x"
       - name: Install dependencies
-        run: dotnet restore
+        run: |
+          cd ".\Backend\"
+          dotnet restore
       - name: Build
         run: dotnet build
       - name: Test with the dotnet CLI
