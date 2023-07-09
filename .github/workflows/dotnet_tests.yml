@@ -23,6 +23,9 @@ jobs:
           cd ".\Backend\"
           dotnet build
       - name: Test with the dotnet CLI
+        env:
+          MailSettings__Username: ${{ secrets.MAIL_USERNAME }}
+          MailSettings__Password: ${{ secrets.MAIL_PASSWORD }}
         run: |
           cd ".\Backend\"
           dotnet test
