@@ -46,8 +46,8 @@ public class AuditInformationTests
     [Fact]
     public void IAuditable_HasModifiedPropertiesSet_WhenModified()
     {
-        var now = DateTimeOffset.Now;
-        this._dateTimeProviderMock.Setup(x => x.Now).Returns(now);
+        var now = DateTimeOffset.Now.UtcDateTime;
+        this._dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
 
         var user1 = this._context.Users.FirstOrDefault(
             x => x.Id == this._user.Id
@@ -64,8 +64,8 @@ public class AuditInformationTests
     [Fact]
     public void IAuditable_HasAuditablePropertiesSet_WhenCreated()
     {
-        var now = DateTimeOffset.Now;
-        this._dateTimeProviderMock.Setup(x => x.Now).Returns(now);
+        var now = DateTimeOffset.Now.UtcDateTime;
+        this._dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
 
         var user2 = new User
         {
@@ -90,8 +90,8 @@ public class AuditInformationTests
     [Fact]
     public void IAuditable_HasModifiedPropertiesSet_WhenModified_Async()
     {
-        var now = DateTimeOffset.Now;
-        this._dateTimeProviderMock.Setup(x => x.Now).Returns(now);
+        var now = DateTimeOffset.Now.UtcDateTime;
+        this._dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
 
         var user1 = this._context.Users.FirstOrDefault(
             x => x.Id == this._user.Id
@@ -108,8 +108,8 @@ public class AuditInformationTests
     [Fact]
     public void IAuditable_HasAuditablePropertiesSet_WhenCreated_Async()
     {
-        var now = DateTimeOffset.Now;
-        this._dateTimeProviderMock.Setup(x => x.Now).Returns(now);
+        var now = DateTimeOffset.Now.UtcDateTime;
+        this._dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
 
         var user2 = new User
         {

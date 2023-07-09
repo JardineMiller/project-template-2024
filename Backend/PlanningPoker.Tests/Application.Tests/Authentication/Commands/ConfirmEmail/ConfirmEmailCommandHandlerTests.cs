@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Microsoft.AspNetCore.Identity;
 using Moq;
@@ -14,7 +15,7 @@ namespace PlanningPoker.Application.Tests.Application.Tests.Authentication.Comma
 public class ConfirmEmailCommandHandlerTests
 {
     private readonly Mock<UserManager<User>> _userManagerMock;
-    private readonly Mock<ITokenGenerator> _jwtGeneratorMock = new();
+    private readonly Mock<ITokenGenerator> _tokenGenerator = new();
 
     private const string validEmail = "test2@email.com";
     private const string validToken = "tokens-are-awesome";
@@ -52,7 +53,7 @@ public class ConfirmEmailCommandHandlerTests
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
             this._userManagerMock.Object,
-            this._jwtGeneratorMock.Object
+            this._tokenGenerator.Object
         );
 
         // Act
@@ -95,7 +96,7 @@ public class ConfirmEmailCommandHandlerTests
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
             this._userManagerMock.Object,
-            this._jwtGeneratorMock.Object
+            this._tokenGenerator.Object
         );
 
         // Act
@@ -122,8 +123,8 @@ public class ConfirmEmailCommandHandlerTests
     {
         // Arrange
         this._userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(this._validUser);
+            .Setup(x => x.Users)
+            .Returns(new List<User> {this._validUser}.AsQueryable());
 
         this._userManagerMock
             .Setup(
@@ -135,14 +136,18 @@ public class ConfirmEmailCommandHandlerTests
             )!
             .ReturnsAsync(IdentityResult.Success);
 
-        this._jwtGeneratorMock
+        this._tokenGenerator
             .Setup(x => x.GenerateJwt(It.IsAny<User>()))
             .Returns("token");
+        
+        this._tokenGenerator
+            .Setup(x => x.GenerateRefreshToken())
+            .Returns(new RefreshToken());
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
             this._userManagerMock.Object,
-            this._jwtGeneratorMock.Object
+            this._tokenGenerator.Object
         );
 
         // Act

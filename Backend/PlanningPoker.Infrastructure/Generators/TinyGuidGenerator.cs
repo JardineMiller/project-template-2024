@@ -8,6 +8,6 @@ public class TinyGuidGenerator : ITinyGuidGenerator
 
     public string Generate()
     {
-        return random.Next(int.MaxValue).ToString("x");
+        return random.Next(int.MaxValue).ToString("x8");
     }
 }
