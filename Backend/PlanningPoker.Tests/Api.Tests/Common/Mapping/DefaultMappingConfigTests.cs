@@ -18,7 +18,7 @@ public class DefaultMappingConfigTests
     }
     
     [Fact]
-    public void Should_Trim_Whitespace_Properties()
+    public void Should_Trim_Whitespace_Properties() // Change
     {
         var config = new TypeAdapterConfig();
         DefaultMappingConfig.AddConfig(config);
