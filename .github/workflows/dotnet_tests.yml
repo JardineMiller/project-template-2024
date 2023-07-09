@@ -10,18 +10,14 @@ jobs:
 runs-on: windows-latest
 
 steps:
-  - uses: actions/checkout@v2
-
-  - name: Setup .NET
-    uses: actions/setup-dotnet@v1
+  - uses: actions/checkout@v3
+  - name: Setup dotnet
+    uses: actions/setup-dotnet@v3
     with:
-      dotnet-version: "6.0.x" # Update this depending on your .NET version
-
-  - name: Restore dependencies
+      dotnet-version: "6.0.x"
+  - name: Install dependencies
     run: dotnet restore
-
   - name: Build
-    run: dotnet build --configuration Release --no-restore
-
-  - name: Test
-    run: dotnet test --no-restore --verbosity normal
+    run: dotnet build
+  - name: Test with the dotnet CLI
+    run: dotnet test
