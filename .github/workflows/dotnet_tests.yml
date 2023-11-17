@@ -1,0 +1,31 @@
+name: .NET Core Unit Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+      - name: Install dependencies
+        run: |
+          cd ".\Backend\"
+          dotnet restore
+      - name: Build
+        run: |
+          cd ".\Backend\"
+          dotnet build
+      - name: Test with the dotnet CLI
+        env:
+          MailSettings__Username: ${{ secrets.MAIL_USERNAME }}
+          MailSettings__Password: ${{ secrets.MAIL_PASSWORD }}
+        run: |
+          cd ".\Backend\"
+          dotnet test

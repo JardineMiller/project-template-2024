@@ -1,5 +1,7 @@
 ﻿using PlanningPoker.Domain.Entities.Base;
 
+#pragma warning disable CS8618
+
 namespace PlanningPoker.Domain.Entities;
 
 public class Game : DeletableEntity
@@ -9,8 +11,8 @@ public class Game : DeletableEntity
     public string Code { get; init; }
 
     public string OwnerId { get; init; }
-    public User? Owner { get; }
-
+    public User? Owner { get; init; }
+    
     // TODO: List of  stories
     // - name
     // - description

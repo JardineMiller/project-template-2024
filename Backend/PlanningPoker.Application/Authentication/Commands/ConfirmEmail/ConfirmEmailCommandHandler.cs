@@ -1,6 +1,7 @@
-﻿using MediatR;
-using ErrorOr;
+﻿using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PlanningPoker.Application.Authentication.Common;
 using PlanningPoker.Application.Common.Interfaces.Authentication;
 using PlanningPoker.Domain.Common.Errors;
@@ -10,20 +11,20 @@ namespace PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler
     : IRequestHandler<
-          ConfirmEmailCommand,
-          ErrorOr<AuthenticationResult>
-      >
+        ConfirmEmailCommand,
+        ErrorOr<AuthenticationResult>
+    >
 {
     private readonly UserManager<User> _userManager;
-    private readonly IJwtGenerator _jwtGenerator;
+    private readonly ITokenGenerator _tokenGenerator;
 
     public ConfirmEmailCommandHandler(
         UserManager<User> userManager,
-        IJwtGenerator jwtGenerator
+        ITokenGenerator tokenGenerator
     )
     {
         this._userManager = userManager;
-        this._jwtGenerator = jwtGenerator;
+        this._tokenGenerator = tokenGenerator;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -31,9 +32,9 @@ public class ConfirmEmailCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userManager.FindByEmailAsync(
-            cmd.Email
-        );
+        var user = this._userManager.Users
+            .Include(x => x.RefreshTokens)
+            .FirstOrDefault(u => u.Email == cmd.Email);
 
         if (user == null)
         {
@@ -50,8 +51,19 @@ public class ConfirmEmailCommandHandler
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var token = this._jwtGenerator.GenerateToken(user);
+        var token = this._tokenGenerator.GenerateJwt(user);
 
-        return new AuthenticationResult(user, token);
+        // replace old refresh token with a new one and save
+        var newRefreshToken =
+            this._tokenGenerator.GenerateRefreshToken();
+
+        user.RefreshTokens.Add(newRefreshToken);
+        await this._userManager.UpdateAsync(user);
+
+        return new AuthenticationResult(
+            user,
+            token,
+            newRefreshToken.Token
+        );
     }
 }

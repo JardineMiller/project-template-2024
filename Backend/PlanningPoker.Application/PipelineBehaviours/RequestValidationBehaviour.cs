@@ -10,7 +10,7 @@ public class RequestValidationBehaviour<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     where TResponse : IErrorOr
 {
-    private readonly IEnumerable<IValidator<TRequest>>? _validators;
+    private readonly IEnumerable<IValidator<TRequest>> _validators;
 
     public RequestValidationBehaviour(
         IEnumerable<IValidator<TRequest>> validators
@@ -25,7 +25,7 @@ public class RequestValidationBehaviour<TRequest, TResponse>
         RequestHandlerDelegate<TResponse> next
     )
     {
-        if (this._validators is null || !this._validators.Any())
+        if (!this._validators.Any())
         {
             return await next();
         }
@@ -43,8 +43,8 @@ public class RequestValidationBehaviour<TRequest, TResponse>
                 failures,
                 out var errorResponse
             )
-              ? errorResponse
-              : throw new ValidationException(failures);
+                ? errorResponse
+                : throw new ValidationException(failures);
         }
 
         return await next();

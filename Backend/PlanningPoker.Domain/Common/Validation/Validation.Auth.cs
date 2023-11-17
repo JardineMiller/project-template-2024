@@ -6,10 +6,10 @@ public static partial class Validation
     {
         public static class Password
         {
-            public const int minLength = 6;
-            public const int maxLength = 50;
-            public const string pattern =
-                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$";
+            public const int MinLength = 6;
+            public const int MaxLength = 50;
+            public const string Pattern =
+                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$";
         }
     }
 }

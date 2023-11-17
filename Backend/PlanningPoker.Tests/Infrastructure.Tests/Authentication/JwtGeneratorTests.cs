@@ -42,13 +42,13 @@ public class JwtGeneratorTests
     public void GenerateToken_GivenValidInput_ProvidesAToken()
     {
         // Arrange
-        var generator = new JwtGenerator(
+        var generator = new TokenGenerator(
             this._dateTimeProviderMock.Object,
             Options.Create(this._jwtSettings)
         );
 
         // Act
-        var token1 = generator.GenerateToken(this._user1);
+        var token1 = generator.GenerateJwt(this._user1);
 
         // Assert
         token1.ShouldNotBeNull();

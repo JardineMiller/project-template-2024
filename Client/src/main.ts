@@ -1,29 +1,33 @@
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import Calendar from "primevue/calendar";
-import Dropdown from "primevue/dropdown";
-import Checkbox from "primevue/checkbox";
-import Divider from "primevue/divider";
+import { addJwtInterceptor } from "@/modules/auth/interceptors/httpInterceptor";
+import { createHead, VueHeadMixin } from "@unhead/vue";
+import Auth from "@/modules/auth/services/Auth";
+import Tooltip from "primevue/tooltip";
 import PrimeVue from "primevue/config";
-import Dialog from "primevue/dialog";
-import Button from "primevue/button";
+import router from "@/router/router";
 import { createApp } from "vue";
-import router from "./router";
 import App from "./App.vue";
 import "./assets/main.css";
 
-const app = createApp(App);
+async function startApp() {
+    const app = createApp(App);
 
-app.use(router);
-app.use(PrimeVue);
+    // Create a global head instance
+    app.mixin(VueHeadMixin);
+    app.use(createHead());
+    app.use(router);
+    app.use(PrimeVue);
 
-app.component("Dialog", Dialog);
-app.component("InputText", InputText);
-app.component("Divider", Divider);
-app.component("Password", Password);
-app.component("Calendar", Calendar);
-app.component("Dropdown", Dropdown);
-app.component("Checkbox", Checkbox);
-app.component("Button", Button);
+    app.directive("tooltip", Tooltip);
 
-app.mount("#app");
+    // attempt to auto refresh token before startup
+    try {
+        await Auth.refreshToken();
+    } catch {
+        // catch error to start app on success or failure
+    }
+
+    app.mount("#app");
+}
+
+addJwtInterceptor();
+startApp();

@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using Microsoft.Extensions.Options;
 using Moq;
 using PlanningPoker.Application.Common.Interfaces.Services;
+using PlanningPoker.Application.Settings;
 using PlanningPoker.Infrastructure.Services;
 using Xunit;
 
@@ -13,11 +15,15 @@ public class EmailServiceTests
     private readonly Mock<IEmailPathService> _emailPathServiceMock =
         new();
 
+    private readonly ClientAppSettings _clientAppSettings =
+        new() { Url = "fake-url" };
+
     public EmailServiceTests()
     {
         this._emailService = new EmailService(
             this._emailSenderMock.Object,
-            this._emailPathServiceMock.Object
+            this._emailPathServiceMock.Object,
+            Options.Create(this._clientAppSettings)
         );
     }
 

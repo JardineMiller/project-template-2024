@@ -1,15 +1,21 @@
 <script lang="ts">
-    import NavBar from "@/components/NavBar/NavBar.vue";
+    import Navbar from "@/modules/common/components/Navbar/Navbar.vue";
+
     export default {
+        head: {
+            titleTemplate: `%s - ${import.meta.env.VITE_APP_TITLE}`,
+        },
         components: {
-            NavBar,
+            NavBar: Navbar,
         },
     };
 </script>
 
 <template>
-    <NavBar></NavBar>
-    <RouterView />
+    <div class="surface-ground h-screen">
+        <NavBar></NavBar>
+        <RouterView />
+    </div>
 </template>
 
 <style></style>

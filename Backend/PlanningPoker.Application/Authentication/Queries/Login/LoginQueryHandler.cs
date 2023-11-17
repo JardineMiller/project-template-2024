@@ -1,8 +1,10 @@
 ﻿using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PlanningPoker.Application.Authentication.Common;
 using PlanningPoker.Application.Common.Interfaces.Authentication;
+using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Common.Errors;
 using PlanningPoker.Domain.Entities;
 
@@ -12,15 +14,18 @@ public class LoginQueryHandler
     : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {
     private readonly UserManager<User> _userManager;
-    private readonly IJwtGenerator _jwtGenerator;
+    private readonly ITokenGenerator _tokenGenerator;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
     public LoginQueryHandler(
-        IJwtGenerator jwtGenerator,
-        UserManager<User> userManager
+        ITokenGenerator tokenGenerator,
+        UserManager<User> userManager,
+        IDateTimeProvider dateTimeProvider
     )
     {
-        this._jwtGenerator = jwtGenerator;
+        this._tokenGenerator = tokenGenerator;
         this._userManager = userManager;
+        this._dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -28,9 +33,9 @@ public class LoginQueryHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userManager.FindByEmailAsync(
-            qry.Email
-        );
+        var user = this._userManager.Users
+            .Include(x => x.RefreshTokens)
+            .FirstOrDefault(u => u.Email == qry.Email);
 
         if (user == null)
         {
@@ -52,8 +57,32 @@ public class LoginQueryHandler
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var token = this._jwtGenerator.GenerateToken(user);
+        var oldRefreshToken = user.RefreshTokens
+            .Where(x => x.IsActive)
+            .MaxBy(x => x.CreatedOn);
 
-        return new AuthenticationResult(user, token);
+        // replace old refresh token with a new one and save
+        var newRefreshToken =
+            this._tokenGenerator.GenerateRefreshToken();
+
+        if (oldRefreshToken is not null)
+        {
+            oldRefreshToken.RevokedOn = this._dateTimeProvider.UtcNow;
+            oldRefreshToken.ReplacedBy = newRefreshToken.Token;
+        }
+
+        user.RefreshTokens.Add(newRefreshToken);
+        await this._userManager.UpdateAsync(user);
+
+        // generate new jwt
+        var jwt = this._tokenGenerator.GenerateJwt(user);
+
+        var response = new AuthenticationResult(
+            user,
+            jwt,
+            newRefreshToken.Token
+        );
+
+        return response;
     }
 }

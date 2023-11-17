@@ -4,6 +4,8 @@ using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Entities;
 using PlanningPoker.Domain.Entities.Interfaces;
 
+#pragma warning disable CS8618
+
 namespace PlanningPoker.Infrastructure.Persistence;
 
 public class ApplicationDbContext : IdentityDbContext<User>
@@ -19,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     }
 
     public DbSet<Game> Games { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Player> Players { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -54,19 +57,19 @@ public class ApplicationDbContext : IdentityDbContext<User>
             {
                 case EntityState.Added:
                     entry.Entity.CreatedOn =
-                        this._dateTimeProvider.Now;
+                        this._dateTimeProvider.UtcNow;
                     break;
 
                 case EntityState.Modified:
                     entry.Entity.ModifiedOn =
-                        this._dateTimeProvider.Now;
+                        this._dateTimeProvider.UtcNow;
                     break;
 
                 case EntityState.Deleted:
                     if (entry.Entity is IDeletable deletableEntity)
                     {
                         deletableEntity.DeletedOn =
-                            this._dateTimeProvider.Now;
+                            this._dateTimeProvider.UtcNow;
                         deletableEntity.IsDeleted = true;
                         entry.State = EntityState.Modified;
                     }

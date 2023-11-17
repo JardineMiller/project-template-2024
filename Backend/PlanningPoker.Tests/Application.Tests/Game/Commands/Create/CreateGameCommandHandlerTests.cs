@@ -49,7 +49,7 @@ public class CreateGameCommandHandlerTests
         );
 
         this._validOwnerId = testBase.Context.Users
-            .FirstOrDefault()
+            .FirstOrDefault()!
             .Id;
     }
 

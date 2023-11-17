@@ -1,5 +1,7 @@
 ﻿using System.Web;
+using Microsoft.Extensions.Options;
 using PlanningPoker.Application.Common.Interfaces.Services;
+using PlanningPoker.Application.Settings;
 
 namespace PlanningPoker.Infrastructure.Services;
 
@@ -7,14 +9,17 @@ public class EmailService : IEmailService
 {
     private readonly IEmailSender _emailSender;
     private readonly IEmailPathService _emailPathService;
+    private readonly ClientAppSettings _clientAppSettings;
 
     public EmailService(
         IEmailSender emailSender,
-        IEmailPathService emailPathService
+        IEmailPathService emailPathService,
+        IOptions<ClientAppSettings> clientAppSettings
     )
     {
         this._emailSender = emailSender;
         this._emailPathService = emailPathService;
+        this._clientAppSettings = clientAppSettings.Value;
     }
 
     public void SendConfirmationEmail(
@@ -31,7 +36,7 @@ public class EmailService : IEmailService
             .Replace("[email]", toEmail)
             .Replace(
                 "[welcome-link]",
-                $"https://localhost:7097/api/account/confirm?token={encodedToken}&email={toEmail}" //TODO Put url in AppSettings?
+                $"{this._clientAppSettings.Url}/confirm?token={encodedToken}&email={toEmail}"
             );
 
         this._emailSender.SendEmail(
