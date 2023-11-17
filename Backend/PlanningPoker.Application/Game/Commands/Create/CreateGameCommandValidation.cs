@@ -11,15 +11,15 @@ public class CreateGameCommandValidation
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(Validation.Game.Name.maxLength)
-            .MinimumLength(Validation.Game.Name.minLength);
+            .MaximumLength(Validation.Game.Name.MaxLength)
+            .MinimumLength(Validation.Game.Name.MinLength);
 
         RuleFor(x => x.Description)
             .MaximumLength(
-                Validation.Game.Description.maxLength
+                Validation.Game.Description.MaxLength
             )
             .MinimumLength(
-                Validation.Game.Description.minLength
+                Validation.Game.Description.MinLength
             );
 
         RuleFor(x => x.OwnerId).IsGuid();

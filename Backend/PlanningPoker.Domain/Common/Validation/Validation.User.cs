@@ -6,14 +6,14 @@ public static partial class Validation
     {
         public static class FirstName
         {
-            public const int minLength = 2;
-            public const int maxLength = 50;
+            public const int MinLength = 2;
+            public const int MaxLength = 50;
         }
 
         public static class LastName
         {
-            public const int minLength = 2;
-            public const int maxLength = 50;
+            public const int MinLength = 2;
+            public const int MaxLength = 50;
         }
     }
 }

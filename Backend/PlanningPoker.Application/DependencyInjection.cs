@@ -15,19 +15,18 @@ public static class DependencyInjection
     )
     {
         var clientAppSettings = new ClientAppSettings();
-        configuration.Bind(
-            ClientAppSettings.SectionName,
-            clientAppSettings
-        );
-        
+        configuration.Bind(ClientAppSettings.SectionName, clientAppSettings);
+
         services.AddSingleton(Options.Create(clientAppSettings));
 
-        return services
+        services
             .AddMediatR(typeof(DependencyInjection).Assembly)
             .AddTransient(
                 typeof(IPipelineBehavior<,>),
                 typeof(RequestValidationBehaviour<,>)
             )
             .AddSignalR();
+
+        return services;
     }
 }

@@ -12,11 +12,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .Property(x => x.FirstName)
             .IsRequired()
-            .HasMaxLength(Validation.User.FirstName.maxLength);
+            .HasMaxLength(Validation.User.FirstName.MaxLength);
 
         builder
             .Property(x => x.LastName)
             .IsRequired()
-            .HasMaxLength(Validation.User.LastName.maxLength);
+            .HasMaxLength(Validation.User.LastName.MaxLength);
     }
 }

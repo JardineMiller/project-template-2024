@@ -12,21 +12,21 @@ public class RegisterCommandValidation
         RuleFor(x => x.FirstName)
             .NotEmpty()
             .Length(
-                Validation.User.FirstName.minLength,
-                Validation.User.FirstName.maxLength
+                Validation.User.FirstName.MinLength,
+                Validation.User.FirstName.MaxLength
             );
         RuleFor(x => x.LastName)
             .NotEmpty()
             .Length(
-                Validation.User.LastName.minLength,
-                Validation.User.LastName.maxLength
+                Validation.User.LastName.MinLength,
+                Validation.User.LastName.MaxLength
             );
         RuleFor(x => x.Password)
             .NotEmpty()
             .Length(
-                Validation.Auth.Password.minLength,
-                Validation.Auth.Password.maxLength
+                Validation.Auth.Password.MinLength,
+                Validation.Auth.Password.MaxLength
             )
-            .Matches(Validation.Auth.Password.pattern);
+            .Matches(Validation.Auth.Password.Pattern);
     }
 }

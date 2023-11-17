@@ -16,8 +16,8 @@ public static class DependencyInjection
     )
     {
         var jwtSettings = new JwtSettings();
-        configuration.Bind(JwtSettings.sectionName, jwtSettings);
-        
+        configuration.Bind(JwtSettings.SectionName, jwtSettings);
+
         services.AddSingleton(Options.Create(jwtSettings));
         services.AddSingleton<ITokenGenerator, TokenGenerator>();
 
@@ -37,12 +37,9 @@ public static class DependencyInjection
                             ValidateLifetime = true,
                             ValidIssuer = jwtSettings.Issuer,
                             ValidAudience = jwtSettings.Audience,
-                            IssuerSigningKey =
-                                new SymmetricSecurityKey(
-                                    Encoding.UTF8.GetBytes(
-                                        jwtSettings.Secret
-                                    )
-                                ),
+                            IssuerSigningKey = new SymmetricSecurityKey(
+                                Encoding.UTF8.GetBytes(jwtSettings.Secret)
+                            ),
                         };
                 }
             );

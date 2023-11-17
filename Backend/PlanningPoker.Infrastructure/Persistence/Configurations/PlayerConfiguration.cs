@@ -18,7 +18,7 @@ public class PlayerConfiguration : IEntityTypeConfiguration<Player>
 
         builder
             .Property(x => x.Name)
-            .HasMaxLength(Validation.Player.Name.maxLength)
+            .HasMaxLength(Validation.Player.Name.MaxLength)
             .IsRequired();
 
         builder.Ignore(x => x.IsAnon);

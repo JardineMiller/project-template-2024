@@ -1,11 +1,11 @@
 ﻿import type IErrorResponseHandler from "@/modules/http/models/IErrorResponseHandler";
 import type HttpErrorResponse from "@/modules/http/models/HttpErrorResponse";
+import type { IModelConstructor } from "@/modules/common/models/IModel";
 import type ModelProperty from "@/modules/forms/models/ModelProperty";
 import type IRequestModel from "@/modules/http/models/IRequestModel";
 import LoginRequest from "@/modules/auth/models/login/LoginRequest";
 import ModelBuilder from "@/modules/forms/builders/ModelBuilder";
 import BaseModel from "@/modules/common/models/BaseModel";
-import type { IModelConstructor } from "@/modules/common/models/IModel";
 
 export default class LoginModel
     extends BaseModel
@@ -41,6 +41,7 @@ export default class LoginModel
     }
 
     handleErrorResponse(error: HttpErrorResponse): void {
+        // TODO: [HTTP-C01] Make use of some universal/global error handling here
         if (!Object.keys(error.errors).length) {
             return;
         }

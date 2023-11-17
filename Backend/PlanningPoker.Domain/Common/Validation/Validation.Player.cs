@@ -6,8 +6,8 @@ public static partial class Validation
     {
         public static class Name
         {
-            public const int minLength = 2;
-            public const int maxLength = 100;
+            public const int MinLength = 2;
+            public const int MaxLength = 100;
         }
     }
 }

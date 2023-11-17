@@ -61,10 +61,7 @@ public class GameHub : Hub<IGameHub>
         }
 
         var qry = new JoinGameQuery(gameCode, playerId);
-        var result = await this._mediator.Send(
-            qry,
-            cancellationToken
-        );
+        var result = await this._mediator.Send(qry, cancellationToken);
 
         await result.Match(
             success => OnSuccess(success),
@@ -97,10 +94,7 @@ public class GameHub : Hub<IGameHub>
         }
 
         var qry = new GetPlayerQuery(playerId);
-        var result = await this._mediator.Send(
-            qry,
-            cancellationToken
-        );
+        var result = await this._mediator.Send(qry, cancellationToken);
 
         await result.Match(
             success => OnSuccess(success),

@@ -46,7 +46,11 @@ export default class RegisterModel
     }
 
     handleErrorResponse(error: HttpErrorResponse): void {
-        //
+        // TODO: [HTTP-C01] Make use of some universal/global error handling here
+        if (!Object.keys(error.errors).length) {
+            return;
+        }
+
         if (error.status === 409) {
             this._errors.duplicateEmail = true;
             return;

@@ -9,5 +9,5 @@
 
 ### HTTP
 
-1. Register some sort of automatic server error handling
-2. Server errors can come back in one of two forms, global handling needs to accomodate both.
+1. [HTTP-C01] Register some sort of automatic server error handling
+2. [HTTP-C01] Server errors can come back in one of two forms, global handling needs to accomodate both.
