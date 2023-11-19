@@ -1,47 +1,59 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Auth from "@/modules/auth/services/Auth";
 
-const routes = [
-    {
+const routes = {
+    home: {
         path: "/",
         name: "home",
         component: () => import("@/modules/common/pages/Home.vue"),
     },
-    {
+    login: {
         path: "/login",
         name: "login",
         component: () =>
             import("@/modules/auth/pages/login/Login.vue"),
     },
-    {
+    register: {
         path: "/register",
         name: "register",
         component: () =>
             import("@/modules/auth/pages/register/Register.vue"),
     },
-    {
+    confirm: {
         path: "/confirm",
         name: "confirm",
         component: () =>
             import("@/modules/auth/pages/confirm/Confirm.vue"),
     },
-];
+    game: {
+        path: "/game/:code",
+        name: "game",
+        component: () => import("@/modules/game/pages/Game.vue"),
+    },
+};
+
+const routesArray = Object.values(routes);
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes: routes,
+    routes: routesArray,
 });
 
-const anonymousRoutes = ["login", "register", "confirm"];
+const anonymousRoutes = [
+    routes.login.name,
+    routes.register.name,
+    routes.confirm.name,
+];
 
 router.beforeEach(async (to, from) => {
     if (
         !Auth.user.value &&
         !anonymousRoutes.includes(to.name?.toString() ?? "")
     ) {
-        return { name: "login" };
+        return { name: routes.login.name };
     }
 });
 
 export { routes };
+
 export default router;

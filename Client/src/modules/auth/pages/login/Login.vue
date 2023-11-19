@@ -8,6 +8,7 @@
     import Auth from "@/modules/auth/services/Auth";
     import InputText from "primevue/inputtext";
     import Password from "primevue/password";
+    import { routes } from "@/router/router";
     import { RouterLink } from "vue-router";
     import type { AxiosError } from "axios";
     import Message from "primevue/message";
@@ -28,6 +29,7 @@
         },
         data: () => {
             return {
+                routes: routes,
                 state: {} as StateTracker<LoginModel>,
                 loading: false,
             };
@@ -89,7 +91,7 @@
                 </span>
                 <RouterLink
                     class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-                    to="/register">
+                    :to="routes.register.path">
                     Create one
                 </RouterLink>
             </div>

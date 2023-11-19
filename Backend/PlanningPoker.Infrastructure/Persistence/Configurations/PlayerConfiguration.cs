@@ -17,8 +17,8 @@ public class PlayerConfiguration : IEntityTypeConfiguration<Player>
             .HasForeignKey<Player>(x => x.UserId);
 
         builder
-            .Property(x => x.Name)
-            .HasMaxLength(Validation.Player.Name.MaxLength)
+            .Property(x => x.DisplayName)
+            .HasMaxLength(Validation.Player.DisplayName.MaxLength)
             .IsRequired();
 
         builder.Ignore(x => x.IsAnon);

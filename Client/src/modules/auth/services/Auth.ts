@@ -40,6 +40,16 @@ function stopRefreshTokenTimer() {
     clearTimeout(refreshTokenTimeout);
 }
 
+const setPlayerId = (playerId: string): void => {
+    if (!playerId) {
+        throw new Error(`Invalid PlayerId [${playerId}]`);
+    }
+
+    if (user.value) {
+        user.value.playerId = playerId;
+    }
+};
+
 const confirm = async (token: string, email: string) => {
     return axios
         .get<AuthenticationResponse>(URLs.CONFIRM, {
@@ -140,4 +150,5 @@ export default {
     register: register,
     confirm: confirm,
     refreshToken: refreshToken,
+    setPlayerId: setPlayerId,
 };

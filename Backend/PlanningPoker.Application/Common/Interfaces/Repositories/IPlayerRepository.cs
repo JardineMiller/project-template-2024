@@ -9,8 +9,10 @@ public interface IPlayerRepository
         CancellationToken cancellationToken
     );
 
-    Task<Player?> GetAsync(
-        string id,
+    Task<Player?> GetAsync(string id, CancellationToken cancellationToken);
+
+    Task<Player?> GetByUserIdAsync(
+        string userId,
         CancellationToken cancellationToken
     );
 }

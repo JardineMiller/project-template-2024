@@ -42,25 +42,4 @@ public class GameController : ApiController
             errors => Problem(errors)
         );
     }
-
-    // [AllowAnonymous]
-    // [HttpGet("{gameCode}/join")]
-    // public async Task<IActionResult> Join(
-    //     [FromRoute] string gameCode,
-    //     JoinGameRequest request
-    // )
-    // {
-    //     var query = new JoinGameQuery(
-    //         gameCode,
-    //         request.UserId,
-    //         request.UserName
-    //     );
-    //
-    //     var result = await this._mediator.Send(query);
-    //
-    //     return result.Match(
-    //         success => Ok(success.Adapt<JoinGameResponse>()),
-    //         errors => Problem(errors)
-    //     );
-    // }
 }

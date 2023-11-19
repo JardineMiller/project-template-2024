@@ -15,6 +15,7 @@ public static class DependencyInjection
     )
     {
         services.AddControllers();
+        services.AddSignalRCore();
 
         return services
             .AddFluentValidationAutoValidation()
@@ -24,10 +25,7 @@ public static class DependencyInjection
             )
             .AddMappings()
             .AddCors(configuration)
-            .AddSingleton<
-                ProblemDetailsFactory,
-                ErrorDetailsFactory
-            >();
+            .AddSingleton<ProblemDetailsFactory, ErrorDetailsFactory>();
     }
 
     private static IServiceCollection AddCors(
@@ -39,16 +37,20 @@ public static class DependencyInjection
             .GetSection(ClientAppSettings.SectionName + ":Url")
             .Value;
 
-        return services.AddCors(options =>
-        {
-            options.AddDefaultPolicy(policy =>
+        return services.AddCors(
+            options =>
             {
-                policy
-                    .WithOrigins(clientUrl)
-                    .AllowCredentials()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-            });
-        });
+                options.AddDefaultPolicy(
+                    policy =>
+                    {
+                        policy
+                            .WithOrigins(clientUrl)
+                            .AllowCredentials()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    }
+                );
+            }
+        );
     }
 }

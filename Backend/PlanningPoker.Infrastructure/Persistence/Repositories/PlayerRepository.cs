@@ -33,4 +33,17 @@ public class PlayerRepository : IPlayerRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
+
+    public async Task<Player?> GetByUserIdAsync(
+        string userId,
+        CancellationToken cancellationToken
+    )
+    {
+        return await this._context.Players
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                x => x.UserId == userId,
+                cancellationToken: cancellationToken
+            );
+    }
 }

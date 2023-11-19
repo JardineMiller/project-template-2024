@@ -31,6 +31,6 @@ public class GetPlayerQueryHandler
             return Errors.Common.NotFound(nameof(Player));
         }
 
-        return new GetPlayerResult(player.Name, player.Id);
+        return new GetPlayerResult(player.DisplayName, player.Id);
     }
 }

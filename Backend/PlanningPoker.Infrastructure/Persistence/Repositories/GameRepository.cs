@@ -64,20 +64,20 @@ public class GameRepository : IGameRepository
 
     public async Task AddPlayerToGameAsync(Player player, string gameId)
     {
-        var game = await this._context.Games
-            .Include(x => x.Players)
-            .FirstOrDefaultAsync(x => x.Id == gameId);
-
-        if (
-            game is null
-            || game.Players.FirstOrDefault(x => x.Id == player.Id)
-                is not null
-        )
-        {
-            return;
-        }
-
-        game.Players.Add(player);
-        await this._context.SaveChangesAsync();
+        // var game = await this._context.Games
+        //     .Include(x => x.Players)
+        //     .FirstOrDefaultAsync(x => x.Id == gameId);
+        //
+        // if (
+        //     game is null
+        //     || game.Players.FirstOrDefault(x => x.Id == player.Id)
+        //         is not null
+        // )
+        // {
+        //     return;
+        // }
+        //
+        // game.Players.Add(player);
+        // await this._context.SaveChangesAsync();
     }
 }

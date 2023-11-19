@@ -17,6 +17,11 @@
                 aria-hidden="true">
             </span
         ></a>
+        <RouterLink
+            class="text-4xl"
+            to="/game/abc">
+            Join Game
+        </RouterLink>
         <div
             class="align-items-center flex-grow-1 justify-content-end hidden lg:flex absolute lg:static w-full surface-overlay left-0 top-100 z-1 shadow-2 lg:shadow-none">
             <ul
@@ -59,6 +64,7 @@
 
 <script>
     import Auth from "@/modules/auth/services/Auth";
+    import { routes } from "@/router/router";
     import { RouterLink } from "vue-router";
     import { defineComponent } from "vue";
     import Button from "primevue/button";
@@ -71,6 +77,7 @@
         components: { RouterLink, Button, Avatar, Menu, Toast },
         data: () => {
             return {
+                routes: routes,
                 items: [
                     {
                         label: "Profile",

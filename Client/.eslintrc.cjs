@@ -11,8 +11,8 @@ module.exports = {
     ],
     overrides: [
         {
-            files: ["cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}"],
-            extends: ["plugin:cypress/recommended"],
+            files: ["playwright/**/*.{spec}.{js,ts,jsx,tsx}"],
+            extends: ["plugin:playwright/recommended"],
         },
     ],
     parserOptions: {

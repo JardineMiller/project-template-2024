@@ -9,6 +9,7 @@
     import Auth from "@/modules/auth/services/Auth";
     import InputText from "primevue/inputtext";
     import Password from "primevue/password";
+    import { routes } from "@/router/router";
     import type { AxiosError } from "axios";
     import Message from "primevue/message";
     import Divider from "primevue/divider";
@@ -30,6 +31,7 @@
         data: () => {
             return {
                 loading: false,
+                routes: routes,
                 awaitingConfirmation: false,
                 passwordRegex:
                     Validation.Auth.Password.Pattern.source,
@@ -144,7 +146,7 @@
                 </span>
                 <RouterLink
                     class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-                    to="/login">
+                    :to="routes.login.path">
                     Log in
                 </RouterLink>
             </div>

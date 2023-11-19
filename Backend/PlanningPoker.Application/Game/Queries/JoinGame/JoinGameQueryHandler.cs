@@ -36,30 +36,34 @@ public class JoinGameQueryHandler
             return Errors.Common.NotFound(nameof(Player));
         }
 
-        var game = await this._gameRepository.GetAsync(
-            request.GameCode,
-            cancellationToken,
-            g => g.Players
+        // var game = await this._gameRepository.GetAsync(
+        //     request.GameCode,
+        //     cancellationToken,
+        //     g => g.Players
+        // );
+        //
+        // if (game is null)
+        // {
+        //     return Errors.Common.NotFound(
+        //         nameof(Domain.Entities.Game)
+        //     );
+        // }
+        //
+        // if (
+        //     game.Players.FirstOrDefault(x => x.Id == player.Id)
+        //     is null
+        // )
+        // {
+        //     await this._gameRepository.AddPlayerToGameAsync(
+        //         player,
+        //         game.Id
+        //     );
+        // }
+
+        return new JoinGameResult(
+            player.DisplayName,
+            player.Id,
+            request.GameCode
         );
-
-        if (game is null)
-        {
-            return Errors.Common.NotFound(
-                nameof(Domain.Entities.Game)
-            );
-        }
-
-        if (
-            game.Players.FirstOrDefault(x => x.Id == player.Id)
-            is null
-        )
-        {
-            await this._gameRepository.AddPlayerToGameAsync(
-                player,
-                game.Id
-            );
-        }
-
-        return new JoinGameResult(player.Name, player.Id, game.Code);
     }
 }
