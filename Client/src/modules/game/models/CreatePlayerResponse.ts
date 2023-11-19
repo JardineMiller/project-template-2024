@@ -1,4 +1,4 @@
-export default class CreatePlayerResonse {
+export default class CreatePlayerResponse {
     playerId: string;
 
     constructor(playerId: string) {

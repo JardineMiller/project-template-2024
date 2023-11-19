@@ -4,5 +4,5 @@ namespace PlanningPoker.Domain.Entities.Base;
 
 public abstract class BaseEntity : IBaseEntity
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 }

@@ -21,7 +21,7 @@ public class PlayerRepository : IPlayerRepository
         await this._context.AddAsync(player, cancellationToken);
         await this._context.SaveChangesAsync(cancellationToken);
 
-        return player.Id;
+        return player.Id.ToString();
     }
 
     public async Task<Player?> GetAsync(
@@ -31,7 +31,7 @@ public class PlayerRepository : IPlayerRepository
     {
         return await this._context.Players
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id.ToString() == id, cancellationToken);
     }
 
     public async Task<Player?> GetByUserIdAsync(

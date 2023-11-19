@@ -37,7 +37,7 @@
                         ]
                     ),
                     new ModelProperty<string>(
-                        "displayName",
+                        "userId",
                         this.user?.id
                     ),
                 ])
@@ -63,7 +63,9 @@
                             err.response?.data as HttpErrorResponse
                         );
                     })
-                    .finally(() => {});
+                    .finally(() => {
+                        this.loading = false;
+                    });
             },
         },
     });

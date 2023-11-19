@@ -62,7 +62,7 @@ public class JoinGameQueryHandler
 
         return new JoinGameResult(
             player.DisplayName,
-            player.Id,
+            player.Id.ToString(),
             request.GameCode
         );
     }

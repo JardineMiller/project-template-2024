@@ -12,7 +12,7 @@ public class Game : DeletableEntity
 
     public string OwnerId { get; init; }
     public User? Owner { get; init; }
-    
+
     // TODO: List of  stories
     // - name
     // - description
