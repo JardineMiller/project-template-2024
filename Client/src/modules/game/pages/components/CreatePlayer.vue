@@ -5,6 +5,7 @@
     import { Validators } from "@/modules/forms/validation/Validators";
     import ModelProperty from "@/modules/forms/models/ModelProperty";
     import type User from "@/modules/auth/models/common/User";
+    import "@/utils/extensions/string/string-extensions";
     import Player from "@/modules/game/services/Player";
     import Auth from "@/modules/auth/services/Auth";
     import InputText from "primevue/inputtext";
@@ -47,7 +48,7 @@
             displayName(): ModelProperty<string> {
                 return this.state.model.displayName;
             },
-            user(): User | null {
+            user(): User | undefined {
                 return Auth.user.value;
             },
         },

@@ -1,6 +1,10 @@
 export default {
-    ConnectToGame: "ConnectToGame",
-    DisconnectFromGame: "DisconnectFromGame",
-    PlayerConnected: "PlayerConnected",
-    PlayerDisconnected: "PlayerDisconnected",
+    ConnectToGame: "connectToGame",
+    DisconnectFromGame: "disconnectFromGame",
+    PlayerConnected: "playerConnected",
+    PlayerDisconnected: "playerDisconnected",
+    JoinGame: "joinGame",
+    LeaveGame: "leaveGame",
+    ReceiveMessage: "receiveMessage",
+    SendMessage: "sendMessage",
 };

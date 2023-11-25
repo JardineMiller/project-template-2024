@@ -8,26 +8,55 @@ namespace PlanningPoker.Api.Hubs;
 
 public interface IGameHub
 {
-    Task PlayerConnected(
-        string playerName,
-        string playerId,
-        CancellationToken cancellationToken
-    );
+    Task PlayerConnected(string playerName, string playerId);
 
-    Task PlayerDisconnected(
-        string playerName,
-        string playerId,
-        CancellationToken cancellationToken
-    );
+    Task PlayerDisconnected(string playerName, string playerId);
+
+    Task ReceiveMessage(string user, string message);
 }
 
 public class GameHub : Hub<IGameHub>
 {
     private readonly ISender _mediator;
+    private readonly ILogger _logger;
 
-    public GameHub(ISender mediator)
+    public GameHub(ISender mediator, ILogger<GameHub> logger)
     {
         this._mediator = mediator;
+        this._logger = logger;
+    }
+
+    public Task JoinGame(string gameCode, string user)
+    {
+        var groupTask = this.Groups.AddToGroupAsync(
+            this.Context.ConnectionId,
+            gameCode
+        );
+
+        var messageTask = this.Clients
+            .Group(gameCode)
+            .PlayerConnected(user, user);
+
+        return Task.WhenAll(groupTask, messageTask);
+    }
+
+    public Task LeaveGame(string gameCode, string user)
+    {
+        var groupTask = this.Groups.RemoveFromGroupAsync(
+            this.Context.ConnectionId,
+            gameCode
+        );
+
+        var messageTask = this.Clients
+            .Group(gameCode)
+            .PlayerDisconnected(user, user);
+
+        return Task.WhenAll(groupTask, messageTask);
+    }
+
+    public Task SendMessage(string gameCode, string user, string message)
+    {
+        return this.Clients.Group(gameCode).ReceiveMessage(user, message);
     }
 
     public async Task ConnectToGame(
@@ -40,17 +69,12 @@ public class GameHub : Hub<IGameHub>
         {
             var groupTask = this.Groups.AddToGroupAsync(
                 this.Context.ConnectionId,
-                success.GameCode,
-                cancellationToken
+                success.GameCode
             );
 
             var messageTask = this.Clients
                 .Group(gameCode)
-                .PlayerConnected(
-                    success.PlayerName,
-                    success.PlayerId,
-                    cancellationToken
-                );
+                .PlayerConnected(success.PlayerName, success.PlayerId);
 
             return Task.WhenAll(groupTask, messageTask);
         }
@@ -61,7 +85,7 @@ public class GameHub : Hub<IGameHub>
         }
 
         var qry = new JoinGameQuery(gameCode, playerId);
-        var result = await this._mediator.Send(qry, cancellationToken);
+        var result = await this._mediator.Send(qry);
 
         await result.Match(
             success => OnSuccess(success),
@@ -79,11 +103,7 @@ public class GameHub : Hub<IGameHub>
         {
             var messageTask = this.Clients
                 .Group(gameCode)
-                .PlayerDisconnected(
-                    success.PlayerName,
-                    success.PlayerId,
-                    cancellationToken
-                );
+                .PlayerDisconnected(success.PlayerName, success.PlayerId);
 
             return messageTask;
         }
@@ -94,7 +114,7 @@ public class GameHub : Hub<IGameHub>
         }
 
         var qry = new GetPlayerQuery(playerId);
-        var result = await this._mediator.Send(qry, cancellationToken);
+        var result = await this._mediator.Send(qry);
 
         await result.Match(
             success => OnSuccess(success),

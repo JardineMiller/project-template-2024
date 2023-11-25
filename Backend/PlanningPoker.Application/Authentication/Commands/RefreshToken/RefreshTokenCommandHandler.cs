@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PlanningPoker.Application.Authentication.Common;
 using PlanningPoker.Application.Common.Interfaces.Authentication;
+using PlanningPoker.Application.Common.Interfaces.Repositories;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Common.Errors;
 using PlanningPoker.Domain.Entities;
@@ -11,24 +12,24 @@ using PlanningPoker.Domain.Entities;
 namespace PlanningPoker.Application.Authentication.Commands.RefreshToken;
 
 public class RefreshTokenCommandHandler
-    : IRequestHandler<
-          RefreshTokenCommand,
-          ErrorOr<AuthenticationResult>
-      >
+    : IRequestHandler<RefreshTokenCommand, ErrorOr<AuthenticationResult>>
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IPlayerRepository _playerRepository;
 
     public RefreshTokenCommandHandler(
         UserManager<User> userManager,
         ITokenGenerator tokenGenerator,
-        IDateTimeProvider dateTimeProvider
+        IDateTimeProvider dateTimeProvider,
+        IPlayerRepository playerRepository
     )
     {
         this._userManager = userManager;
         this._tokenGenerator = tokenGenerator;
         this._dateTimeProvider = dateTimeProvider;
+        this._playerRepository = playerRepository;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -39,8 +40,7 @@ public class RefreshTokenCommandHandler
         var user = this._userManager.Users
             .Include(x => x.RefreshTokens)
             .FirstOrDefault(
-                u =>
-                    u.RefreshTokens.Any(t => t.Token == request.Token)
+                u => u.RefreshTokens.Any(t => t.Token == request.Token)
             );
 
         if (user is null)
@@ -58,8 +58,7 @@ public class RefreshTokenCommandHandler
         }
 
         // replace old refresh token with a new one and save
-        var newRefreshToken =
-            this._tokenGenerator.GenerateRefreshToken();
+        var newRefreshToken = this._tokenGenerator.GenerateRefreshToken();
 
         oldRefreshToken.RevokedOn = this._dateTimeProvider.UtcNow;
         oldRefreshToken.ReplacedBy = newRefreshToken.Token;
@@ -70,10 +69,16 @@ public class RefreshTokenCommandHandler
         // generate new jwt
         var jwt = this._tokenGenerator.GenerateJwt(user);
 
+        var player = await this._playerRepository.GetByUserIdAsync(
+            user.Id,
+            cancellationToken
+        );
+
         var response = new AuthenticationResult(
             user,
             jwt,
-            newRefreshToken.Token
+            newRefreshToken.Token,
+            player?.Id.ToString()
         );
 
         return response;

@@ -13,18 +13,14 @@ public interface IGameRepository
     Task<Domain.Entities.Game?> GetAsync(
         string code,
         CancellationToken cancellationToken,
-        params Expression<
-            Func<Domain.Entities.Game, object>
-        >[] includes
+        params Expression<Func<Domain.Entities.Game, object>>[] includes
     );
 
     Task<List<Domain.Entities.Game>> GetAllForUserAsync(
         string userId,
         CancellationToken cancellationToken,
-        params Expression<
-            Func<Domain.Entities.Game, object>
-        >[] includes
+        params Expression<Func<Domain.Entities.Game, object>>[] includes
     );
 
-    Task AddPlayerToGameAsync(Player player, string gameId);
+    Task AddPlayerToGameAsync(Player player, Guid gameId);
 }

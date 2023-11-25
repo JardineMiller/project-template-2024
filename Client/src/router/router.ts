@@ -28,7 +28,7 @@ const routes = {
     game: {
         path: "/game/:code",
         name: "game",
-        component: () => import("@/modules/game/pages/Game.vue"),
+        component: () => import("@/modules/game/pages/GamePage.vue"),
     },
 };
 
@@ -46,6 +46,10 @@ const anonymousRoutes = [
 ];
 
 router.beforeEach(async (to, from) => {
+    if (!Auth.user.value) {
+        await Auth.refreshToken();
+    }
+
     if (
         !Auth.user.value &&
         !anonymousRoutes.includes(to.name?.toString() ?? "")
