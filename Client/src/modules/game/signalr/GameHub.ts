@@ -22,13 +22,13 @@ const disconnect = async () => {
 };
 
 const registerReceiveMessageHandler = (
-    handler: (user: string, message: string) => void
+    handler: (user: string, message: string, timestamp: Date) => void
 ) => {
     gameHub.on(
         GameEvents.ReceiveMessage,
-        (user: string, message: string) => {
+        (user: string, message: string, timestamp: string) => {
             console.log(`User: ${user}, Message: ${message}`);
-            handler(user, message);
+            handler(user, message, new Date(timestamp));
         }
     );
 };

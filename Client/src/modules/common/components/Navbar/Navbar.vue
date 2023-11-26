@@ -2,28 +2,30 @@
     <div
         v-if="user"
         class="surface-overlay py-3 px-4 shadow-2 flex align-items-center justify-content-between relative lg:static"
-        style="min-height: 80px">
-        <img
-            src="@/assets/logo.svg"
-            alt="Logo"
-            height="40"
-            class="mr-0 lg:mr-6" />
-        <a
-            class="cursor-pointer block lg:hidden text-700 mt-1 p-ripple">
-            <i class="pi pi-bars text-4xl"></i>
-            <span
-                class="p-ink"
-                role="presentation"
-                aria-hidden="true">
-            </span
-        ></a>
-        <RouterLink
-            class="text-4xl"
-            to="/game/abc">
-            Join Game
-        </RouterLink>
+        style="min-height: 60px">
+        <div class="flex flex-grow-1 align-items-center">
+            <img
+                src="@/assets/logo.svg"
+                alt="Logo"
+                height="30"
+                class="mr-0 lg:mr-6" />
+            <a
+                class="cursor-pointer block lg:hidden text-700 mt-1 p-ripple">
+                <i class="pi pi-bars text-4xl"></i>
+                <span
+                    class="p-ink"
+                    role="presentation"
+                    aria-hidden="true">
+                </span
+            ></a>
+            <RouterLink
+                class="no-underline text-primary hover:text-color-secondary text-lg"
+                to="/game/abc">
+                Join Game
+            </RouterLink>
+        </div>
         <div
-            class="align-items-center flex-grow-1 justify-content-end hidden lg:flex absolute lg:static w-full surface-overlay left-0 top-100 z-1 shadow-2 lg:shadow-none">
+            class="align-items-center justify-content-end hidden lg:flex absolute lg:static surface-overlay left-0 top-100 z-1 shadow-2 lg:shadow-none">
             <ul
                 class="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row border-top-1 surface-border lg:border-top-none">
                 <li

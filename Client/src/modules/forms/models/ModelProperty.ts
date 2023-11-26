@@ -88,6 +88,10 @@ export default class ModelProperty<T> {
         );
     }
 
+    clear(): void {
+        this.value = undefined;
+    }
+
     touch(): void {
         this.touched = true;
     }

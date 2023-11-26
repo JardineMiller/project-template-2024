@@ -22,10 +22,8 @@
 </script>
 
 <template>
-    <div v-if="user"><GameComponent></GameComponent></div>
-    <div v-else>
-        <CreatePlayer> </CreatePlayer>
-    </div>
+    <GameComponent v-if="user"></GameComponent>
+    <CreatePlayer v-else> </CreatePlayer>
 </template>
 
 <style scoped></style>

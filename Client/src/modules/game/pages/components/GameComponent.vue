@@ -13,6 +13,9 @@
 
     export default defineComponent({
         name: "GameComponent",
+        head: {
+            title: "Chat",
+        },
         components: {
             InputText,
             Button,
@@ -23,6 +26,7 @@
                 messages: new Array<{
                     user: string;
                     message: string;
+                    timestamp: Date;
                 }>(),
                 players: new Array<string>(),
                 input: "",
@@ -42,6 +46,7 @@
             this.state = new StateTracker<MessageModel>(
                 new MessageModel([
                     new ModelProperty<string>("message", "", [
+                        Validators.required(),
                         Validators.minLength(2),
                         Validators.maxLength(100),
                     ]),
@@ -55,6 +60,8 @@
                     ),
                 ])
             );
+
+            window.addEventListener("beforeunload", this.unload);
         },
         async mounted() {
             GameHub.registerReceiveMessageHandler(
@@ -80,16 +87,27 @@
             );
         },
         async unmounted() {
-            GameHub.leaveGame(
-                this.gameId,
-                this.user?.firstName ?? "Anonymous"
-            );
-
-            await GameHub.disconnect();
+            this.unload();
         },
         methods: {
-            receiveMessage(user: string, message: string) {
-                this.messages.push({ user: user, message: message });
+            async unload() {
+                GameHub.leaveGame(
+                    this.gameId,
+                    this.user?.firstName ?? "Anonymous"
+                );
+
+                await GameHub.disconnect();
+            },
+            receiveMessage(
+                user: string,
+                message: string,
+                timestamp: Date
+            ) {
+                this.messages.push({
+                    user: user,
+                    message: message,
+                    timestamp: timestamp,
+                });
             },
             playerConnected(playerName: string, playerId: string) {
                 this.players.push(playerName);
@@ -112,6 +130,8 @@
                     message.user,
                     message.message
                 );
+
+                this.state.model.message.clear();
             },
         },
         watch: {},
@@ -119,79 +139,87 @@
 </script>
 
 <template>
-    <div class="block-content">
-        <div class="px-4 pt-8 md:px-6 lg:px-8">
-            <div
-                class="mb-5 flex"
-                v-for="(message, index) in messages"
-                v-bind:key="index">
+    <div
+        class="block-content justify-content-center flex w-full max-h-full">
+        <div
+            class="p-4 sm:w-8 md:w-6 lg:w-4 max-h-full flex flex-column">
+            <div class="overflow-y-auto max-h-full">
+                <!-- Messages -->
                 <div
-                    class="flex flex-column align-items-center"></div>
-                <div
-                    class="ml-5 surface-card shadow-2 border-round p-3 flex-auto">
-                    <div class="mb-3">
-                        <Avatar
-                            :label="message.user[0]"
-                            class="mr-2 cursor-pointer"
-                            size="medium"
-                            style="
-                                background-color: #2196f3;
-                                color: #ffffff;
-                            "
-                            shape="circle" />
-
-                        <span
-                            class="text-900 font-medium inline-block mr-3">
-                            {{ message.user }}
-                        </span>
-                        <span class="text-500 text-sm">
-                            1 minute ago
-                        </span>
-                    </div>
-                    <div class="line-height-3 text-700 mb-3">
-                        {{ message.message }}
-                    </div>
+                    class="mx-3 flex"
+                    :class="{ 'mt-5': index > 0 }"
+                    v-for="(message, index) in messages"
+                    v-bind:key="index">
                     <div
-                        class="text-500 flex align-items-center gap-4">
-                        <div class="flex align-items-center gap-1">
-                            <i class="pi pi-heart"></i>
-                            <span class="mr-3">0</span>
+                        class="flex flex-column align-items-center"></div>
+                    <div
+                        class="surface-card shadow-2 border-round p-3 flex-auto">
+                        <div class="mb-3">
+                            <Avatar
+                                :label="message.user[0]"
+                                class="mr-2 cursor-pointer"
+                                size="medium"
+                                style="
+                                    background-color: #2196f3;
+                                    color: #ffffff;
+                                "
+                                shape="circle" />
+
+                            <span
+                                class="text-900 font-medium inline-block mr-3">
+                                {{ message.user }}
+                            </span>
+                            <span class="text-500 text-sm">
+                                {{
+                                    message.timestamp.toLocaleDateString()
+                                }}
+                                {{
+                                    message.timestamp.toLocaleTimeString()
+                                }}
+                            </span>
                         </div>
-                        <div class="flex align-items-center gap-1">
-                            <i class="pi pi-comment"></i>
-                            <span class="mr-3">1</span>
+                        <div class="line-height-3 text-700 mb-3">
+                            {{ message.message }}
                         </div>
-                        <div class="flex align-items-center gap-1">
-                            <i class="pi pi-eye"></i>
-                            <span>24</span>
+                        <div
+                            class="text-500 flex align-items-center gap-4">
+                            <div
+                                class="flex align-items-center gap-1 cursor-pointer hover:text-red-400">
+                                <i
+                                    class="pi pi-heart pi-heart-fill"></i>
+                                <span class="mr-3">0</span>
+                            </div>
+                            <div
+                                class="flex align-items-center gap-1">
+                                <i class="pi pi-comment"></i>
+                                <span class="mr-3">1</span>
+                            </div>
+                            <div
+                                class="flex align-items-center gap-1">
+                                <i class="pi pi-eye"></i>
+                                <span>24</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Message -->
-    <div
-        class="px-4 py-8 md:px-6 lg:px-6 flex align-items-center justify-content-center">
-        <div
-            class="surface-card p-4 shadow-2 border-round w-full lg:w-6 md:w-8">
-            <div class="surface-card"></div>
-
-            <div class="field mt-5">
-                <span class="p-float-label">
+            <!-- Message -->
+            <form
+                @submit.prevent="sendMessage()"
+                class="mt-5 border-round w-full">
+                <div class="p-inputgroup">
                     <InputText
                         :id="message.propertyName.toLowerCase()"
                         :name="message.propertyName.toLowerCase()"
                         :model-value="message.value"
+                        :placeholder="
+                            message.propertyName.toTitleCase()
+                        "
                         :autocomplete="
                             message.propertyName.toLowerCase()
                         "
                         class="w-full"
-                        :class="{
-                            'p-invalid':
-                                message.touched && !message.isValid,
-                        }"
                         @input="
                             this.state.setProperty<string>(
                                 message.propertyName,
@@ -199,33 +227,14 @@
                             )
                         "
                         @blur="message.touch()" />
-                    <label :for="message.propertyName.toLowerCase()">
-                        {{ message.propertyName.toTitleCase() }}
-                        <span
-                            v-if="message.isRequired"
-                            class="p-error">
-                            *
-                        </span>
-                    </label>
-                </span>
-                <div v-if="message.touched && !message.isValid">
-                    <small
-                        v-for="error in message.errors"
-                        :key="error"
-                        class="p-error">
-                        {{ error }} <br />
-                    </small>
-                </div>
-            </div>
 
-            <!-- Submit -->
-            <Button
-                class="w-full"
-                type="button"
-                label="Send"
-                @click="sendMessage()"
-                :disabled="!state.model.isValid">
-            </Button>
+                    <Button
+                        type="submit"
+                        icon="pi pi-send"
+                        :disabled="!state.model.isValid">
+                    </Button>
+                </div>
+            </form>
         </div>
     </div>
 </template>

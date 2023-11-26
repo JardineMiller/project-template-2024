@@ -12,9 +12,11 @@
 </script>
 
 <template>
-    <div class="surface-ground h-screen">
+    <div class="min-h-screen surface-ground">
         <NavBar></NavBar>
-        <RouterView />
+        <div style="height: calc(100vh - 70px)">
+            <RouterView />
+        </div>
     </div>
 </template>
 
