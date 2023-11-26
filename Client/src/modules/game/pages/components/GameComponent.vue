@@ -269,7 +269,7 @@
                                                 message.messageId
                                             ),
                                     }"
-                                    class="pi">
+                                    class="pi animation">
                                 </i>
                                 <span class="mr-3">
                                     {{ message.likes }}
@@ -280,7 +280,7 @@
                 </div>
             </div>
 
-            <!-- Message -->
+            <!-- Send Message -->
             <form
                 @submit.prevent="sendMessage()"
                 class="px-2 mt-5 border-round w-full">
@@ -315,4 +315,20 @@
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+    .pi-heart-fill {
+        animation-name: pulse-in;
+        animation-duration: 0.15s;
+        animation-direction: alternate;
+    }
+
+    @keyframes pulse-in {
+        from {
+            font-size: 1rem;
+        }
+
+        to {
+            font-size: 1.15rem;
+        }
+    }
+</style>
