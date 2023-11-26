@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Application.Game.Queries.JoinGame;
 using PlanningPoker.Application.Players.Queries.GetPlayer;
 
@@ -12,18 +13,33 @@ public interface IGameHub
 
     Task PlayerDisconnected(string playerName, string playerId);
 
-    Task ReceiveMessage(string user, string message);
+    Task ReceiveMessage(
+        string user,
+        string message,
+        DateTimeOffset timestamp,
+        string messageId
+    );
+
+    Task ReceiveLike(string messageId);
+
+    Task ReceiveUnlike(string messageId);
 }
 
 public class GameHub : Hub<IGameHub>
 {
     private readonly ISender _mediator;
     private readonly ILogger _logger;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
-    public GameHub(ISender mediator, ILogger<GameHub> logger)
+    public GameHub(
+        ISender mediator,
+        ILogger<GameHub> logger,
+        IDateTimeProvider dateTimeProvider
+    )
     {
         this._mediator = mediator;
         this._logger = logger;
+        this._dateTimeProvider = dateTimeProvider;
     }
 
     public Task JoinGame(string gameCode, string user)
@@ -56,7 +72,24 @@ public class GameHub : Hub<IGameHub>
 
     public Task SendMessage(string gameCode, string user, string message)
     {
-        return this.Clients.Group(gameCode).ReceiveMessage(user, message);
+        return this.Clients
+            .Group(gameCode)
+            .ReceiveMessage(
+                user,
+                message,
+                this._dateTimeProvider.UtcNow,
+                Guid.NewGuid().ToString()
+            );
+    }
+
+    public Task LikeMessage(string gameCode, string messageId)
+    {
+        return this.Clients.Group(gameCode).ReceiveLike(messageId);
+    }
+
+    public Task UnlikeMessage(string gameCode, string messageId)
+    {
+        return this.Clients.Group(gameCode).ReceiveUnlike(messageId);
     }
 
     public async Task ConnectToGame(

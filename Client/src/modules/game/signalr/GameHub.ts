@@ -22,15 +22,45 @@ const disconnect = async () => {
 };
 
 const registerReceiveMessageHandler = (
-    handler: (user: string, message: string, timestamp: Date) => void
+    handler: (
+        user: string,
+        message: string,
+        timestamp: Date,
+        messageId: string
+    ) => void
 ) => {
     gameHub.on(
         GameEvents.ReceiveMessage,
-        (user: string, message: string, timestamp: string) => {
-            console.log(`User: ${user}, Message: ${message}`);
-            handler(user, message, new Date(timestamp));
+        (
+            user: string,
+            message: string,
+            timestamp: string,
+            messageId: string
+        ) => {
+            console.debug(
+                `[MESSAGE RECEIVED] - User: ${user}, Message: ${message}`
+            );
+            handler(user, message, new Date(timestamp), messageId);
         }
     );
+};
+
+const registerReceiveLikeMessageHandler = (
+    handler: (messageId: string) => void
+) => {
+    gameHub.on(GameEvents.ReceiveLike, (messageId: string) => {
+        console.debug(`[MESSAGED LIKED] - Message: ${messageId}`);
+        handler(messageId);
+    });
+};
+
+const registerReceiveUnlikeMessageHandler = (
+    handler: (messageId: string) => void
+) => {
+    gameHub.on(GameEvents.ReceiveUnlike, (messageId: string) => {
+        console.debug(`[MESSAGED UNLIKED] - Message: ${messageId}`);
+        handler(messageId);
+    });
 };
 
 const registerPlayerConnectedHandler = (
@@ -39,7 +69,7 @@ const registerPlayerConnectedHandler = (
     gameHub.on(
         GameEvents.PlayerConnected,
         (playerName: string, playerId: string) => {
-            console.log(
+            console.debug(
                 `[CONNECTED] - Player name: ${playerName}, Player Id: ${playerId}`
             );
             handler(playerName, playerId);
@@ -53,7 +83,7 @@ const registerPlayerDisconnectedHandler = (
     gameHub.on(
         GameEvents.PlayerDisconnected,
         (playerName: string, playerId: string) => {
-            console.log(
+            console.debug(
                 `[DISCONNECTED] - Player name: ${playerName}, Player Id: ${playerId}`
             );
             handler(playerName, playerId);
@@ -69,6 +99,14 @@ const sendMessage = (
     gameHub.invoke(GameEvents.SendMessage, gameCode, user, message);
 };
 
+const likeMessage = (gameCode: string, messageId: string) => {
+    gameHub.invoke(GameEvents.LikeMessage, gameCode, messageId);
+};
+
+const unlikeMessage = (gameCode: string, messageId: string) => {
+    gameHub.invoke(GameEvents.UnlikeMessage, gameCode, messageId);
+};
+
 const joinGame = (gameCode: string, user: string) => {
     gameHub.invoke(GameEvents.JoinGame, gameCode, user);
 };
@@ -81,9 +119,13 @@ export default {
     connect,
     disconnect,
     registerReceiveMessageHandler,
+    registerReceiveLikeMessageHandler,
+    registerReceiveUnlikeMessageHandler,
     registerPlayerConnectedHandler,
     registerPlayerDisconnectedHandler,
     sendMessage,
+    likeMessage,
+    unlikeMessage,
     joinGame,
     leaveGame,
     connectionState,

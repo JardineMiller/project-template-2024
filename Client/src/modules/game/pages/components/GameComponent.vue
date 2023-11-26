@@ -27,7 +27,10 @@
                     user: string;
                     message: string;
                     timestamp: Date;
+                    messageId: string;
+                    likes: number;
                 }>(),
+                likedMessages: new Set<string>(),
                 players: new Array<string>(),
                 input: "",
                 gameId: "abcdef",
@@ -67,6 +70,12 @@
             GameHub.registerReceiveMessageHandler(
                 this.receiveMessage
             );
+            GameHub.registerReceiveLikeMessageHandler(
+                this.receiveLike
+            );
+            GameHub.registerReceiveUnlikeMessageHandler(
+                this.receiveUnlike
+            );
             GameHub.registerPlayerConnectedHandler(
                 this.playerConnected
             );
@@ -101,19 +110,80 @@
             receiveMessage(
                 user: string,
                 message: string,
-                timestamp: Date
+                timestamp: Date,
+                messageId: string
             ) {
                 this.messages.push({
                     user: user,
                     message: message,
                     timestamp: timestamp,
+                    messageId: messageId,
+                    likes: 0,
                 });
+            },
+            receiveLike(messageId: string) {
+                const message = this.messages.find(
+                    (x) => x.messageId === messageId
+                );
+
+                if (message) {
+                    message.likes++;
+                }
+            },
+            receiveUnlike(messageId: string) {
+                const message = this.messages.find(
+                    (x) => x.messageId === messageId
+                );
+
+                if (message) {
+                    message.likes--;
+                }
             },
             playerConnected(playerName: string, playerId: string) {
                 this.players.push(playerName);
             },
             playerDisconnected(playerName: string, playerId: string) {
                 this.players.filter((x) => x !== playerName);
+            },
+            toggleLike(messageId: string) {
+                if (!this.likedMessages.has(messageId)) {
+                    this.likeMessage(messageId);
+                    return;
+                }
+
+                this.unlikeMessage(messageId);
+            },
+            likeMessage(messageId: string) {
+                const message = this.messages.find(
+                    (x) => x.messageId === messageId
+                );
+
+                if (
+                    !message ||
+                    message.user == this.user?.firstName ||
+                    this.likedMessages.has(messageId)
+                ) {
+                    return;
+                }
+
+                GameHub.likeMessage(this.gameId, messageId);
+                this.likedMessages.add(messageId);
+            },
+            unlikeMessage(messageId: string) {
+                const message = this.messages.find(
+                    (x) => x.messageId === messageId
+                );
+
+                if (
+                    !message ||
+                    message.user == this.user?.firstName ||
+                    !this.likedMessages.has(messageId)
+                ) {
+                    return;
+                }
+
+                GameHub.unlikeMessage(this.gameId, messageId);
+                this.likedMessages.delete(messageId);
             },
             sendMessage() {
                 if (
@@ -184,10 +254,26 @@
                         <div
                             class="text-500 flex align-items-center gap-4">
                             <div
-                                class="flex align-items-center gap-1 cursor-pointer hover:text-red-400">
+                                class="flex align-items-center gap-1 cursor-pointer hover:text-red-400"
+                                @click="
+                                    toggleLike(message.messageId)
+                                ">
                                 <i
-                                    class="pi pi-heart pi-heart-fill"></i>
-                                <span class="mr-3">0</span>
+                                    :class="{
+                                        'pi-heart-fill text-red-400':
+                                            likedMessages.has(
+                                                message.messageId
+                                            ),
+                                        'pi-heart':
+                                            !likedMessages.has(
+                                                message.messageId
+                                            ),
+                                    }"
+                                    class="pi">
+                                </i>
+                                <span class="mr-3">{{
+                                    message.likes
+                                }}</span>
                             </div>
                             <div
                                 class="flex align-items-center gap-1">

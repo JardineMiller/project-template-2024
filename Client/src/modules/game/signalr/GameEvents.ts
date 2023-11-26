@@ -7,4 +7,8 @@ export default {
     LeaveGame: "leaveGame",
     ReceiveMessage: "receiveMessage",
     SendMessage: "sendMessage",
+    LikeMessage: "likeMessage",
+    UnlikeMessage: "unlikeMessage",
+    ReceiveLike: "receiveLike",
+    ReceiveUnlike: "receiveUnlike",
 };
