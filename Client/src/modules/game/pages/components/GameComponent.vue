@@ -213,10 +213,10 @@
         class="block-content justify-content-center flex w-full max-h-full">
         <div
             class="p-4 sm:w-8 md:w-6 lg:w-4 max-h-full flex flex-column">
-            <div class="overflow-y-auto max-h-full">
+            <div class="overflow-y-auto max-h-full py-2">
                 <!-- Messages -->
                 <div
-                    class="mx-3 flex"
+                    class="px-2 flex"
                     :class="{ 'mt-5': index > 0 }"
                     v-for="(message, index) in messages"
                     v-bind:key="index">
@@ -252,7 +252,7 @@
                             {{ message.message }}
                         </div>
                         <div
-                            class="text-500 flex align-items-center gap-4">
+                            class="text-500 flex align-items-center justify-content-end gap-4">
                             <div
                                 class="flex align-items-center gap-1 cursor-pointer hover:text-red-400"
                                 @click="
@@ -271,19 +271,9 @@
                                     }"
                                     class="pi">
                                 </i>
-                                <span class="mr-3">{{
-                                    message.likes
-                                }}</span>
-                            </div>
-                            <div
-                                class="flex align-items-center gap-1">
-                                <i class="pi pi-comment"></i>
-                                <span class="mr-3">1</span>
-                            </div>
-                            <div
-                                class="flex align-items-center gap-1">
-                                <i class="pi pi-eye"></i>
-                                <span>24</span>
+                                <span class="mr-3">
+                                    {{ message.likes }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -293,7 +283,7 @@
             <!-- Message -->
             <form
                 @submit.prevent="sendMessage()"
-                class="mt-5 border-round w-full">
+                class="px-2 mt-5 border-round w-full">
                 <div class="p-inputgroup">
                     <InputText
                         :id="message.propertyName.toLowerCase()"
