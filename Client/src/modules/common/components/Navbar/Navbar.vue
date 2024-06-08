@@ -18,11 +18,6 @@
                     aria-hidden="true">
                 </span
             ></a>
-            <RouterLink
-                class="no-underline text-primary hover:text-color-secondary text-lg"
-                to="/game/abc">
-                Join Game
-            </RouterLink>
         </div>
         <div
             class="align-items-center justify-content-end hidden lg:flex absolute lg:static surface-overlay left-0 top-100 z-1 shadow-2 lg:shadow-none">

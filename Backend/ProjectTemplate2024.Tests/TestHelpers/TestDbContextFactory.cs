@@ -10,20 +10,15 @@ public class TestDbContextFactory
 {
     public static ApplicationDbContext Create()
     {
-        var options =
-            new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
-        var context = new ApplicationDbContext(
-            options,
-            new DateTimeProvider()
-        );
+        var context = new ApplicationDbContext(options, new DateTimeProvider());
 
         context.Database.EnsureCreated();
 
         AddUsers(context);
-        AddGames(context);
 
         context.SaveChanges();
         return context;
@@ -59,32 +54,5 @@ public class TestDbContextFactory
         };
 
         context.Users.AddRange(user1, user2);
-    }
-
-    private static void AddGames(ApplicationDbContext context)
-    {
-        var game1 = new Domain.Entities.Game
-        {
-            Name = "Game 1",
-            OwnerId = "0001",
-            Code = "1234567A"
-        };
-
-        var game3 = new Domain.Entities.Game
-        {
-            Name = "Game 3",
-            OwnerId = "0001",
-            Code = "1234567C"
-        };
-
-        var game2 = new Domain.Entities.Game
-        {
-            Name = "Game 2",
-            Description = "Game 2 - Description",
-            OwnerId = "0002",
-            Code = "1234567B"
-        };
-
-        context.Games.AddRange(game1, game2, game3);
     }
 }

@@ -4,11 +4,9 @@
  */
 
 import Auth from "./validation.auth";
-import Game from "./validation.game";
 import User from "./validation.user";
 
 export default {
     Auth: Auth,
-    Game: Game,
     User: User,
 };

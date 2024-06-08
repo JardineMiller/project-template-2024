@@ -20,7 +20,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
         this._dateTimeProvider = dateTimeProvider;
     }
 
-    public DbSet<Game> Games { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

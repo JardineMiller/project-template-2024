@@ -30,8 +30,4 @@
       <ProjectReference Include="..\ProjectTemplate2024.Application\ProjectTemplate2024.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Application.Tests\Game\Queries\JoinGame\" />
-    </ItemGroup>
-
 </Project>

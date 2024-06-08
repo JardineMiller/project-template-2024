@@ -11,9 +11,6 @@ public class User : IdentityUser, IAuditable
     public DateTimeOffset CreatedOn { get; set; }
     public DateTimeOffset? ModifiedOn { get; set; }
 
-    public virtual ICollection<Game> Games { get; } =
-        new List<Game>();
-
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } =
         new List<RefreshToken>();
 }
