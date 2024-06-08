@@ -10,20 +10,22 @@ const routes = {
     login: {
         path: "/login",
         name: "login",
-        component: () =>
-            import("@/modules/auth/pages/login/Login.vue"),
+        component: () => import("@/modules/auth/pages/login/Login.vue"),
     },
     register: {
         path: "/register",
         name: "register",
-        component: () =>
-            import("@/modules/auth/pages/register/Register.vue"),
+        component: () => import("@/modules/auth/pages/register/Register.vue"),
     },
     confirm: {
         path: "/confirm",
         name: "confirm",
-        component: () =>
-            import("@/modules/auth/pages/confirm/Confirm.vue"),
+        component: () => import("@/modules/auth/pages/confirm/Confirm.vue"),
+    },
+    profile: {
+        path: "/profile",
+        name: "profile",
+        component: () => import("@/modules/user/pages/Profile.vue"),
     },
 };
 

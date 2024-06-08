@@ -16,7 +16,8 @@
 <template>
     <div
         class="mt-3 mr-3 flex gap-1 absolute top-0 right-0"
-        v-if="state.trackChanges">
+        v-if="state.trackChanges"
+    >
         <Button
             icon="pi pi-undo"
             severity="secondary"
@@ -24,7 +25,8 @@
             aria-label="Undo"
             v-tooltip.top="'Undo'"
             @click="state.undo()"
-            :disabled="!state.canUndo" />
+            :disabled="!state.canUndo"
+        />
 
         <Button
             icon="pi pi-undo"
@@ -34,13 +36,15 @@
             v-tooltip.top="'Redo'"
             :style="'transform: scale(-1, 1)'"
             @click="state.redo()"
-            :disabled="!state.canRedo" />
+            :disabled="!state.canRedo"
+        />
         <Button
             type="button"
             label="Clear"
             outlined
             @click="state.clear()"
-            :disabled="!state.canUndo && !state.canRedo" />
+            :disabled="!state.canUndo && !state.canRedo"
+        />
     </div>
 </template>
 

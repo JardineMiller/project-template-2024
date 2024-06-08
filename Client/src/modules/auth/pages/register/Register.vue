@@ -33,62 +33,43 @@
                 loading: false,
                 routes: routes,
                 awaitingConfirmation: false,
-                passwordRegex:
-                    Validation.Auth.Password.Pattern.source,
+                passwordRegex: Validation.Auth.Password.Pattern.source,
                 state: new StateTracker<RegisterModel>(
                     new RegisterModel([
-                        new ModelProperty<string>(
-                            "email",
-                            undefined,
-                            [
-                                Validators.required(),
-                                Validators.email(),
-                            ]
-                        ),
-                        new ModelProperty<string>(
-                            "password",
-                            undefined,
-                            [
-                                Validators.required(),
-                                Validators.pattern(
-                                    Validation.Auth.Password.Pattern
-                                ),
-                                Validators.minLength(
-                                    Validation.Auth.Password.MinLength
-                                ),
-                                Validators.maxLength(
-                                    Validation.Auth.Password.MaxLength
-                                ),
-                            ]
-                        ),
-                        new ModelProperty<string>(
-                            "firstName",
-                            undefined,
-                            [
-                                Validators.required(),
-                                Validators.minLength(
-                                    Validation.User.FirstName
-                                        .MinLength
-                                ),
-                                Validators.maxLength(
-                                    Validation.User.FirstName
-                                        .MaxLength
-                                ),
-                            ]
-                        ),
-                        new ModelProperty<string>(
-                            "lastName",
-                            undefined,
-                            [
-                                Validators.required(),
-                                Validators.minLength(
-                                    Validation.User.LastName.MinLength
-                                ),
-                                Validators.maxLength(
-                                    Validation.User.LastName.MaxLength
-                                ),
-                            ]
-                        ),
+                        new ModelProperty<string>("email", undefined, [
+                            Validators.required(),
+                            Validators.email(),
+                        ]),
+                        new ModelProperty<string>("password", undefined, [
+                            Validators.required(),
+                            Validators.pattern(
+                                Validation.Auth.Password.Pattern
+                            ),
+                            Validators.minLength(
+                                Validation.Auth.Password.MinLength
+                            ),
+                            Validators.maxLength(
+                                Validation.Auth.Password.MaxLength
+                            ),
+                        ]),
+                        new ModelProperty<string>("firstName", undefined, [
+                            Validators.required(),
+                            Validators.minLength(
+                                Validation.User.FirstName.MinLength
+                            ),
+                            Validators.maxLength(
+                                Validation.User.FirstName.MaxLength
+                            ),
+                        ]),
+                        new ModelProperty<string>("lastName", undefined, [
+                            Validators.required(),
+                            Validators.minLength(
+                                Validation.User.LastName.MinLength
+                            ),
+                            Validators.maxLength(
+                                Validation.User.LastName.MaxLength
+                            ),
+                        ]),
                     ])
                 ),
             };
@@ -129,15 +110,18 @@
 
 <template>
     <div
-        class="px-4 py-8 md:px-6 lg:px-6 flex align-items-center justify-content-center">
+        class="px-4 py-8 md:px-6 lg:px-6 flex align-items-center justify-content-center"
+    >
         <div
-            class="surface-card p-4 shadow-2 border-round w-full lg:w-4 md:w-8">
+            class="surface-card p-4 shadow-2 border-round w-full lg:w-4 md:w-8"
+        >
             <div class="text-center">
                 <img
                     src="@/assets/logo.svg"
                     alt="Image"
                     height="50"
-                    class="mb-3" />
+                    class="mb-3"
+                />
                 <div class="text-900 text-3xl font-medium mb-3">
                     Create Account
                 </div>
@@ -146,29 +130,29 @@
                 </span>
                 <RouterLink
                     class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-                    :to="routes.login.path">
+                    :to="routes.login.path"
+                >
                     Log in
                 </RouterLink>
             </div>
 
             <form
                 v-if="!awaitingConfirmation"
-                @submit.prevent="handleSubmit()">
+                @submit.prevent="handleSubmit()"
+            >
                 <Message
                     severity="error"
                     v-if="state.model.responseErrors.duplicateEmail"
-                    @close="
-                        state.model.responseErrors.duplicateEmail = false
-                    ">
+                    @close="state.model.responseErrors.duplicateEmail = false"
+                >
                     An account with this email already exists
                 </Message>
 
                 <Message
                     severity="error"
                     v-if="state.model.responseErrors.creationFailed"
-                    @close="
-                        state.model.responseErrors.creationFailed = false
-                    ">
+                    @close="state.model.responseErrors.creationFailed = false"
+                >
                     Create Account Failed: Something went wrong
                 </Message>
 
@@ -179,13 +163,10 @@
                             :id="email.propertyName.toLowerCase()"
                             :name="email.propertyName.toLowerCase()"
                             :model-value="email.value"
-                            :autocomplete="
-                                email.propertyName.toLowerCase()
-                            "
+                            :autocomplete="email.propertyName.toLowerCase()"
                             class="w-full"
                             :class="{
-                                'p-invalid':
-                                    email.touched && !email.isValid,
+                                'p-invalid': email.touched && !email.isValid,
                             }"
                             @input="
                                 this.state.setProperty<string>(
@@ -193,13 +174,14 @@
                                     $event.target.value
                                 )
                             "
-                            @blur="email.touch()" />
-                        <label
-                            :for="email.propertyName.toLowerCase()">
+                            @blur="email.touch()"
+                        />
+                        <label :for="email.propertyName.toLowerCase()">
                             {{ email.propertyName.toTitleCase() }}
                             <span
                                 v-if="email.isRequired"
-                                class="p-error">
+                                class="p-error"
+                            >
                                 *
                             </span>
                         </label>
@@ -208,7 +190,8 @@
                         <small
                             v-for="error in email.errors"
                             :key="error"
-                            class="p-error">
+                            class="p-error"
+                        >
                             {{ error }} <br />
                         </small>
                     </div>
@@ -218,9 +201,7 @@
                 <div class="field">
                     <span class="p-float-label">
                         <Password
-                            :name="
-                                password.propertyName.toLowerCase()
-                            "
+                            :name="password.propertyName.toLowerCase()"
                             :model-value="password.value"
                             class="w-full"
                             :input-class="'w-full'"
@@ -231,8 +212,7 @@
                             }"
                             :class="{
                                 'p-invalid':
-                                    password.touched &&
-                                    !password.isValid,
+                                    password.touched && !password.isValid,
                             }"
                             :medium-regex="'^(?=.{1000,})'"
                             :strong-regex="passwordRegex"
@@ -243,38 +223,34 @@
                                 )
                             "
                             @blur="password.touch()"
-                            toggleMask>
+                            toggleMask
+                        >
                             <template #header>
                                 <h6 class="mb-2">Pick a password</h6>
                             </template>
                             <template #footer>
                                 <Divider />
-                                <p class="my-2 font-bold">
-                                    Requirements:
-                                </p>
+                                <p class="my-2 font-bold">Requirements:</p>
                                 <ul
                                     class="pl-2 ml-2 mt-0"
-                                    style="line-height: 1.5">
+                                    style="line-height: 1.5"
+                                >
                                     <li>At least one lowercase</li>
                                     <li>At least one uppercase</li>
                                     <li>At least one numeric</li>
-                                    <li>
-                                        At least one special character
-                                    </li>
+                                    <li>At least one special character</li>
                                     <li>Minimum 6 characters</li>
                                     <li>Maximum 50 characters</li>
                                 </ul>
                             </template>
                         </Password>
 
-                        <label
-                            :for="
-                                password.propertyName.toLowerCase()
-                            ">
+                        <label :for="password.propertyName.toLowerCase()">
                             {{ password.propertyName.toTitleCase() }}
                             <span
                                 v-if="password.isRequired"
-                                class="p-error">
+                                class="p-error"
+                            >
                                 *
                             </span>
                         </label>
@@ -283,7 +259,8 @@
                         <small
                             v-for="error in password.errors"
                             :key="error"
-                            class="p-error">
+                            class="p-error"
+                        >
                             {{ error }} <br />
                         </small>
                     </div>
@@ -294,18 +271,13 @@
                     <span class="p-float-label">
                         <InputText
                             :id="firstName.propertyName.toLowerCase()"
-                            :name="
-                                firstName.propertyName.toLowerCase()
-                            "
+                            :name="firstName.propertyName.toLowerCase()"
                             :model-value="firstName.value"
-                            :autocomplete="
-                                firstName.propertyName.toLowerCase()
-                            "
+                            :autocomplete="firstName.propertyName.toLowerCase()"
                             class="w-full"
                             :class="{
                                 'p-invalid':
-                                    firstName.touched &&
-                                    !firstName.isValid,
+                                    firstName.touched && !firstName.isValid,
                             }"
                             @input="
                                 this.state.setProperty<string>(
@@ -313,27 +285,24 @@
                                     $event.target.value
                                 )
                             "
-                            @blur="firstName.touch()" />
-                        <label
-                            :for="
-                                firstName.propertyName.toLowerCase()
-                            ">
+                            @blur="firstName.touch()"
+                        />
+                        <label :for="firstName.propertyName.toLowerCase()">
                             {{ firstName.propertyName.toTitleCase() }}
                             <span
                                 v-if="firstName.isRequired"
-                                class="p-error">
+                                class="p-error"
+                            >
                                 *
                             </span>
                         </label>
                     </span>
-                    <div
-                        v-if="
-                            firstName.touched && !firstName.isValid
-                        ">
+                    <div v-if="firstName.touched && !firstName.isValid">
                         <small
                             v-for="error in firstName.errors"
                             :key="error"
-                            class="p-error">
+                            class="p-error"
+                        >
                             {{ error }} <br />
                         </small>
                     </div>
@@ -344,18 +313,13 @@
                     <span class="p-float-label">
                         <InputText
                             :id="lastName.propertyName.toLowerCase()"
-                            :name="
-                                lastName.propertyName.toLowerCase()
-                            "
+                            :name="lastName.propertyName.toLowerCase()"
                             :model-value="lastName.value"
-                            :autocomplete="
-                                lastName.propertyName.toLowerCase()
-                            "
+                            :autocomplete="lastName.propertyName.toLowerCase()"
                             class="w-full"
                             :class="{
                                 'p-invalid':
-                                    lastName.touched &&
-                                    !lastName.isValid,
+                                    lastName.touched && !lastName.isValid,
                             }"
                             @input="
                                 this.state.setProperty<string>(
@@ -363,15 +327,14 @@
                                     $event.target.value
                                 )
                             "
-                            @blur="lastName.touch()" />
-                        <label
-                            :for="
-                                lastName.propertyName.toLowerCase()
-                            ">
+                            @blur="lastName.touch()"
+                        />
+                        <label :for="lastName.propertyName.toLowerCase()">
                             {{ lastName.propertyName.toTitleCase() }}
                             <span
                                 v-if="lastName.isRequired"
-                                class="p-error">
+                                class="p-error"
+                            >
                                 *
                             </span>
                         </label>
@@ -380,7 +343,8 @@
                         <small
                             v-for="error in lastName.errors"
                             :key="error"
-                            class="p-error">
+                            class="p-error"
+                        >
                             {{ error }} <br />
                         </small>
                     </div>
@@ -393,15 +357,16 @@
                     type="submit"
                     label="Create Account"
                     :loading="loading"
-                    :disabled="!state.model.isValid">
+                    :disabled="!state.model.isValid"
+                >
                 </Button>
             </form>
             <div v-if="awaitingConfirmation">
                 <Message
                     severity="success"
-                    :closable="false">
-                    Please confirm email address to complete
-                    registration
+                    :closable="false"
+                >
+                    Please confirm email address to complete registration
                 </Message>
             </div>
         </div>
