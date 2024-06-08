@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ProjectTemplate2024.Contracts</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectTemplate2024.Domain\ProjectTemplate2024.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Game\CreateGameRequest.cs" />
+    <Compile Remove="Game\CreateGameResponse.cs" />
+    <Compile Remove="Game\GetGameRequest.cs" />
+  </ItemGroup>
+
+</Project>
