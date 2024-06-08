@@ -10,10 +10,7 @@ using ProjectTemplate2024.Domain.Entities;
 namespace ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler
-    : IRequestHandler<
-        ConfirmEmailCommand,
-        ErrorOr<AuthenticationResult>
-    >
+    : IRequestHandler<ConfirmEmailCommand, ErrorOr<AuthenticationResult>>
 {
     private readonly IUserRepository _userRepository;
     private readonly UserManager<User> _userManager;
@@ -35,17 +32,18 @@ public class ConfirmEmailCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userRepository.GetUserByEmail(cmd.Email, cancellationToken);
+        var user = await this._userRepository.GetUserByEmail(
+            cmd.Email,
+            cancellationToken,
+            u => u.RefreshTokens
+        );
 
         if (user is null)
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var result = await this._userManager.ConfirmEmailAsync(
-            user,
-            cmd.Token
-        );
+        var result = await this._userManager.ConfirmEmailAsync(user, cmd.Token);
 
         if (!result.Succeeded)
         {
@@ -55,16 +53,11 @@ public class ConfirmEmailCommandHandler
         var token = this._tokenGenerator.GenerateJwt(user);
 
         // replace old refresh token with a new one and save
-        var newRefreshToken =
-            this._tokenGenerator.GenerateRefreshToken();
+        var newRefreshToken = this._tokenGenerator.GenerateRefreshToken();
 
         user.RefreshTokens.Add(newRefreshToken);
         await this._userManager.UpdateAsync(user);
 
-        return new AuthenticationResult(
-            user,
-            token,
-            newRefreshToken.Token
-        );
+        return new AuthenticationResult(user, token, newRefreshToken.Token);
     }
 }
