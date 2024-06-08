@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
 using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
@@ -11,16 +11,19 @@ namespace ProjectTemplate2024.Application.Authentication.Commands.RevokeToken;
 public class RevokeTokenCommandHandler
     : IRequestHandler<RevokeTokenCommand, ErrorOr<bool>>
 {
+    private readonly IUserRepository _userRepository;
     private readonly UserManager<User> _userManager;
     private readonly IDateTimeProvider _dateTimeProvider;
 
     public RevokeTokenCommandHandler(
         UserManager<User> userManager,
-        IDateTimeProvider dateTimeProvider
+        IDateTimeProvider dateTimeProvider,
+        IUserRepository userRepository
     )
     {
         this._userManager = userManager;
         this._dateTimeProvider = dateTimeProvider;
+        this._userRepository = userRepository;
     }
 
     public async Task<ErrorOr<bool>> Handle(
@@ -28,12 +31,10 @@ public class RevokeTokenCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = this._userManager.Users
-            .Include(u => u.RefreshTokens)
-            .FirstOrDefault(
-                u =>
-                    u.RefreshTokens.Any(t => t.Token == request.Token)
-            );
+        var user = await this._userRepository.GetUserByRefreshToken(
+            request.Token,
+            cancellationToken
+        );
 
         // return error if no user found with token
         if (user is null)

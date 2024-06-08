@@ -35,7 +35,7 @@ public class RequestResetPasswordCommandHandler
             request.Email
         );
 
-        if (user == null)
+        if (user is null)
         {
             return Errors.Authentication.InvalidCredentials;
         }

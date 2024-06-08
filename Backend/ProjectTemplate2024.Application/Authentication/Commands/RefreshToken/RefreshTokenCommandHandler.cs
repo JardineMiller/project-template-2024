@@ -1,9 +1,9 @@
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using ProjectTemplate2024.Application.Authentication.Common;
 using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
 using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
@@ -13,6 +13,7 @@ namespace ProjectTemplate2024.Application.Authentication.Commands.RefreshToken;
 public class RefreshTokenCommandHandler
     : IRequestHandler<RefreshTokenCommand, ErrorOr<AuthenticationResult>>
 {
+    private readonly IUserRepository _userRepository;
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -20,12 +21,14 @@ public class RefreshTokenCommandHandler
     public RefreshTokenCommandHandler(
         UserManager<User> userManager,
         ITokenGenerator tokenGenerator,
-        IDateTimeProvider dateTimeProvider
+        IDateTimeProvider dateTimeProvider,
+        IUserRepository userRepository
     )
     {
         this._userManager = userManager;
         this._tokenGenerator = tokenGenerator;
         this._dateTimeProvider = dateTimeProvider;
+        this._userRepository = userRepository;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -33,11 +36,10 @@ public class RefreshTokenCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = this._userManager.Users
-            .Include(x => x.RefreshTokens)
-            .FirstOrDefault(
-                u => u.RefreshTokens.Any(t => t.Token == request.Token)
-            );
+        var user = await this._userRepository.GetUserByRefreshToken(
+            request.Token,
+            cancellationToken
+        );
 
         if (user is null)
         {

@@ -1,9 +1,9 @@
 ﻿using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using ProjectTemplate2024.Application.Authentication.Common;
 using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
 
@@ -15,16 +15,19 @@ public class ConfirmEmailCommandHandler
         ErrorOr<AuthenticationResult>
     >
 {
+    private readonly IUserRepository _userRepository;
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
 
     public ConfirmEmailCommandHandler(
         UserManager<User> userManager,
-        ITokenGenerator tokenGenerator
+        ITokenGenerator tokenGenerator,
+        IUserRepository userRepository
     )
     {
         this._userManager = userManager;
         this._tokenGenerator = tokenGenerator;
+        this._userRepository = userRepository;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -32,11 +35,9 @@ public class ConfirmEmailCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = this._userManager.Users
-            .Include(x => x.RefreshTokens)
-            .FirstOrDefault(u => u.Email == cmd.Email);
+        var user = await this._userRepository.GetUserByEmail(cmd.Email, cancellationToken);
 
-        if (user == null)
+        if (user is null)
         {
             return Errors.Authentication.InvalidCredentials;
         }
