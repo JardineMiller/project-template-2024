@@ -1,9 +1,11 @@
 ﻿using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlanningPoker.Application.Game.Commands.Create;
 using PlanningPoker.Application.Game.Queries.GetGame;
-using PlanningPoker.Contracts.Game;
+using PlanningPoker.Contracts.Game.CreateGame;
+using PlanningPoker.Contracts.Game.GetGame;
 
 namespace PlanningPoker.Api.Controllers;
 
@@ -28,6 +30,7 @@ public class GameController : ApiController
         );
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> Get(GetGameRequest request)
     {

@@ -30,12 +30,6 @@ public class GetGameQueryHandler
             return Errors.Common.NotFound(nameof(Game));
         }
 
-        return new GetGameResult(
-            game.Name,
-            game.Description,
-            game.Code,
-            game.OwnerId,
-            game.Owner
-        );
+        return GetGameResult.From.Game(game);
     }
 }

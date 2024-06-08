@@ -11,4 +11,10 @@
     <ProjectReference Include="..\PlanningPoker.Domain\PlanningPoker.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Game\CreateGameRequest.cs" />
+    <Compile Remove="Game\CreateGameResponse.cs" />
+    <Compile Remove="Game\GetGameRequest.cs" />
+  </ItemGroup>
+
 </Project>

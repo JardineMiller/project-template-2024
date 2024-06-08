@@ -11,10 +11,7 @@ using PlanningPoker.Domain.Entities;
 namespace PlanningPoker.Application.Authentication.Commands.RefreshToken;
 
 public class RefreshTokenCommandHandler
-    : IRequestHandler<
-          RefreshTokenCommand,
-          ErrorOr<AuthenticationResult>
-      >
+    : IRequestHandler<RefreshTokenCommand, ErrorOr<AuthenticationResult>>
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
@@ -39,8 +36,7 @@ public class RefreshTokenCommandHandler
         var user = this._userManager.Users
             .Include(x => x.RefreshTokens)
             .FirstOrDefault(
-                u =>
-                    u.RefreshTokens.Any(t => t.Token == request.Token)
+                u => u.RefreshTokens.Any(t => t.Token == request.Token)
             );
 
         if (user is null)
@@ -58,8 +54,7 @@ public class RefreshTokenCommandHandler
         }
 
         // replace old refresh token with a new one and save
-        var newRefreshToken =
-            this._tokenGenerator.GenerateRefreshToken();
+        var newRefreshToken = this._tokenGenerator.GenerateRefreshToken();
 
         oldRefreshToken.RevokedOn = this._dateTimeProvider.UtcNow;
         oldRefreshToken.ReplacedBy = newRefreshToken.Token;

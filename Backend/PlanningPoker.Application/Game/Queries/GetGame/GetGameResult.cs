@@ -8,4 +8,19 @@ public record GetGameResult(
     string Code,
     string OwnerId,
     User? Owner
-);
+)
+{
+    public static class From
+    {
+        public static GetGameResult Game(Domain.Entities.Game game)
+        {
+            return new GetGameResult(
+                game.Name,
+                game.Description,
+                game.Code,
+                game.OwnerId,
+                game.Owner
+            );
+        }
+    }
+}

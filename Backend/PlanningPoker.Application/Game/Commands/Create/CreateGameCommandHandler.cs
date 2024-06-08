@@ -31,9 +31,7 @@ public class CreateGameCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userManager.FindByIdAsync(
-            request.OwnerId
-        );
+        var user = await this._userManager.FindByIdAsync(request.OwnerId);
 
         if (user is null)
         {

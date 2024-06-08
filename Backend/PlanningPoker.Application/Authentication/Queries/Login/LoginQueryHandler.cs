@@ -47,12 +47,7 @@ public class LoginQueryHandler
             return Errors.Authentication.EmailNotConfirmed;
         }
 
-        if (
-            !await this._userManager.CheckPasswordAsync(
-                user,
-                qry.Password
-            )
-        )
+        if (!await this._userManager.CheckPasswordAsync(user, qry.Password))
         {
             return Errors.Authentication.InvalidCredentials;
         }
@@ -62,8 +57,7 @@ public class LoginQueryHandler
             .MaxBy(x => x.CreatedOn);
 
         // replace old refresh token with a new one and save
-        var newRefreshToken =
-            this._tokenGenerator.GenerateRefreshToken();
+        var newRefreshToken = this._tokenGenerator.GenerateRefreshToken();
 
         if (oldRefreshToken is not null)
         {

@@ -13,5 +13,13 @@ public static partial class Errors
                 description: $"{entityType} not found"
             );
         }
+
+        public static Error Duplicate(string entityType)
+        {
+            return Error.Conflict(
+                code: $"{entityType}.Conflict",
+                description: $"{entityType} already exists"
+            );
+        }
     }
 }

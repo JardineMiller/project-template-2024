@@ -18,15 +18,35 @@ public class CurrentUserService : ICurrentUserService
     public bool IsAuthenticated =>
         this._user.Identity?.IsAuthenticated ?? false;
 
-    public string? UserName =>
-        this.IsAuthenticated ? this._user.Identity?.Name : null;
+    public string? UserName
+    {
+        get
+        {
+            if (!this.IsAuthenticated)
+            {
+                return null;
+            }
 
-    public string? UserId =>
-        this.IsAuthenticated
-            ? this._user.Claims
-              .FirstOrDefault(
-                  x => x.Type == ClaimTypes.NameIdentifier
-              )
-              ?.Value
-            : null;
+            return this._user.Claims
+                .FirstOrDefault(x => x.Type == ClaimTypes.GivenName)
+                ?.Value;
+        }
+    }
+
+    public string? UserId
+    {
+        get
+        {
+            if (!this.IsAuthenticated)
+            {
+                return null;
+            }
+
+            return this._user.Claims
+                .FirstOrDefault(
+                    x => x.Type == ClaimTypes.NameIdentifier
+                )
+                ?.Value;
+        }
+    }
 }

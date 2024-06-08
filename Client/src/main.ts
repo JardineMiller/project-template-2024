@@ -20,11 +20,11 @@ async function startApp() {
     app.directive("tooltip", Tooltip);
 
     // attempt to auto refresh token before startup
-    try {
-        await Auth.refreshToken();
-    } catch {
-        // catch error to start app on success or failure
-    }
+    // try {
+    //     await Auth.refreshToken();
+    // } catch {
+    //     // catch error to start app on success or failure
+    // }
 
     app.mount("#app");
 }

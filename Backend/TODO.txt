@@ -1,0 +1,6 @@
+﻿1. Join Game:
+    i. Access via URL (e.g. "~/game-code/join")
+    ii. User follows link, are they logged in?
+        ii a. If yes, join the game and their display name is their user name
+        ii b. If no, modal popup to input their user name, join the game on modal submit
+    iii. When joining a Game, players are persisted

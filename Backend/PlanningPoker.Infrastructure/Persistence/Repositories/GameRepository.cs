@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using PlanningPoker.Application.Common.Interfaces.Repositories;
 using PlanningPoker.Domain.Entities;
 
@@ -26,10 +27,18 @@ public class GameRepository : IGameRepository
 
     public async Task<Game?> GetAsync(
         string code,
-        CancellationToken cancellationToken
+        CancellationToken cancellationToken,
+        params Expression<Func<Game, object>>[] includes
     )
     {
-        return await this._context.Games.FirstOrDefaultAsync(
+        var query = this._context.Games.AsNoTracking();
+
+        query = includes.Aggregate(
+            query.AsQueryable(),
+            (current, include) => current.Include(include)
+        );
+
+        return await query.FirstOrDefaultAsync(
             x => x.Code == code,
             cancellationToken
         );
@@ -37,11 +46,19 @@ public class GameRepository : IGameRepository
 
     public async Task<List<Game>> GetAllForUserAsync(
         string userId,
-        CancellationToken cancellationToken
+        CancellationToken cancellationToken,
+        params Expression<Func<Game, object>>[] includes
     )
     {
-        return await this._context.Games
-            .Where(x => x.OwnerId == userId)
-            .ToListAsync(cancellationToken);
+        var query = this._context.Games
+            .AsNoTracking()
+            .Where(x => x.OwnerId == userId);
+
+        query = includes.Aggregate(
+            query.AsQueryable(),
+            (current, include) => current.Include(include)
+        );
+
+        return await query.ToListAsync(cancellationToken);
     }
 }

@@ -22,6 +22,7 @@ public static class DependencyInjection
         services
             .AddSingleton<IDateTimeProvider, DateTimeProvider>()
             .AddTransient<ITinyGuidGenerator, TinyGuidGenerator>()
+            .AddScoped<ICurrentUserService, CurrentUserService>()
             .AddAuth(configuration)
             .AddDatabase(configuration)
             .AddRepositories()

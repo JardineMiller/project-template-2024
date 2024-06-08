@@ -16,8 +16,8 @@ const URLs: { [key: string]: string } = {
     REVOKE_TOKEN: `${meta.VITE_API_URL}/auth/revokeToken`,
 };
 
-const user: Ref<User | null> = ref(null);
-const authToken: Ref<string | null> = ref(null);
+const user: Ref<User | undefined> = ref();
+const authToken: Ref<string | undefined> = ref();
 
 let refreshTokenTimeout: number | undefined = undefined;
 
@@ -39,6 +39,16 @@ function startRefreshTokenTimer() {
 function stopRefreshTokenTimer() {
     clearTimeout(refreshTokenTimeout);
 }
+
+const setPlayerId = (playerId: string): void => {
+    if (!playerId) {
+        throw new Error(`Invalid PlayerId [${playerId}]`);
+    }
+
+    if (user.value) {
+        user.value.playerId = playerId;
+    }
+};
 
 const confirm = async (token: string, email: string) => {
     return axios
@@ -72,10 +82,23 @@ const login = async (request: LoginRequest) => {
             headers: { "Content-Type": "application/json" },
         })
         .then(async (response) => {
-            const { id, firstName, lastName, email, token } =
-                response.data;
+            const {
+                id,
+                firstName,
+                lastName,
+                email,
+                token,
+                playerId,
+            } = response.data;
 
-            user.value = new User(id, firstName, lastName, email);
+            user.value = new User(
+                id,
+                firstName,
+                lastName,
+                email,
+                playerId
+            );
+
             authToken.value = token;
 
             startRefreshTokenTimer();
@@ -101,8 +124,8 @@ const logout = async (): Promise<void> => {
             headers: { "Content-Type": "application/json" },
         })
         .then((response) => {
-            user.value = null;
-            authToken.value = null;
+            user.value = undefined;
+            authToken.value = undefined;
 
             stopRefreshTokenTimer();
         })
@@ -118,16 +141,28 @@ const refreshToken = async (): Promise<void> => {
             headers: { "Content-Type": "application/json" },
         })
         .then(async (response) => {
-            const { id, firstName, lastName, email, token } =
-                response.data;
+            const {
+                id,
+                firstName,
+                lastName,
+                email,
+                token,
+                playerId,
+            } = response.data;
 
             if (response.status == 200) {
-                user.value = new User(id, firstName, lastName, email);
+                user.value = new User(
+                    id,
+                    firstName,
+                    lastName,
+                    email,
+                    playerId
+                );
+
                 authToken.value = token;
 
                 startRefreshTokenTimer();
-
-                await router.push("/");
+                // await router.push("/");
             }
         });
 };
@@ -140,4 +175,5 @@ export default {
     register: register,
     confirm: confirm,
     refreshToken: refreshToken,
+    setPlayerId: setPlayerId,
 };

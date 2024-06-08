@@ -2,7 +2,7 @@
 import type ModelBuilder from "@/modules/forms/builders/ModelBuilder";
 import { Validators } from "@/modules/forms/validation/Validators";
 import ModelProperty from "@/modules/forms/models/ModelProperty";
-import type {IModel} from "@/modules/common/models/IModel";
+import type { IModel } from "@/modules/common/models/IModel";
 
 export class ModelPropertyBuilder<T extends IModel, K> {
     private readonly _propertyName: string;
