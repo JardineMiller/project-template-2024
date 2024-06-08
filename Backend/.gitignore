@@ -1,6 +1,7 @@
 # Common IntelliJ Platform excludes
 
 # User specific
+**/.idea/**/indexLayout.xml
 **/.idea/**/workspace.xml
 **/.idea/**/vcs.xml
 **/.idea/**/tasks.xml

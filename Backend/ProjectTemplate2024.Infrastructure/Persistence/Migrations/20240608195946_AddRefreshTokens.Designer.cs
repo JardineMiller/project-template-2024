@@ -12,8 +12,8 @@ using ProjectTemplate2024.Infrastructure.Persistence;
 namespace ProjectTemplate2024.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230128172013_AddGame")]
-    partial class AddGame
+    [Migration("20240608195946_AddRefreshTokens")]
+    partial class AddRefreshTokens
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,47 +157,37 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.Game", b =>
+            modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset?>("DeletedOn")
+                    b.Property<DateTimeOffset>("Expires")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.Property<string>("ReplacedBy")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("ModifiedOn")
+                    b.Property<DateTimeOffset?>("RevokedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Token")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OwnerId")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Games");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.User", b =>
@@ -332,20 +322,20 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.Game", b =>
+            modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.RefreshToken", b =>
                 {
-                    b.HasOne("ProjectTemplate2024.Domain.Entities.User", "Owner")
-                        .WithMany("Games")
-                        .HasForeignKey("OwnerId")
+                    b.HasOne("ProjectTemplate2024.Domain.Entities.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Games");
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

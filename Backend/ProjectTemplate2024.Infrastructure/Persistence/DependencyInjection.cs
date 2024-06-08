@@ -36,7 +36,6 @@ public static class DependencyInjection
         this IServiceCollection services
     )
     {
-        services.AddTransient<IGameRepository, GameRepository>();
         services.AddTransient<IUserRepository, UserRepository>();
 
         return services;

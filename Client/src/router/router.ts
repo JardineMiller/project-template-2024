@@ -25,11 +25,6 @@ const routes = {
         component: () =>
             import("@/modules/auth/pages/confirm/Confirm.vue"),
     },
-    game: {
-        path: "/game/:code",
-        name: "game",
-        component: () => import("@/modules/game/pages/GamePage.vue"),
-    },
 };
 
 const routesArray = Object.values(routes);
