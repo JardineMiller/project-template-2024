@@ -21,7 +21,4 @@ public class Game : DeletableEntity
     // - name
     // - vote
     // - link
-
-    public virtual ICollection<Player> Players { get; set; } =
-        new List<Player>();
 }

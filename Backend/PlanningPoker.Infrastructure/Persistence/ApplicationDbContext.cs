@@ -22,7 +22,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
     public DbSet<Game> Games { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
-    public DbSet<Player> Players { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,13 +55,11 @@ public class ApplicationDbContext : IdentityDbContext<User>
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedOn =
-                        this._dateTimeProvider.UtcNow;
+                    entry.Entity.CreatedOn = this._dateTimeProvider.UtcNow;
                     break;
 
                 case EntityState.Modified:
-                    entry.Entity.ModifiedOn =
-                        this._dateTimeProvider.UtcNow;
+                    entry.Entity.ModifiedOn = this._dateTimeProvider.UtcNow;
                     break;
 
                 case EntityState.Deleted:

@@ -1,9 +1,6 @@
-﻿using ErrorOr;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Application.Game.Queries.JoinGame;
-using PlanningPoker.Application.Players.Queries.GetPlayer;
 
 namespace PlanningPoker.Api.Hubs;
 
@@ -90,68 +87,5 @@ public class GameHub : Hub<IGameHub>
     public Task UnlikeMessage(string gameCode, string messageId)
     {
         return this.Clients.Group(gameCode).ReceiveUnlike(messageId);
-    }
-
-    public async Task ConnectToGame(
-        string gameCode,
-        string playerId,
-        CancellationToken cancellationToken = new()
-    )
-    {
-        Task OnSuccess(JoinGameResult success)
-        {
-            var groupTask = this.Groups.AddToGroupAsync(
-                this.Context.ConnectionId,
-                success.GameCode
-            );
-
-            var messageTask = this.Clients
-                .Group(gameCode)
-                .PlayerConnected(success.PlayerName, success.PlayerId);
-
-            return Task.WhenAll(groupTask, messageTask);
-        }
-
-        Task OnError(List<Error> errors)
-        {
-            return Task.CompletedTask;
-        }
-
-        var qry = new JoinGameQuery(gameCode, playerId);
-        var result = await this._mediator.Send(qry);
-
-        await result.Match(
-            success => OnSuccess(success),
-            errors => OnError(errors)
-        );
-    }
-
-    public async Task DisconnectFromGame(
-        string gameCode,
-        string playerId,
-        CancellationToken cancellationToken = new()
-    )
-    {
-        Task OnSuccess(GetPlayerResult success)
-        {
-            var messageTask = this.Clients
-                .Group(gameCode)
-                .PlayerDisconnected(success.PlayerName, success.PlayerId);
-
-            return messageTask;
-        }
-
-        Task OnError(List<Error> errors)
-        {
-            return Task.CompletedTask;
-        }
-
-        var qry = new GetPlayerQuery(playerId);
-        var result = await this._mediator.Send(qry);
-
-        await result.Match(
-            success => OnSuccess(success),
-            errors => OnError(errors)
-        );
     }
 }

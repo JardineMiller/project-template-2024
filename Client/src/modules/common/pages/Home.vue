@@ -7,7 +7,7 @@
             title: "Home",
         },
         computed: {
-            user(): User | null {
+            user(): User | undefined {
                 return Auth.user.value;
             },
         },

@@ -30,4 +30,8 @@
       <ProjectReference Include="..\PlanningPoker.Application\PlanningPoker.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Application.Tests\Game\Queries\JoinGame\" />
+    </ItemGroup>
+
 </Project>

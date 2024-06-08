@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using PlanningPoker.Domain.Entities;
 
 namespace PlanningPoker.Application.Common.Interfaces.Repositories;
 
@@ -21,6 +20,4 @@ public interface IGameRepository
         CancellationToken cancellationToken,
         params Expression<Func<Domain.Entities.Game, object>>[] includes
     );
-
-    Task AddPlayerToGameAsync(Player player, Guid gameId);
 }

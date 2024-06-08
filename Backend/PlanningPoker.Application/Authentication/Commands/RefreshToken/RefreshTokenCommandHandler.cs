@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PlanningPoker.Application.Authentication.Common;
 using PlanningPoker.Application.Common.Interfaces.Authentication;
-using PlanningPoker.Application.Common.Interfaces.Repositories;
 using PlanningPoker.Application.Common.Interfaces.Services;
 using PlanningPoker.Domain.Common.Errors;
 using PlanningPoker.Domain.Entities;
@@ -17,19 +16,16 @@ public class RefreshTokenCommandHandler
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IPlayerRepository _playerRepository;
 
     public RefreshTokenCommandHandler(
         UserManager<User> userManager,
         ITokenGenerator tokenGenerator,
-        IDateTimeProvider dateTimeProvider,
-        IPlayerRepository playerRepository
+        IDateTimeProvider dateTimeProvider
     )
     {
         this._userManager = userManager;
         this._tokenGenerator = tokenGenerator;
         this._dateTimeProvider = dateTimeProvider;
-        this._playerRepository = playerRepository;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -69,16 +65,10 @@ public class RefreshTokenCommandHandler
         // generate new jwt
         var jwt = this._tokenGenerator.GenerateJwt(user);
 
-        var player = await this._playerRepository.GetByUserIdAsync(
-            user.Id,
-            cancellationToken
-        );
-
         var response = new AuthenticationResult(
             user,
             jwt,
-            newRefreshToken.Token,
-            player?.Id.ToString()
+            newRefreshToken.Token
         );
 
         return response;

@@ -15,10 +15,7 @@ public static class DependencyInjection
     )
     {
         var databaseSettings = new DatabaseSettings();
-        configuration.Bind(
-            DatabaseSettings.SectionName,
-            databaseSettings
-        );
+        configuration.Bind(DatabaseSettings.SectionName, databaseSettings);
         services.AddSingleton(Options.Create(databaseSettings));
 
         services
@@ -40,7 +37,6 @@ public static class DependencyInjection
     )
     {
         services.AddTransient<IGameRepository, GameRepository>();
-        services.AddTransient<IPlayerRepository, PlayerRepository>();
 
         return services;
     }
