@@ -37,7 +37,7 @@ public class ResetPasswordCommandHandler
             cmd.Email
         );
 
-        if (user == null)
+        if (user is null)
         {
             return Errors.Authentication.InvalidCredentials;
         }
@@ -65,7 +65,7 @@ public class ResetPasswordCommandHandler
             cmd.Email
         );
 
-        if (user == null)
+        if (user is null)
         {
             return Errors.Authentication.InvalidCredentials;
         }

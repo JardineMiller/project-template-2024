@@ -1,30 +1,30 @@
 ﻿using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using ProjectTemplate2024.Application.Authentication.Common;
 using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
 
 namespace ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler
-    : IRequestHandler<
-        ConfirmEmailCommand,
-        ErrorOr<AuthenticationResult>
-    >
+    : IRequestHandler<ConfirmEmailCommand, ErrorOr<AuthenticationResult>>
 {
+    private readonly IUserRepository _userRepository;
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
 
     public ConfirmEmailCommandHandler(
         UserManager<User> userManager,
-        ITokenGenerator tokenGenerator
+        ITokenGenerator tokenGenerator,
+        IUserRepository userRepository
     )
     {
         this._userManager = userManager;
         this._tokenGenerator = tokenGenerator;
+        this._userRepository = userRepository;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -32,19 +32,18 @@ public class ConfirmEmailCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = this._userManager.Users
-            .Include(x => x.RefreshTokens)
-            .FirstOrDefault(u => u.Email == cmd.Email);
+        var user = await this._userRepository.GetUserByEmail(
+            cmd.Email,
+            cancellationToken,
+            u => u.RefreshTokens
+        );
 
-        if (user == null)
+        if (user is null)
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var result = await this._userManager.ConfirmEmailAsync(
-            user,
-            cmd.Token
-        );
+        var result = await this._userManager.ConfirmEmailAsync(user, cmd.Token);
 
         if (!result.Succeeded)
         {
@@ -54,16 +53,11 @@ public class ConfirmEmailCommandHandler
         var token = this._tokenGenerator.GenerateJwt(user);
 
         // replace old refresh token with a new one and save
-        var newRefreshToken =
-            this._tokenGenerator.GenerateRefreshToken();
+        var newRefreshToken = this._tokenGenerator.GenerateRefreshToken();
 
         user.RefreshTokens.Add(newRefreshToken);
         await this._userManager.UpdateAsync(user);
 
-        return new AuthenticationResult(
-            user,
-            token,
-            newRefreshToken.Token
-        );
+        return new AuthenticationResult(user, token, newRefreshToken.Token);
     }
 }

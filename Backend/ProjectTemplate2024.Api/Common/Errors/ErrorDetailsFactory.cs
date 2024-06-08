@@ -29,7 +29,7 @@ public class ErrorDetailsFactory : ProblemDetailsFactory
     {
         statusCode ??= 500;
 
-        var problemDetails = new ProblemDetails()
+        var problemDetails = new ProblemDetails
         {
             Status = statusCode,
             Title = title,
@@ -56,7 +56,7 @@ public class ErrorDetailsFactory : ProblemDetailsFactory
         string? instance = null
     )
     {
-        if (modelStateDictionary == null)
+        if (modelStateDictionary is null)
         {
             throw new ArgumentNullException(
                 nameof(modelStateDictionary)
