@@ -164,7 +164,7 @@ public class LoginQueryHandlerTests
                         It.IsAny<Expression<Func<User, object>>[]>()
                     )
             )
-            .Returns(Task.FromResult(user)!);
+            .ReturnsAsync(user);
 
         this._userManagerMock
             .Setup(
@@ -216,7 +216,7 @@ public class LoginQueryHandlerTests
                         It.IsAny<Expression<Func<User, object>>[]>()
                     )
             )
-            .Returns(Task.FromResult(user)!);
+            .ReturnsAsync(user);
 
         this._userManagerMock
             .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), validPassword))!

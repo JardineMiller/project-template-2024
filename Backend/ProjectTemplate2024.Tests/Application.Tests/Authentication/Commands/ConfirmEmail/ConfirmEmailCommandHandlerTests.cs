@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using Microsoft.AspNetCore.Identity;
 using Moq;
@@ -48,7 +50,14 @@ public class ConfirmEmailCommandHandlerTests
     {
         // Arrange
         this._userRepositoryMock
-            .Setup(x => x.GetUserByEmail(validEmail, It.IsAny<CancellationToken>()))!
+            .Setup(
+                x =>
+                    x.GetUserByEmail(
+                        validEmail,
+                        It.IsAny<CancellationToken>(),
+                        It.IsAny<Expression<Func<User, object>>[]>()
+                    )
+            )!
             .ReturnsAsync(null as User);
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
@@ -59,17 +68,13 @@ public class ConfirmEmailCommandHandlerTests
         );
 
         // Act
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = handler.Handle(command, CancellationToken.None).Result;
 
         // Assert
         result.Errors.Count.ShouldBe(1);
         result.Errors
             .First()
-            .Code.ShouldBe(
-                Errors.Authentication.InvalidCredentials.Code
-            );
+            .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
         result.Errors
             .First()
             .Description.ShouldBe(
@@ -82,16 +87,14 @@ public class ConfirmEmailCommandHandlerTests
     {
         // Arrange
         this._userRepositoryMock
-            .Setup(x => x.GetUserByEmail(validEmail, It.IsAny<CancellationToken>()))!
+            .Setup(
+                x => x.GetUserByEmail(validEmail, It.IsAny<CancellationToken>())
+            )!
             .ReturnsAsync(this._validUser);
 
         this._userManagerMock
             .Setup(
-                x =>
-                    x.ConfirmEmailAsync(
-                        It.IsAny<User>(),
-                        It.IsAny<string>()
-                    )
+                x => x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
             )!
             .ReturnsAsync(IdentityResult.Failed());
 
@@ -103,17 +106,13 @@ public class ConfirmEmailCommandHandlerTests
         );
 
         // Act
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = handler.Handle(command, CancellationToken.None).Result;
 
         // Assert
         result.Errors.Count.ShouldBe(1);
         result.Errors
             .First()
-            .Code.ShouldBe(
-                Errors.Authentication.InvalidCredentials.Code
-            );
+            .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
         result.Errors
             .First()
             .Description.ShouldBe(
@@ -126,23 +125,26 @@ public class ConfirmEmailCommandHandlerTests
     {
         // Arrange
         this._userRepositoryMock
-            .Setup(x => x.GetUserByEmail(validEmail, It.IsAny<CancellationToken>()))!
+            .Setup(
+                x =>
+                    x.GetUserByEmail(
+                        validEmail,
+                        It.IsAny<CancellationToken>(),
+                        It.IsAny<Expression<Func<User, object>>[]>()
+                    )
+            )!
             .ReturnsAsync(this._validUser);
 
         this._userManagerMock
             .Setup(
-                x =>
-                    x.ConfirmEmailAsync(
-                        It.IsAny<User>(),
-                        It.IsAny<string>()
-                    )
+                x => x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
             )!
             .ReturnsAsync(IdentityResult.Success);
-        
+
         this._tokenGenerator
             .Setup(x => x.GenerateJwt(It.IsAny<User>()))
             .Returns("token");
-        
+
         this._tokenGenerator
             .Setup(x => x.GenerateRefreshToken())
             .Returns(new RefreshToken());
@@ -155,15 +157,11 @@ public class ConfirmEmailCommandHandlerTests
         );
 
         // Act
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = handler.Handle(command, CancellationToken.None).Result;
 
         // Assert
         result.Value.Token.ShouldBe("token");
-        result.Value.User.FirstName.ShouldBe(
-            this._validUser.FirstName
-        );
+        result.Value.User.FirstName.ShouldBe(this._validUser.FirstName);
         result.Value.User.LastName.ShouldBe(this._validUser.LastName);
         result.Value.User.Email.ShouldBe(this._validUser.Email);
     }
