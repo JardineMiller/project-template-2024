@@ -30,7 +30,8 @@
 
 <template>
     <div
-        class="px-4 py-8 md:px-6 lg:px-6 flex h-screen align-items-center justify-content-center">
+        class="px-4 py-8 md:px-6 lg:px-6 flex h-screen align-items-center justify-content-center"
+    >
         <div class="flex flex-column">
             <ProgressSpinner />
             <h5 class="py-4">Confirming email...</h5>

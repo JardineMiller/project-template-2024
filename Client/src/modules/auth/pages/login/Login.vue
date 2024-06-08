@@ -74,15 +74,18 @@
 
 <template>
     <div
-        class="px-4 py-8 md:px-6 lg:px-6 flex align-items-center justify-content-center">
+        class="px-4 py-8 md:px-6 lg:px-6 flex align-items-center justify-content-center"
+    >
         <div
-            class="surface-card p-4 shadow-2 border-round w-full lg:w-4 md:w-8">
+            class="surface-card p-4 shadow-2 border-round w-full lg:w-4 md:w-8"
+        >
             <div class="text-center">
                 <img
                     src="@/assets/logo.svg"
                     alt="Image"
                     height="50"
-                    class="mb-3" />
+                    class="mb-3"
+                />
                 <div class="text-900 text-3xl font-medium mb-3">
                     Welcome Back
                 </div>
@@ -91,7 +94,8 @@
                 </span>
                 <RouterLink
                     class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-                    :to="routes.register.path">
+                    :to="routes.register.path"
+                >
                     Create one
                 </RouterLink>
             </div>
@@ -99,23 +103,21 @@
             <form @submit.prevent="handleSubmit()">
                 <Message
                     severity="error"
-                    v-if="
-                        state.model.responseErrors.invalidCredentials
-                    "
+                    v-if="state.model.responseErrors.invalidCredentials"
                     @close="
                         state.model.responseErrors.invalidCredentials = false
-                    ">
+                    "
+                >
                     Login failed: Invalid credentials
                 </Message>
 
                 <Message
                     severity="warn"
-                    v-if="
-                        state.model.responseErrors.emailNotConfirmed
-                    "
+                    v-if="state.model.responseErrors.emailNotConfirmed"
                     @close="
                         state.model.responseErrors.emailNotConfirmed = false
-                    ">
+                    "
+                >
                     Login failed: Email not confirmed
                 </Message>
 
@@ -126,13 +128,10 @@
                             :id="email.propertyName.toLowerCase()"
                             :name="email.propertyName.toLowerCase()"
                             :model-value="email.value"
-                            :autocomplete="
-                                email.propertyName.toLowerCase()
-                            "
+                            :autocomplete="email.propertyName.toLowerCase()"
                             class="w-full"
                             :class="{
-                                'p-invalid':
-                                    email.touched && !email.isValid,
+                                'p-invalid': email.touched && !email.isValid,
                             }"
                             @input="
                                 this.state.setProperty<string>(
@@ -140,13 +139,14 @@
                                     $event.target.value
                                 )
                             "
-                            @blur="email.touch()" />
-                        <label
-                            :for="email.propertyName.toLowerCase()">
+                            @blur="email.touch()"
+                        />
+                        <label :for="email.propertyName.toLowerCase()">
                             {{ email.propertyName.toTitleCase() }}
                             <span
                                 v-if="email.isRequired"
-                                class="p-error">
+                                class="p-error"
+                            >
                                 *
                             </span>
                         </label>
@@ -155,7 +155,8 @@
                         <small
                             v-for="error in email.errors"
                             :key="error"
-                            class="p-error">
+                            class="p-error"
+                        >
                             {{ error }} <br />
                         </small>
                     </div>
@@ -165,9 +166,7 @@
                 <div class="field">
                     <span class="p-float-label">
                         <Password
-                            :name="
-                                password.propertyName.toLowerCase()
-                            "
+                            :name="password.propertyName.toLowerCase()"
                             :model-value="password.value"
                             class="w-full"
                             :input-class="'w-full'"
@@ -178,8 +177,7 @@
                             }"
                             :class="{
                                 'p-invalid':
-                                    password.touched &&
-                                    !password.isValid,
+                                    password.touched && !password.isValid,
                             }"
                             @input="
                                 this.state.setProperty<string>(
@@ -189,17 +187,16 @@
                             "
                             @blur="password.touch()"
                             toggleMask
-                            :feedback="false">
+                            :feedback="false"
+                        >
                         </Password>
 
-                        <label
-                            :for="
-                                password.propertyName.toLowerCase()
-                            ">
+                        <label :for="password.propertyName.toLowerCase()">
                             {{ password.propertyName.toTitleCase() }}
                             <span
                                 v-if="password.isRequired"
-                                class="p-error">
+                                class="p-error"
+                            >
                                 *
                             </span>
                         </label>
@@ -208,7 +205,8 @@
                         <small
                             v-for="error in password.errors"
                             :key="error"
-                            class="p-error">
+                            class="p-error"
+                        >
                             {{ error }} <br />
                         </small>
                     </div>
@@ -221,7 +219,8 @@
                     type="submit"
                     label="Sign In"
                     :loading="loading"
-                    :disabled="!state.model.isValid">
+                    :disabled="!state.model.isValid"
+                >
                 </Button>
             </form>
         </div>
