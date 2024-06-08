@@ -1,8 +1,8 @@
 ﻿using FluentValidation.TestHelper;
-using PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
+using ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Authentication.Commands.ConfirmEmail;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandValidationTests
 {

@@ -1,11 +1,11 @@
 ﻿using System;
 using FluentValidation.TestHelper;
-using PlanningPoker.Application.Game.Commands.Create;
-using PlanningPoker.Application.Tests.TestHelpers;
-using PlanningPoker.Domain.Common.Validation;
+using ProjectTemplate2024.Application.Game.Commands.Create;
+using ProjectTemplate2024.Application.Tests.TestHelpers;
+using ProjectTemplate2024.Domain.Common.Validation;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Game.Commands.Create;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Game.Commands.Create;
 
 public class CreateGameValidationTests
 {

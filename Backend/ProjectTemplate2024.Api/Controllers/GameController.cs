@@ -2,12 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PlanningPoker.Application.Game.Commands.Create;
-using PlanningPoker.Application.Game.Queries.GetGame;
-using PlanningPoker.Contracts.Game.CreateGame;
-using PlanningPoker.Contracts.Game.GetGame;
+using ProjectTemplate2024.Application.Game.Commands.Create;
+using ProjectTemplate2024.Application.Game.Queries.GetGame;
+using ProjectTemplate2024.Contracts.Game.CreateGame;
+using ProjectTemplate2024.Contracts.Game.GetGame;
 
-namespace PlanningPoker.Api.Controllers;
+namespace ProjectTemplate2024.Api.Controllers;
 
 public class GameController : ApiController
 {

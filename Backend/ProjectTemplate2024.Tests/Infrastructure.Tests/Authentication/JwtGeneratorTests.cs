@@ -1,13 +1,13 @@
 ﻿using System;
 using Microsoft.Extensions.Options;
 using Moq;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Domain.Entities;
-using PlanningPoker.Infrastructure.Authentication;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Domain.Entities;
+using ProjectTemplate2024.Infrastructure.Authentication;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Authentication;
+namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Authentication;
 
 public class JwtGeneratorTests
 {

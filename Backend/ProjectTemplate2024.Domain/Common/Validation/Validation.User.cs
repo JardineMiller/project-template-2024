@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Domain.Common.Validation;
+﻿namespace ProjectTemplate2024.Domain.Common.Validation;
 
 public static partial class Validation
 {

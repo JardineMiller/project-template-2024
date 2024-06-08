@@ -1,6 +1,6 @@
-﻿using PlanningPoker.Domain.Entities.Interfaces;
+﻿using ProjectTemplate2024.Domain.Entities.Interfaces;
 
-namespace PlanningPoker.Domain.Entities.Base;
+namespace ProjectTemplate2024.Domain.Entities.Base;
 
 public abstract class AuditableEntity : BaseEntity, IAuditable
 {

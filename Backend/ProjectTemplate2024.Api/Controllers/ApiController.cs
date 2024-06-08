@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace PlanningPoker.Api.Controllers;
+namespace ProjectTemplate2024.Api.Controllers;
 
 [ApiController]
 [Authorize(AuthenticationSchemes = "Bearer")]

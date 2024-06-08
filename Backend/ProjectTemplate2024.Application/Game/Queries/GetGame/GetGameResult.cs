@@ -1,6 +1,6 @@
-﻿using PlanningPoker.Domain.Entities;
+﻿using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Application.Game.Queries.GetGame;
+namespace ProjectTemplate2024.Application.Game.Queries.GetGame;
 
 public record GetGameResult(
     string Name,

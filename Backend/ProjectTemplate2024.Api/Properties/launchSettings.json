@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "PlanningPoker.Api - Dev": {
+    "ProjectTemplate2024.Api - Dev": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
@@ -19,7 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "PlanningPoker.Api - Prod": {
+    "ProjectTemplate2024.Api - Prod": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

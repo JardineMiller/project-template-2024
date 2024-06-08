@@ -1,6 +1,6 @@
-﻿using PlanningPoker.Api.Hubs;
+﻿using ProjectTemplate2024.Api.Hubs;
 
-namespace PlanningPoker.Api.Common.Extensions;
+namespace ProjectTemplate2024.Api.Common.Extensions;
 
 public static class WebApplicationExtensions
 {

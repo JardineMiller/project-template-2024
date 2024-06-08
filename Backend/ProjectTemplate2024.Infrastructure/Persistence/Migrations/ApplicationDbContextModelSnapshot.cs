@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PlanningPoker.Infrastructure.Persistence;
+using ProjectTemplate2024.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace PlanningPoker.Infrastructure.Migrations
+namespace ProjectTemplate2024.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

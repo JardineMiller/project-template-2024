@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using PlanningPoker.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
 
-namespace PlanningPoker.Infrastructure.Email;
+namespace ProjectTemplate2024.Infrastructure.Email;
 
 public class EmailPathService : IEmailPathService
 {

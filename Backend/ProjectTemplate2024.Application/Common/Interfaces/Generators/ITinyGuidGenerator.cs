@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Application.Common.Interfaces.Generators;
+﻿namespace ProjectTemplate2024.Application.Common.Interfaces.Generators;
 
 public interface ITinyGuidGenerator
 {

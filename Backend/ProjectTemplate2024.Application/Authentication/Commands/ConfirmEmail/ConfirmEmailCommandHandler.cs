@@ -2,12 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PlanningPoker.Application.Authentication.Common;
-using PlanningPoker.Application.Common.Interfaces.Authentication;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Authentication.Common;
+using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
+namespace ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler
     : IRequestHandler<

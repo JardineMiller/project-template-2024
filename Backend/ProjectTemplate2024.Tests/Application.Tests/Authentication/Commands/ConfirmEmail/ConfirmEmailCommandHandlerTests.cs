@@ -3,14 +3,14 @@ using System.Linq;
 using System.Threading;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
-using PlanningPoker.Application.Common.Interfaces.Authentication;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
+using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Authentication.Commands.ConfirmEmail;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandlerTests
 {

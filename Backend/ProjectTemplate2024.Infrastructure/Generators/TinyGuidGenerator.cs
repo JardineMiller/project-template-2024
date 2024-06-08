@@ -1,6 +1,6 @@
-﻿using PlanningPoker.Application.Common.Interfaces.Generators;
+﻿using ProjectTemplate2024.Application.Common.Interfaces.Generators;
 
-namespace PlanningPoker.Infrastructure.Generators;
+namespace ProjectTemplate2024.Infrastructure.Generators;
 
 public class TinyGuidGenerator : ITinyGuidGenerator
 {

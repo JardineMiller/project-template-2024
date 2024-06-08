@@ -1,8 +1,8 @@
 ﻿using FluentValidation.TestHelper;
-using PlanningPoker.Application.Account.Commands.ResetPassword;
+using ProjectTemplate2024.Application.Account.Commands.ResetPassword;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Account.Commands.ResetPassword;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Account.Commands.ResetPassword;
 
 public class ResetPasswordValidationTests
 {

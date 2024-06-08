@@ -1,12 +1,12 @@
 ﻿using Mapster;
-using PlanningPoker.Application.Game.Commands.Create;
-using PlanningPoker.Application.Game.Queries.GetGame;
-using PlanningPoker.Application.Game.Queries.GetUserGames;
-using PlanningPoker.Contracts.Game.CreateGame;
-using PlanningPoker.Contracts.Game.GetGame;
-using PlanningPoker.Contracts.Game.GetUserGames;
+using ProjectTemplate2024.Application.Game.Commands.Create;
+using ProjectTemplate2024.Application.Game.Queries.GetGame;
+using ProjectTemplate2024.Application.Game.Queries.GetUserGames;
+using ProjectTemplate2024.Contracts.Game.CreateGame;
+using ProjectTemplate2024.Contracts.Game.GetGame;
+using ProjectTemplate2024.Contracts.Game.GetUserGames;
 
-namespace PlanningPoker.Api.Common.Mapping;
+namespace ProjectTemplate2024.Api.Common.Mapping;
 
 public class GameMappingConfig : IRegister
 {

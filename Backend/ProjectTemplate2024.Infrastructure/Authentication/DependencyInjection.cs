@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PlanningPoker.Application.Common.Interfaces.Authentication;
+using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
 
-namespace PlanningPoker.Infrastructure.Authentication;
+namespace ProjectTemplate2024.Infrastructure.Authentication;
 
 public static class DependencyInjection
 {

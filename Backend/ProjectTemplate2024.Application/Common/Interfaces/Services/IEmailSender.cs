@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Application.Common.Interfaces.Services;
+﻿namespace ProjectTemplate2024.Application.Common.Interfaces.Services;
 
 public interface IEmailSender
 {

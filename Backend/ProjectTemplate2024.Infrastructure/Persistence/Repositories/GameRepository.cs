@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using PlanningPoker.Application.Common.Interfaces.Repositories;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Infrastructure.Persistence.Repositories;
+namespace ProjectTemplate2024.Infrastructure.Persistence.Repositories;
 
 public class GameRepository : IGameRepository
 {

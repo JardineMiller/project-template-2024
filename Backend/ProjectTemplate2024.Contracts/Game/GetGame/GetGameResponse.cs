@@ -1,6 +1,6 @@
-﻿using PlanningPoker.Domain.Entities;
+﻿using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Contracts.Game.GetGame;
+namespace ProjectTemplate2024.Contracts.Game.GetGame;
 
 public record GetGameResponse(
     string Name,

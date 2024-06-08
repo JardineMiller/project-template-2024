@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlanningPoker.Application.Common.Interfaces.Generators;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Domain.Entities;
-using PlanningPoker.Infrastructure.Authentication;
-using PlanningPoker.Infrastructure.Email;
-using PlanningPoker.Infrastructure.Generators;
-using PlanningPoker.Infrastructure.Persistence;
-using PlanningPoker.Infrastructure.Services;
+using ProjectTemplate2024.Application.Common.Interfaces.Generators;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Domain.Entities;
+using ProjectTemplate2024.Infrastructure.Authentication;
+using ProjectTemplate2024.Infrastructure.Email;
+using ProjectTemplate2024.Infrastructure.Generators;
+using ProjectTemplate2024.Infrastructure.Persistence;
+using ProjectTemplate2024.Infrastructure.Services;
 
-namespace PlanningPoker.Infrastructure;
+namespace ProjectTemplate2024.Infrastructure;
 
 public static class DependencyInjection
 {

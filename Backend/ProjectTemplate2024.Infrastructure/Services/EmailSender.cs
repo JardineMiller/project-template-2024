@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Options;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Infrastructure.Email;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Infrastructure.Email;
 
-namespace PlanningPoker.Infrastructure.Services;
+namespace ProjectTemplate2024.Infrastructure.Services;
 
 public class EmailSender : IEmailSender
 {

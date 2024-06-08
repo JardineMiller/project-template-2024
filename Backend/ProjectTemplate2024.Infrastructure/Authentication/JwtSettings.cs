@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Infrastructure.Authentication;
+﻿namespace ProjectTemplate2024.Infrastructure.Authentication;
 
 public class JwtSettings
 {

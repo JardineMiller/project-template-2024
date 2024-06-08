@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PlanningPoker.Application.Authentication.Queries.Login;
+namespace ProjectTemplate2024.Application.Authentication.Queries.Login;
 
 public class LoginQueryValidation : AbstractValidator<LoginQuery>
 {

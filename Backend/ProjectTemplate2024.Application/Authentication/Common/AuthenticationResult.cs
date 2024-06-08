@@ -1,6 +1,6 @@
-﻿using PlanningPoker.Domain.Entities;
+﻿using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Application.Authentication.Common;
+namespace ProjectTemplate2024.Application.Authentication.Common;
 
 public record AuthenticationResult(
     User User,

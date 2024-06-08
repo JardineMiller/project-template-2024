@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 #pragma warning disable CS8618
 
-namespace PlanningPoker.Domain.Entities;
+namespace ProjectTemplate2024.Domain.Entities;
 
 public class RefreshToken
 {

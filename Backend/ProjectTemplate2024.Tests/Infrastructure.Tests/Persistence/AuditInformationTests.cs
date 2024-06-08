@@ -2,13 +2,13 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Domain.Entities;
-using PlanningPoker.Infrastructure.Persistence;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Domain.Entities;
+using ProjectTemplate2024.Infrastructure.Persistence;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Persistence;
+namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Persistence;
 
 public class AuditInformationTests
 {

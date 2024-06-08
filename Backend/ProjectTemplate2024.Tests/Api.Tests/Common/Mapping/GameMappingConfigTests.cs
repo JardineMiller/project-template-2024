@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mapster;
-using PlanningPoker.Api.Common.Mapping;
-using PlanningPoker.Application.Game.Commands.Create;
-using PlanningPoker.Application.Game.Queries.GetGame;
-using PlanningPoker.Application.Game.Queries.GetUserGames;
-using PlanningPoker.Application.Tests.TestHelpers;
-using PlanningPoker.Contracts.Game.CreateGame;
-using PlanningPoker.Contracts.Game.GetGame;
-using PlanningPoker.Contracts.Game.GetUserGames;
-using PlanningPoker.Domain.Common.Validation;
-using PlanningPoker.Infrastructure.Generators;
+using ProjectTemplate2024.Api.Common.Mapping;
+using ProjectTemplate2024.Application.Game.Commands.Create;
+using ProjectTemplate2024.Application.Game.Queries.GetGame;
+using ProjectTemplate2024.Application.Game.Queries.GetUserGames;
+using ProjectTemplate2024.Application.Tests.TestHelpers;
+using ProjectTemplate2024.Contracts.Game.CreateGame;
+using ProjectTemplate2024.Contracts.Game.GetGame;
+using ProjectTemplate2024.Contracts.Game.GetUserGames;
+using ProjectTemplate2024.Domain.Common.Validation;
+using ProjectTemplate2024.Infrastructure.Generators;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Api.Tests.Common.Mapping;
+namespace ProjectTemplate2024.Application.Tests.Api.Tests.Common.Mapping;
 
 public class GameMappingConfigTests
 {

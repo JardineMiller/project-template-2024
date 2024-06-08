@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Infrastructure.Email;
+﻿namespace ProjectTemplate2024.Infrastructure.Email;
 
 public record EmailSettings
 {

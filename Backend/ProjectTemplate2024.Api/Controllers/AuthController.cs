@@ -2,15 +2,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
-using PlanningPoker.Application.Authentication.Commands.RefreshToken;
-using PlanningPoker.Application.Authentication.Commands.Register;
-using PlanningPoker.Application.Authentication.Commands.RevokeToken;
-using PlanningPoker.Application.Authentication.Queries.Login;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Contracts.Authentication;
+using ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
+using ProjectTemplate2024.Application.Authentication.Commands.RefreshToken;
+using ProjectTemplate2024.Application.Authentication.Commands.Register;
+using ProjectTemplate2024.Application.Authentication.Commands.RevokeToken;
+using ProjectTemplate2024.Application.Authentication.Queries.Login;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Contracts.Authentication;
 
-namespace PlanningPoker.Api.Controllers;
+namespace ProjectTemplate2024.Api.Controllers;
 
 [AllowAnonymous]
 public class AuthController : ApiController

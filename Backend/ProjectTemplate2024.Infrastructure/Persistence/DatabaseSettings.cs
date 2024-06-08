@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Infrastructure.Persistence;
+﻿namespace ProjectTemplate2024.Infrastructure.Persistence;
 
 public class DatabaseSettings
 {

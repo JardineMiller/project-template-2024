@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Contracts.Account.ResetPassword;
+﻿namespace ProjectTemplate2024.Contracts.Account.ResetPassword;
 
 public record ResetPasswordRequest(
     string Email,

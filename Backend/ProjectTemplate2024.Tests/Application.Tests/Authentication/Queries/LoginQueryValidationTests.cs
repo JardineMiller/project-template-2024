@@ -1,8 +1,8 @@
 ﻿using FluentValidation.TestHelper;
-using PlanningPoker.Application.Authentication.Queries.Login;
+using ProjectTemplate2024.Application.Authentication.Queries.Login;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Authentication.Queries;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Authentication.Queries;
 
 public class LoginQueryValidationTests
 {

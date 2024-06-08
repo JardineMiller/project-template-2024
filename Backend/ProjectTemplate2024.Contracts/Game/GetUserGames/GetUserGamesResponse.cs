@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Contracts.Game.GetUserGames;
+﻿namespace ProjectTemplate2024.Contracts.Game.GetUserGames;
 
 public record GetUserGamesResponse(
     string UserId,

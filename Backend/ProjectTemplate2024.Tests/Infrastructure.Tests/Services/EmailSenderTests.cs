@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using PlanningPoker.Api.Controllers;
-using PlanningPoker.Infrastructure.Email;
-using PlanningPoker.Infrastructure.Services;
+using ProjectTemplate2024.Api.Controllers;
+using ProjectTemplate2024.Infrastructure.Email;
+using ProjectTemplate2024.Infrastructure.Services;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Services;
+namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Services;
 
 public class EmailSenderTests
 {
@@ -47,10 +47,10 @@ public class EmailSenderTests
         // Arrange
         var emailSettings = new EmailSettings
         {
-            From = "testing@planningpoker.com",
+            From = "testing@ProjectTemplate2024.com",
             Host = "smtp.mailtrap.io",
             Port = 2525,
-            DisplayName = "Planning Poker - Development",
+            DisplayName = "ProjectTemplate2024 - Development",
             Username = "",
             Password = ""
         };

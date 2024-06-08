@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PlanningPoker.Application.Common.Validators;
+namespace ProjectTemplate2024.Application.Common.Validators;
 
 public static class ValidatorExtensions
 {

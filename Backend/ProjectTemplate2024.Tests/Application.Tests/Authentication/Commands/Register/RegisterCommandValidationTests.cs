@@ -1,8 +1,8 @@
 ﻿using Xunit;
 using FluentValidation.TestHelper;
-using PlanningPoker.Application.Authentication.Commands.Register;
+using ProjectTemplate2024.Application.Authentication.Commands.Register;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Authentication.Commands.Register;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Authentication.Commands.Register;
 
 public class RegisterCommandValidationTests
 {

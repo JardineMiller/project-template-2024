@@ -2,12 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PlanningPoker.Application.Account.Commands.RequestResetPassword;
-using PlanningPoker.Application.Account.Commands.ResetPassword;
-using PlanningPoker.Contracts.Account.RequestResetPassword;
-using PlanningPoker.Contracts.Account.ResetPassword;
+using ProjectTemplate2024.Application.Account.Commands.RequestResetPassword;
+using ProjectTemplate2024.Application.Account.Commands.ResetPassword;
+using ProjectTemplate2024.Contracts.Account.RequestResetPassword;
+using ProjectTemplate2024.Contracts.Account.ResetPassword;
 
-namespace PlanningPoker.Api.Controllers;
+namespace ProjectTemplate2024.Api.Controllers;
 
 public class AccountController : ApiController
 {

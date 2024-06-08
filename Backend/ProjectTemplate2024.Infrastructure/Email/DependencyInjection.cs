@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Infrastructure.Services;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Infrastructure.Services;
 
-namespace PlanningPoker.Infrastructure.Email;
+namespace ProjectTemplate2024.Infrastructure.Email;
 
 public static class DependencyInjection
 {

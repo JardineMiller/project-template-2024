@@ -4,13 +4,13 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PlanningPoker.Application.Common.Interfaces.Authentication;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Domain.Entities;
 
 #pragma warning disable SYSLIB0023
 
-namespace PlanningPoker.Infrastructure.Authentication;
+namespace ProjectTemplate2024.Infrastructure.Authentication;
 
 public class TokenGenerator : ITokenGenerator
 {

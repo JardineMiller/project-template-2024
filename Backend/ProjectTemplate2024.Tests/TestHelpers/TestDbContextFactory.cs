@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using PlanningPoker.Domain.Entities;
-using PlanningPoker.Infrastructure.Persistence;
-using PlanningPoker.Infrastructure.Services;
+using ProjectTemplate2024.Domain.Entities;
+using ProjectTemplate2024.Infrastructure.Persistence;
+using ProjectTemplate2024.Infrastructure.Services;
 
-namespace PlanningPoker.Application.Tests.TestHelpers;
+namespace ProjectTemplate2024.Application.Tests.TestHelpers;
 
 public class TestDbContextFactory
 {

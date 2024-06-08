@@ -1,6 +1,6 @@
-﻿using PlanningPoker.Domain.Entities;
+﻿using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Application.Common.Interfaces.Authentication;
+namespace ProjectTemplate2024.Application.Common.Interfaces.Authentication;
 
 public interface ITokenGenerator
 {

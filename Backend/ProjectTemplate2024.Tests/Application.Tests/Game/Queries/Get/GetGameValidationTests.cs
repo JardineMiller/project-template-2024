@@ -1,8 +1,8 @@
 ﻿using FluentValidation.TestHelper;
-using PlanningPoker.Application.Game.Queries.GetGame;
+using ProjectTemplate2024.Application.Game.Queries.GetGame;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Game.Queries.Get;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Game.Queries.Get;
 
 public class GetGameValidationTests
 {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Moq;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Infrastructure.Email;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Infrastructure.Email;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Services;
+namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Services;
 
 public class EmailPathServiceTests
 {

@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using PlanningPoker.Application.PipelineBehaviours;
-using PlanningPoker.Application.Settings;
+using ProjectTemplate2024.Application.PipelineBehaviours;
+using ProjectTemplate2024.Application.Settings;
 
-namespace PlanningPoker.Application;
+namespace ProjectTemplate2024.Application;
 
 public static class DependencyInjection
 {

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PlanningPoker.Domain.Common.Validation;
+using ProjectTemplate2024.Domain.Common.Validation;
 
-namespace PlanningPoker.Application.Account.Commands.ResetPassword;
+namespace ProjectTemplate2024.Application.Account.Commands.ResetPassword;
 
 public class ResetPasswordCommandValidation
     : AbstractValidator<ResetPasswordCommand>

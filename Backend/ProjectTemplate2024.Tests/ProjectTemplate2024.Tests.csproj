@@ -6,7 +6,7 @@
 
         <IsPackable>false</IsPackable>
 
-        <RootNamespace>PlanningPoker.Application.Tests</RootNamespace>
+        <RootNamespace>ProjectTemplate2024.Application.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

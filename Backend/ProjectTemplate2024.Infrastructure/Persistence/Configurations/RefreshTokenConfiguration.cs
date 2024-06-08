@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Infrastructure.Persistence.Configurations;
+namespace ProjectTemplate2024.Infrastructure.Persistence.Configurations;
 
 public class RefreshTokenConfiguration
     : IEntityTypeConfiguration<RefreshToken>

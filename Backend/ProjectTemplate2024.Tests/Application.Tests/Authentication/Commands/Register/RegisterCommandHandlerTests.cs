@@ -2,14 +2,14 @@
 using System.Threading;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using PlanningPoker.Application.Authentication.Commands.Register;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Authentication.Commands.Register;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Authentication.Commands.Register;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Authentication.Commands.Register;
 
 public class RegisterCommandHandlerTests
 {

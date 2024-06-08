@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Options;
 using Moq;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Application.Settings;
-using PlanningPoker.Infrastructure.Services;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Application.Settings;
+using ProjectTemplate2024.Infrastructure.Services;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Services;
+namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Services;
 
 public class EmailServiceTests
 {

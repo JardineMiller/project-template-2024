@@ -1,7 +1,7 @@
 ﻿using System;
-using PlanningPoker.Infrastructure.Persistence;
+using ProjectTemplate2024.Infrastructure.Persistence;
 
-namespace PlanningPoker.Application.Tests.TestHelpers;
+namespace ProjectTemplate2024.Application.Tests.TestHelpers;
 
 public class QueryTestBase : IDisposable
 {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PlanningPoker.Application.Authentication.Commands.ConfirmEmail;
+namespace ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailValidation
     : AbstractValidator<ConfirmEmailCommand>

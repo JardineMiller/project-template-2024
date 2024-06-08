@@ -1,9 +1,9 @@
 ﻿using ErrorOr;
 using MediatR;
-using PlanningPoker.Application.Common.Interfaces.Repositories;
-using PlanningPoker.Domain.Common.Errors;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Domain.Common.Errors;
 
-namespace PlanningPoker.Application.Game.Queries.GetGame;
+namespace ProjectTemplate2024.Application.Game.Queries.GetGame;
 
 public class GetGameQueryHandler
     : IRequestHandler<GetGameQuery, ErrorOr<GetGameResult>>

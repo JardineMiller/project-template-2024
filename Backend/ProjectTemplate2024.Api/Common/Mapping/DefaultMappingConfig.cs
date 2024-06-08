@@ -1,6 +1,6 @@
 ﻿using Mapster;
 
-namespace PlanningPoker.Api.Common.Mapping;
+namespace ProjectTemplate2024.Api.Common.Mapping;
 
 public class DefaultMappingConfig : IRegister
 {

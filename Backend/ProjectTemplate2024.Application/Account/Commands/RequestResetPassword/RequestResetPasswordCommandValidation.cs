@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PlanningPoker.Application.Account.Commands.RequestResetPassword;
+namespace ProjectTemplate2024.Application.Account.Commands.RequestResetPassword;
 
 public class RequestResetPasswordCommandValidation
     : AbstractValidator<RequestResetPasswordCommand>

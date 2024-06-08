@@ -1,13 +1,13 @@
 ﻿using Mapster;
-using PlanningPoker.Api.Common.Mapping;
-using PlanningPoker.Application.Account.Commands.RequestResetPassword;
-using PlanningPoker.Application.Account.Commands.ResetPassword;
-using PlanningPoker.Contracts.Account.RequestResetPassword;
-using PlanningPoker.Contracts.Account.ResetPassword;
+using ProjectTemplate2024.Api.Common.Mapping;
+using ProjectTemplate2024.Application.Account.Commands.RequestResetPassword;
+using ProjectTemplate2024.Application.Account.Commands.ResetPassword;
+using ProjectTemplate2024.Contracts.Account.RequestResetPassword;
+using ProjectTemplate2024.Contracts.Account.ResetPassword;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Api.Tests.Common.Mapping;
+namespace ProjectTemplate2024.Application.Tests.Api.Tests.Common.Mapping;
 
 public class AccountMappingConfigTests
 {

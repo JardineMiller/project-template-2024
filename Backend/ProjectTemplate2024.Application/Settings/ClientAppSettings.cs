@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Application.Settings;
+﻿namespace ProjectTemplate2024.Application.Settings;
 
 public class ClientAppSettings
 {

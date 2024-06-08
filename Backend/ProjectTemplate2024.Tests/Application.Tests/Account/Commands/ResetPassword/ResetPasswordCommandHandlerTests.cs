@@ -2,13 +2,13 @@
 using System.Threading;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using PlanningPoker.Application.Account.Commands.ResetPassword;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Account.Commands.ResetPassword;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Account.Commands.ResetPassword;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Account.Commands.ResetPassword;
 
 public class ResetPasswordCommandHandlerTests
 {

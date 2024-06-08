@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>6405e572-debc-44a7-a8db-5de7275cc36d</UserSecretsId>
-    <RootNamespace>PlanningPoker.Api</RootNamespace>
+    <RootNamespace>ProjectTemplate2024.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

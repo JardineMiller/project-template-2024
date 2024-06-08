@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 
-namespace PlanningPoker.Application.Account.Commands.ResetPassword;
+namespace ProjectTemplate2024.Application.Account.Commands.ResetPassword;
 
 public record ResetPasswordCommand(
     string Email,

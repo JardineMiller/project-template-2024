@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 
-namespace PlanningPoker.Application.Game.Commands.Create;
+namespace ProjectTemplate2024.Application.Game.Commands.Create;
 
 public record CreateGameCommand(
     string Name,

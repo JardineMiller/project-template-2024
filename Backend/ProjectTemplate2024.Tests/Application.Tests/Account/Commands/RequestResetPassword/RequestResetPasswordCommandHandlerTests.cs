@@ -2,14 +2,14 @@
 using System.Threading;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using PlanningPoker.Application.Account.Commands.RequestResetPassword;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Account.Commands.RequestResetPassword;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Account.Commands.RequestResetPassword;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Account.Commands.RequestResetPassword;
 
 public class RequestResetPasswordCommandHandlerTests
 {

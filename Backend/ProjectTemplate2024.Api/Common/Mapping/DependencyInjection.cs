@@ -2,7 +2,7 @@
 using Mapster;
 using MapsterMapper;
 
-namespace PlanningPoker.Api.Common.Mapping;
+namespace ProjectTemplate2024.Api.Common.Mapping;
 
 public static class DependencyInjection
 {

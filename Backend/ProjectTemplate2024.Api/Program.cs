@@ -1,7 +1,7 @@
-using PlanningPoker.Api;
-using PlanningPoker.Api.Common.Extensions;
-using PlanningPoker.Application;
-using PlanningPoker.Infrastructure;
+using ProjectTemplate2024.Api;
+using ProjectTemplate2024.Api.Common.Extensions;
+using ProjectTemplate2024.Application;
+using ProjectTemplate2024.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

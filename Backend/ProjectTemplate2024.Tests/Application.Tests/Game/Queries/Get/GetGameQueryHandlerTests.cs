@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using System.Threading;
-using PlanningPoker.Application.Common.Interfaces.Repositories;
-using PlanningPoker.Application.Game.Queries.GetGame;
-using PlanningPoker.Application.Tests.TestHelpers;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Infrastructure.Persistence.Repositories;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Application.Game.Queries.GetGame;
+using ProjectTemplate2024.Application.Tests.TestHelpers;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Infrastructure.Persistence.Repositories;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Game.Queries.Get;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Game.Queries.Get;
 
 public class GetGameQueryHandlerTests
 {

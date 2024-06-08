@@ -1,8 +1,8 @@
 ﻿using ErrorOr;
 using MediatR;
-using PlanningPoker.Application.Authentication.Common;
+using ProjectTemplate2024.Application.Authentication.Common;
 
-namespace PlanningPoker.Application.Authentication.Commands.Register;
+namespace ProjectTemplate2024.Application.Authentication.Commands.Register;
 
 public record RegisterCommand(
     string FirstName,

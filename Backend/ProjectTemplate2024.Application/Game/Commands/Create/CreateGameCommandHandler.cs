@@ -1,12 +1,12 @@
 ﻿using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using PlanningPoker.Application.Common.Interfaces.Generators;
-using PlanningPoker.Application.Common.Interfaces.Repositories;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Common.Interfaces.Generators;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Application.Game.Commands.Create;
+namespace ProjectTemplate2024.Application.Game.Commands.Create;
 
 public class CreateGameCommandHandler
     : IRequestHandler<CreateGameCommand, ErrorOr<CreateGameResult>>

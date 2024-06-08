@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace PlanningPoker.Application.Common.Interfaces.Repositories;
+namespace ProjectTemplate2024.Application.Common.Interfaces.Repositories;
 
 public interface IGameRepository
 {

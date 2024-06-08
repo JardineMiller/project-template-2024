@@ -1,8 +1,8 @@
-﻿using PlanningPoker.Domain.Entities.Base;
+﻿using ProjectTemplate2024.Domain.Entities.Base;
 
 #pragma warning disable CS8618
 
-namespace PlanningPoker.Domain.Entities;
+namespace ProjectTemplate2024.Domain.Entities;
 
 public class Game : DeletableEntity
 {

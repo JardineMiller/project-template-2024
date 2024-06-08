@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using PlanningPoker.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
 
-namespace PlanningPoker.Api.Hubs;
+namespace ProjectTemplate2024.Api.Hubs;
 
 public interface IGameHub
 {

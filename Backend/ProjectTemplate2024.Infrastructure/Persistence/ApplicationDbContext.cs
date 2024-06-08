@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Domain.Entities;
-using PlanningPoker.Domain.Entities.Interfaces;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Domain.Entities;
+using ProjectTemplate2024.Domain.Entities.Interfaces;
 
 #pragma warning disable CS8618
 
-namespace PlanningPoker.Infrastructure.Persistence;
+namespace ProjectTemplate2024.Infrastructure.Persistence;
 
 public class ApplicationDbContext : IdentityDbContext<User>
 {

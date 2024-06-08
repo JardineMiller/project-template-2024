@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using PlanningPoker.Application.Common.Validators;
-using PlanningPoker.Domain.Common.Validation;
+using ProjectTemplate2024.Application.Common.Validators;
+using ProjectTemplate2024.Domain.Common.Validation;
 
-namespace PlanningPoker.Application.Game.Commands.Create;
+namespace ProjectTemplate2024.Application.Game.Commands.Create;
 
 public class CreateGameCommandValidation
     : AbstractValidator<CreateGameCommand>

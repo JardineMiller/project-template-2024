@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using PlanningPoker.Infrastructure.Services;
+using ProjectTemplate2024.Infrastructure.Services;
 
-namespace PlanningPoker.Infrastructure.Persistence;
+namespace ProjectTemplate2024.Infrastructure.Persistence;
 
 public class DbContextFactory
     : IDesignTimeDbContextFactory<ApplicationDbContext>

@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Contracts.Authentication;
+﻿namespace ProjectTemplate2024.Contracts.Authentication;
 
 public record RegisterRequest(
     string FirstName,

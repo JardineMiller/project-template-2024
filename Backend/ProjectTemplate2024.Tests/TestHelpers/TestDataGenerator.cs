@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace PlanningPoker.Application.Tests.TestHelpers;
+namespace ProjectTemplate2024.Application.Tests.TestHelpers;
 
 public static class TestDataGenerator
 {

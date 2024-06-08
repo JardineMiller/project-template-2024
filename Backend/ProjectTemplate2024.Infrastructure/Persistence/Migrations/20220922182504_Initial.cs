@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PlanningPoker.Infrastructure.Migrations
+namespace ProjectTemplate2024.Infrastructure.Migrations
 {
     public partial class Initial : Migration
     {

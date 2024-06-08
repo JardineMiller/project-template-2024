@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Domain.Entities.Interfaces;
+﻿namespace ProjectTemplate2024.Domain.Entities.Interfaces;
 
 public interface IAuditable
 {

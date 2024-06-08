@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using PlanningPoker.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
 
-namespace PlanningPoker.Infrastructure.Services;
+namespace ProjectTemplate2024.Infrastructure.Services;
 
 public class CurrentUserService : ICurrentUserService
 {

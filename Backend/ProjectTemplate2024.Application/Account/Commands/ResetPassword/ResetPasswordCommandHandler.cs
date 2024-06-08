@@ -1,10 +1,10 @@
 ﻿using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Application.Account.Commands.ResetPassword;
+namespace ProjectTemplate2024.Application.Account.Commands.ResetPassword;
 
 public class ResetPasswordCommandHandler
     : IRequestHandler<

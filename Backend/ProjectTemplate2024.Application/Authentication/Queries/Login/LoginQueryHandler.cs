@@ -2,13 +2,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PlanningPoker.Application.Authentication.Common;
-using PlanningPoker.Application.Common.Interfaces.Authentication;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Application.Authentication.Common;
+using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
 
-namespace PlanningPoker.Application.Authentication.Queries.Login;
+namespace ProjectTemplate2024.Application.Authentication.Queries.Login;
 
 public class LoginQueryHandler
     : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>

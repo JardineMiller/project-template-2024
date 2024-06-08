@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using PlanningPoker.Domain.Entities.Interfaces;
+using ProjectTemplate2024.Domain.Entities.Interfaces;
 
-namespace PlanningPoker.Domain.Entities;
+namespace ProjectTemplate2024.Domain.Entities;
 
 public class User : IdentityUser, IAuditable
 {

@@ -1,9 +1,9 @@
 ﻿using Mapster;
-using PlanningPoker.Api.Common.Mapping;
+using ProjectTemplate2024.Api.Common.Mapping;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Api.Tests.Common.Mapping;
+namespace ProjectTemplate2024.Application.Tests.Api.Tests.Common.Mapping;
 
 public class DefaultMappingConfigTests
 {

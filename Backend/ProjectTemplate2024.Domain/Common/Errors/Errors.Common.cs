@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 
-namespace PlanningPoker.Domain.Common.Errors;
+namespace ProjectTemplate2024.Domain.Common.Errors;
 
 public static partial class Errors
 {

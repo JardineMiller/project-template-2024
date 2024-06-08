@@ -3,16 +3,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using PlanningPoker.Application.Common.Interfaces.Repositories;
-using PlanningPoker.Application.Game.Queries.GetUserGames;
-using PlanningPoker.Application.Tests.TestHelpers;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
-using PlanningPoker.Infrastructure.Persistence.Repositories;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Application.Game.Queries.GetUserGames;
+using ProjectTemplate2024.Application.Tests.TestHelpers;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
+using ProjectTemplate2024.Infrastructure.Persistence.Repositories;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Game.Queries.GetUserGames;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Game.Queries.GetUserGames;
 
 public class GetUsersGamesHandlerTests
 {

@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>PlanningPoker.Domain</RootNamespace>
+    <RootNamespace>ProjectTemplate2024.Domain</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

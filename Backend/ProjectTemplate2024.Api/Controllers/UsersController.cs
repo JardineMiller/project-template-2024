@@ -1,10 +1,10 @@
 ﻿using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PlanningPoker.Application.Game.Queries.GetUserGames;
-using PlanningPoker.Contracts.Game.GetUserGames;
+using ProjectTemplate2024.Application.Game.Queries.GetUserGames;
+using ProjectTemplate2024.Contracts.Game.GetUserGames;
 
-namespace PlanningPoker.Api.Controllers;
+namespace ProjectTemplate2024.Api.Controllers;
 
 public class UsersController : ApiController
 {

@@ -1,9 +1,9 @@
 ﻿using System.Web;
 using Microsoft.Extensions.Options;
-using PlanningPoker.Application.Common.Interfaces.Services;
-using PlanningPoker.Application.Settings;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
+using ProjectTemplate2024.Application.Settings;
 
-namespace PlanningPoker.Infrastructure.Services;
+namespace ProjectTemplate2024.Infrastructure.Services;
 
 public class EmailService : IEmailService
 {
@@ -41,7 +41,7 @@ public class EmailService : IEmailService
 
         this._emailSender.SendEmail(
             toEmail,
-            $"Welcome to Planning Poker, {firstName}",
+            $"Welcome to ProjectTemplate2024, {firstName}",
             mailText
         );
     }
@@ -60,7 +60,7 @@ public class EmailService : IEmailService
 
         this._emailSender.SendEmail(
             toEmail,
-            "Planning Poker - Reset Password",
+            "ProjectTemplate2024 - Reset Password",
             mailText
         );
     }

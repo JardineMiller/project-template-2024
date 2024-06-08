@@ -3,13 +3,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using ErrorOr;
 using FluentValidation;
-using PlanningPoker.Application.Authentication.Common;
-using PlanningPoker.Application.Authentication.Queries.Login;
-using PlanningPoker.Application.PipelineBehaviours;
+using ProjectTemplate2024.Application.Authentication.Common;
+using ProjectTemplate2024.Application.Authentication.Queries.Login;
+using ProjectTemplate2024.Application.PipelineBehaviours;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.PipelineBehaviours;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.PipelineBehaviours;
 
 public class RequestValidationBehaviourTests
 {

@@ -1,9 +1,9 @@
 ﻿using System;
-using PlanningPoker.Infrastructure.Services;
+using ProjectTemplate2024.Infrastructure.Services;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Infrastructure.Tests.Services;
+namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Services;
 
 public class DateTimeProviderTests
 {

@@ -1,14 +1,14 @@
 ﻿using Mapster;
 using Shouldly;
-using PlanningPoker.Api.Common.Mapping;
-using PlanningPoker.Application.Authentication.Commands.Register;
-using PlanningPoker.Application.Authentication.Common;
-using PlanningPoker.Application.Authentication.Queries.Login;
-using PlanningPoker.Contracts.Authentication;
-using PlanningPoker.Domain.Entities;
+using ProjectTemplate2024.Api.Common.Mapping;
+using ProjectTemplate2024.Application.Authentication.Commands.Register;
+using ProjectTemplate2024.Application.Authentication.Common;
+using ProjectTemplate2024.Application.Authentication.Queries.Login;
+using ProjectTemplate2024.Contracts.Authentication;
+using ProjectTemplate2024.Domain.Entities;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Api.Tests.Common.Mapping;
+namespace ProjectTemplate2024.Application.Tests.Api.Tests.Common.Mapping;
 
 public class AuthenticationMappingConfigTests
 {

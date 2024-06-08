@@ -3,17 +3,17 @@ using System.Threading;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;
-using PlanningPoker.Application.Common.Interfaces.Generators;
-using PlanningPoker.Application.Common.Interfaces.Repositories;
-using PlanningPoker.Application.Game.Commands.Create;
-using PlanningPoker.Application.Tests.TestHelpers;
-using PlanningPoker.Domain.Common.Errors;
-using PlanningPoker.Domain.Entities;
-using PlanningPoker.Infrastructure.Persistence.Repositories;
+using ProjectTemplate2024.Application.Common.Interfaces.Generators;
+using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Application.Game.Commands.Create;
+using ProjectTemplate2024.Application.Tests.TestHelpers;
+using ProjectTemplate2024.Domain.Common.Errors;
+using ProjectTemplate2024.Domain.Entities;
+using ProjectTemplate2024.Infrastructure.Persistence.Repositories;
 using Shouldly;
 using Xunit;
 
-namespace PlanningPoker.Application.Tests.Application.Tests.Game.Commands.Create;
+namespace ProjectTemplate2024.Application.Tests.Application.Tests.Game.Commands.Create;
 
 public class CreateGameCommandHandlerTests
 {

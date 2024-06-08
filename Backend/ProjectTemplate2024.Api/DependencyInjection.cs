@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using PlanningPoker.Api.Common.Errors;
-using PlanningPoker.Api.Common.Mapping;
-using PlanningPoker.Application.Settings;
+using ProjectTemplate2024.Api.Common.Errors;
+using ProjectTemplate2024.Api.Common.Mapping;
+using ProjectTemplate2024.Application.Settings;
 
-namespace PlanningPoker.Api;
+namespace ProjectTemplate2024.Api;
 
 public static class DependencyInjection
 {

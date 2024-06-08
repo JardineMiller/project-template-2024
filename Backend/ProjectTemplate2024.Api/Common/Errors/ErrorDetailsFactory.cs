@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace PlanningPoker.Api.Common.Errors;
+namespace ProjectTemplate2024.Api.Common.Errors;
 
 public class ErrorDetailsFactory : ProblemDetailsFactory
 {

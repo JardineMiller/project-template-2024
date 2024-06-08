@@ -3,7 +3,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 
-namespace PlanningPoker.Application.PipelineBehaviours;
+namespace ProjectTemplate2024.Application.PipelineBehaviours;
 
 public class RequestValidationBehaviour<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>

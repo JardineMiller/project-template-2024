@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PlanningPoker.Domain.Common.Validation;
+using ProjectTemplate2024.Domain.Common.Validation;
 
-namespace PlanningPoker.Application.Authentication.Commands.Register;
+namespace ProjectTemplate2024.Application.Authentication.Commands.Register;
 
 public class RegisterCommandValidation
     : AbstractValidator<RegisterCommand>

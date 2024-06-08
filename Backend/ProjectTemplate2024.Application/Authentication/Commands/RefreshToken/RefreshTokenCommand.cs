@@ -1,8 +1,8 @@
 using ErrorOr;
 using MediatR;
-using PlanningPoker.Application.Authentication.Common;
+using ProjectTemplate2024.Application.Authentication.Common;
 
-namespace PlanningPoker.Application.Authentication.Commands.RefreshToken;
+namespace ProjectTemplate2024.Application.Authentication.Commands.RefreshToken;
 
 public record RefreshTokenCommand(string Token)
     : IRequest<ErrorOr<AuthenticationResult>>;
