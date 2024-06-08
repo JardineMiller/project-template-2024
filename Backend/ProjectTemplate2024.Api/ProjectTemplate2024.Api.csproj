@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlanningPoker.Application\PlanningPoker.Application.csproj" />
-    <ProjectReference Include="..\PlanningPoker.Contracts\PlanningPoker.Contracts.csproj" />
-    <ProjectReference Include="..\PlanningPoker.Infrastructure\PlanningPoker.Infrastructure.csproj" />
+    <ProjectReference Include="..\ProjectTemplate2024.Application\ProjectTemplate2024.Application.csproj" />
+    <ProjectReference Include="..\ProjectTemplate2024.Contracts\ProjectTemplate2024.Contracts.csproj" />
+    <ProjectReference Include="..\ProjectTemplate2024.Infrastructure\ProjectTemplate2024.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

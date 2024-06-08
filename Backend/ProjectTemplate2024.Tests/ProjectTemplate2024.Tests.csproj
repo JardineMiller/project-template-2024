@@ -26,8 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PlanningPoker.Api\PlanningPoker.Api.csproj" />
-      <ProjectReference Include="..\PlanningPoker.Application\PlanningPoker.Application.csproj" />
+      <ProjectReference Include="..\ProjectTemplate2024.Api\ProjectTemplate2024.Api.csproj" />
+      <ProjectReference Include="..\ProjectTemplate2024.Application\ProjectTemplate2024.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>

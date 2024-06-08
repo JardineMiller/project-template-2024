@@ -14,7 +14,7 @@ public class DbContextFactory
             .SetBasePath(
                 Path.Combine(
                     Directory.GetCurrentDirectory(),
-                    "../PlanningPoker.Api"
+                    "../ProjectTemplate2024.Api"
                 )
             )
             .AddJsonFile("appsettings.Development.json", false, false)

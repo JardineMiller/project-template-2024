@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlanningPoker.Infrastructure.Persistence;
 
@@ -12,10 +11,9 @@ using PlanningPoker.Infrastructure.Persistence;
 namespace PlanningPoker.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230521163144_AddRefreshTokens")]
-    partial class AddRefreshTokens
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,7 +155,7 @@ namespace PlanningPoker.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PlanningPoker.Domain.Entities.Game", b =>
+            modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.Game", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,10 +195,10 @@ namespace PlanningPoker.Infrastructure.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
-            modelBuilder.Entity("PlanningPoker.Domain.Entities.User", b =>
+            modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -311,7 +309,7 @@ namespace PlanningPoker.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -325,7 +323,7 @@ namespace PlanningPoker.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("PlanningPoker.Domain.Entities.User", null)
+                    b.HasOne("ProjectTemplate2024.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -334,7 +332,7 @@ namespace PlanningPoker.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("PlanningPoker.Domain.Entities.User", null)
+                    b.HasOne("ProjectTemplate2024.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -349,7 +347,7 @@ namespace PlanningPoker.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PlanningPoker.Domain.Entities.User", null)
+                    b.HasOne("ProjectTemplate2024.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -358,16 +356,16 @@ namespace PlanningPoker.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("PlanningPoker.Domain.Entities.User", null)
+                    b.HasOne("ProjectTemplate2024.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PlanningPoker.Domain.Entities.Game", b =>
+            modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.Game", b =>
                 {
-                    b.HasOne("PlanningPoker.Domain.Entities.User", "Owner")
+                    b.HasOne("ProjectTemplate2024.Domain.Entities.User", "Owner")
                         .WithMany("Games")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -378,7 +376,7 @@ namespace PlanningPoker.Infrastructure.Migrations
 
             modelBuilder.Entity("RefreshToken", b =>
                 {
-                    b.HasOne("PlanningPoker.Domain.Entities.User", "User")
+                    b.HasOne("ProjectTemplate2024.Domain.Entities.User", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -387,7 +385,7 @@ namespace PlanningPoker.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PlanningPoker.Domain.Entities.User", b =>
+            modelBuilder.Entity("ProjectTemplate2024.Domain.Entities.User", b =>
                 {
                     b.Navigation("Games");
 

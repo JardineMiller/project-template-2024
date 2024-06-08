@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlanningPoker.Application\PlanningPoker.Application.csproj" />
+    <ProjectReference Include="..\ProjectTemplate2024.Application\ProjectTemplate2024.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
