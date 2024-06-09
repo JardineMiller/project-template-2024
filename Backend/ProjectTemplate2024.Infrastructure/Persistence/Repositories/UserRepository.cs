@@ -36,10 +36,27 @@ public class UserRepository : IUserRepository
         CancellationToken cancellationToken = new()
     )
     {
-        return await this._userManager.Users.Include(x => x.RefreshTokens)
+        return await this._userManager.Users
+            .Include(x => x.RefreshTokens)
             .FirstOrDefaultAsync(
                 x => x.RefreshTokens.Any(t => t.Token == refreshToken),
                 cancellationToken
             );
+    }
+
+    public async Task<User?> GetUserById(
+        string id,
+        CancellationToken cancellationToken = new(),
+        params Expression<Func<User, object>>[] includes
+    )
+    {
+        var query = this._userManager.Users.Where(x => x.Id == id);
+
+        query = includes.Aggregate(
+            query.AsQueryable(),
+            (current, include) => current.Include(include)
+        );
+
+        return await query.FirstOrDefaultAsync(cancellationToken);
     }
 }

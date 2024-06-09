@@ -1,5 +1,5 @@
 ﻿<script lang="ts">
-    import RegisterModel from "@/modules/auth/models/register/RegisterModel";
+    import type GetUserDetailsResponse from "@/modules/user/models/GetUserDetailsResponse";
     import StateTracker from "@/modules/stateTracker/models/StateTracker";
     import UpdateUserModel from "@/modules/user/models/UpdateUserModel";
     import { Validators } from "@/modules/forms/validation/Validators";
@@ -7,6 +7,7 @@
     import "@/utils/extensions/string/string-extensions";
     import Validation from "@/validation/validation";
     import Auth from "@/modules/auth/services/Auth";
+    import User from "@/modules/user/services/User";
     import FileUpload from "primevue/fileupload";
     import InputText from "primevue/inputtext";
     import Textarea from "primevue/textarea";
@@ -29,7 +30,7 @@
         },
         data() {
             return {
-                loading: false,
+                loading: true,
                 saving: false,
                 files: [],
                 totalSize: 0,
@@ -38,30 +39,7 @@
             };
         },
         created() {
-            this.state = new StateTracker<UpdateUserModel>(
-                new UpdateUserModel([
-                    new ModelProperty<string>("email", this.user?.email, [
-                        Validators.required(),
-                        Validators.email(),
-                    ]),
-                    new ModelProperty<string>("bio", undefined, [
-                        Validators.maxLength(Validation.User.Bio.MaxLength),
-                    ]),
-                    new ModelProperty<string>(
-                        "displayName",
-                        this.user?.displayName,
-                        [
-                            Validators.required(),
-                            Validators.minLength(
-                                Validation.User.DisplayName.MinLength
-                            ),
-                            Validators.maxLength(
-                                Validation.User.DisplayName.MaxLength
-                            ),
-                        ]
-                    ),
-                ])
-            );
+            this.fetchData();
         },
         computed: {
             user() {
@@ -78,6 +56,37 @@
             },
         },
         methods: {
+            async fetchData() {
+                const userData = await User.getUserDetails();
+                this.initialise(userData);
+                this.loading = false;
+            },
+            initialise(userData: GetUserDetailsResponse) {
+                this.state = new StateTracker<UpdateUserModel>(
+                    new UpdateUserModel([
+                        new ModelProperty<string>("email", userData.email, [
+                            Validators.required(),
+                            Validators.email(),
+                        ]),
+                        new ModelProperty<string>("bio", userData.bio, [
+                            Validators.maxLength(Validation.User.Bio.MaxLength),
+                        ]),
+                        new ModelProperty<string>(
+                            "displayName",
+                            userData.displayName,
+                            [
+                                Validators.required(),
+                                Validators.minLength(
+                                    Validation.User.DisplayName.MinLength
+                                ),
+                                Validators.maxLength(
+                                    Validation.User.DisplayName.MaxLength
+                                ),
+                            ]
+                        ),
+                    ])
+                );
+            },
             onUpload() {
                 this.$toast.add({
                     severity: "info",
@@ -109,6 +118,7 @@
             <div class="text-900 font-medium text-xl mb-3">Profile</div>
             <div class="surface-card p-4 shadow-2 border-round">
                 <form
+                    v-if="!loading"
                     class="grid formgrid p-fluid"
                     @submit.prevent="handleSubmit()"
                 >
@@ -248,6 +258,7 @@
                                 <FileUpload
                                     :maxFileSize="1000000"
                                     accept="image/*"
+                                    auto
                                     chooseLabel="Browse"
                                     class="p-button-outlined"
                                     mode="basic"

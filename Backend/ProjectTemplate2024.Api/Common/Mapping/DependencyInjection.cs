@@ -11,7 +11,7 @@ public static class DependencyInjection
     )
     {
         var config = TypeAdapterConfig.GlobalSettings;
-        config.Scan(Assembly.GetAssembly(typeof(DependencyInjection)));
+        config.Scan(Assembly.GetEntryAssembly()!);
 
         services.AddSingleton(config);
         services.AddScoped<IMapper, ServiceMapper>();
