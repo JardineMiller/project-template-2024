@@ -2,7 +2,6 @@
     <div
         v-if="user"
         class="surface-overlay py-3 px-4 shadow-2 flex align-items-center justify-content-between relative lg:static"
-        style="min-height: 60px"
     >
         <div class="flex flex-grow-1 align-items-center">
             <img
@@ -43,12 +42,29 @@
                         :popup="true"
                         ref="menu"
                         id="overlay_menu"
-                        class="absolute right-0"
                     >
+                        <template #item="{ item, props }">
+                            <router-link
+                                v-if="item.route"
+                                v-slot="{ href, navigate }"
+                                :to="item.route"
+                                custom
+                            >
+                                <a
+                                    v-ripple
+                                    :href="href"
+                                    v-bind="props.action"
+                                    @click="navigate"
+                                >
+                                    <span :class="item.icon" />
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </a>
+                            </router-link>
+                        </template>
                         <template #end>
                             <button
                                 @click="logout()"
-                                class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround"
+                                class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-100 border-noround"
                             >
                                 <i class="pi pi-sign-out" />
                                 <span class="ml-2">Log Out</span>
@@ -67,14 +83,13 @@
     import { routes } from "@/router/router";
     import { RouterLink } from "vue-router";
     import { defineComponent } from "vue";
-    import Button from "primevue/button";
     import Avatar from "primevue/avatar";
     import Toast from "primevue/toast";
     import Menu from "primevue/menu";
 
     export default defineComponent({
         username: "NavBar",
-        components: { RouterLink, Button, Avatar, Menu, Toast },
+        components: { Avatar, Menu, Toast, RouterLink },
         data: () => {
             return {
                 routes: routes,
@@ -82,7 +97,7 @@
                     {
                         label: "Profile",
                         icon: "pi pi-fw pi-user",
-                        to: "/profile",
+                        route: "/profile",
                     },
                 ],
             };

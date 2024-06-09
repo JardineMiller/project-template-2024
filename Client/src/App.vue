@@ -14,7 +14,7 @@
 <template>
     <div class="min-h-screen surface-ground">
         <NavBar></NavBar>
-        <div style="height: calc(100vh - 70px)">
+        <div>
             <RouterView />
         </div>
     </div>
