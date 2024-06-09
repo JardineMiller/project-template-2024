@@ -1,11 +1,11 @@
 ﻿using Mapster;
-using Shouldly;
 using ProjectTemplate2024.Api.Common.Mapping;
 using ProjectTemplate2024.Application.Authentication.Commands.Register;
 using ProjectTemplate2024.Application.Authentication.Common;
 using ProjectTemplate2024.Application.Authentication.Queries.Login;
 using ProjectTemplate2024.Contracts.Authentication;
 using ProjectTemplate2024.Domain.Entities;
+using Shouldly;
 using Xunit;
 
 namespace ProjectTemplate2024.Application.Tests.Api.Tests.Common.Mapping;
@@ -21,17 +21,11 @@ public class AuthenticationMappingConfigTests
     [Fact]
     public void RegisterRequest_ShouldMapTo_RegisterCommand()
     {
-        var src = new RegisterRequest(
-            "FirstName",
-            "LastName",
-            "Email",
-            "Password"
-        );
+        var src = new RegisterRequest("DisplayName", "Email", "Password");
 
         var result = src.Adapt<RegisterCommand>();
 
-        result.FirstName.ShouldBe(src.FirstName);
-        result.LastName.ShouldBe(src.LastName);
+        result.DisplayName.ShouldBe(src.DisplayName);
         result.Email.ShouldBe(src.Email);
         result.Password.ShouldBe(src.Password);
     }
@@ -50,19 +44,13 @@ public class AuthenticationMappingConfigTests
     [Fact]
     public void AuthenticationResult_ShouldMapTo_AuthenticationResponse_WithNullToken()
     {
-        var user = new User()
-        {
-            FirstName = "FirstName",
-            LastName = "LastName",
-            Email = "Email",
-        };
+        var user = new User { DisplayName = "DisplayName", Email = "Email", };
 
         var src = new AuthenticationResult(user);
 
         var result = src.Adapt<AuthenticationResponse>();
 
-        result.FirstName.ShouldBe(user.FirstName);
-        result.LastName.ShouldBe(user.LastName);
+        result.DisplayName.ShouldBe(user.DisplayName);
         result.Email.ShouldBe(user.Email);
 
         result.Token.ShouldBe(null);
@@ -71,19 +59,13 @@ public class AuthenticationMappingConfigTests
     [Fact]
     public void AuthenticationResult_ShouldMapTo_AuthenticationResponse_WithoutNullToken()
     {
-        var user = new User()
-        {
-            FirstName = "FirstName",
-            LastName = "LastName",
-            Email = "Email",
-        };
+        var user = new User { DisplayName = "DisplayName", Email = "Email", };
 
         var src = new AuthenticationResult(user, "token");
 
         var result = src.Adapt<AuthenticationResponse>();
 
-        result.FirstName.ShouldBe(user.FirstName);
-        result.LastName.ShouldBe(user.LastName);
+        result.DisplayName.ShouldBe(user.DisplayName);
         result.Email.ShouldBe(user.Email);
 
         result.Token.ShouldBe("token");

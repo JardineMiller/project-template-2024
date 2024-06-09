@@ -4,50 +4,55 @@
             <div class="text-900 font-medium text-xl mb-3">Profile</div>
             <div class="surface-card p-4 shadow-2 border-round">
                 <div class="grid formgrid p-fluid">
+                    <!-- Display name -->
                     <div class="field mb-4 col-6">
                         <label
-                            for="nickname"
                             class="font-medium"
+                            for="displayName"
                         >
-                            Nickname
+                            Display Name
                         </label>
                         <InputText
-                            :id="'nickname'"
-                            :name="'nickname'"
-                            :model-value="undefined"
-                            :autocomplete="'nickname'"
+                            :id="'displayName'"
+                            :autocomplete="'displayName'"
                             :class="{
                                 'p-invalid': false,
                             }"
+                            :model-value="user?.displayName"
+                            :name="'displayName'"
                         />
                     </div>
+
+                    <!-- Email -->
                     <div class="field mb-4 col-6">
                         <label
-                            for="nickname"
                             class="font-medium"
+                            for="nickname"
                         >
                             Email
                         </label>
                         <InputText
                             :id="'email'"
-                            :name="'email'"
-                            :model-value="undefined"
                             :autocomplete="'email'"
                             :class="{
                                 'p-invalid': false,
                             }"
+                            :model-value="user?.email"
+                            :name="'email'"
                         />
                     </div>
 
+                    <!-- HR -->
                     <div
                         class="surface-100 mb-3 col-12"
                         style="height: 2px"
                     ></div>
 
+                    <!-- Bio -->
                     <div class="field mb-4 col-6">
                         <label
-                            for="nickname"
                             class="font-medium"
+                            for="nickname"
                         >
                             Bio
                         </label>
@@ -57,10 +62,12 @@
                             rows="5"
                         ></Textarea>
                     </div>
+
+                    <!-- Avatar -->
                     <div class="field mb-4 col-6">
                         <label
-                            for="nickname"
                             class="font-medium"
+                            for="nickname"
                         >
                             Avatar
                         </label>
@@ -73,21 +80,21 @@
                                 class="flex justify-content-center align-items-center gap-2"
                             >
                                 <Avatar
+                                    :label="user?.displayName[0]"
                                     class="mr-2"
                                     shape="circle"
-                                    :label="user?.firstName[0]"
                                     size="xlarge"
                                 />
 
                                 <FileUpload
-                                    mode="basic"
+                                    :maxFileSize="1000000"
+                                    accept="image/*"
+                                    chooseLabel="Browse"
                                     class="p-button-outlined"
+                                    mode="basic"
                                     name="demo[]"
                                     url="/api/upload"
-                                    accept="image/*"
-                                    :maxFileSize="1000000"
                                     @upload="onUpload"
-                                    chooseLabel="Browse"
                                 />
                             </div>
                         </div>
@@ -100,6 +107,7 @@
 
                     <div class="flex w-full justify-content-end">
                         <Button
+                            :loading="true"
                             class="w-auto"
                             label="Save Changes"
                         ></Button>

@@ -10,13 +10,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
-            .Property(x => x.FirstName)
+            .Property(x => x.DisplayName)
             .IsRequired()
-            .HasMaxLength(Validation.User.FirstName.MaxLength);
+            .HasMaxLength(Validation.User.DisplayName.MaxLength);
 
         builder
-            .Property(x => x.LastName)
-            .IsRequired()
-            .HasMaxLength(Validation.User.LastName.MaxLength);
+            .Property(x => x.Bio)
+            .HasMaxLength(Validation.User.Bio.MaxLength);
+
+        builder
+            .Property(x => x.AvatarFileName)
+            .HasMaxLength(Validation.Common.FileName.MaxLength);
     }
 }

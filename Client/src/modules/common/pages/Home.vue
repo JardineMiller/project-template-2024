@@ -16,9 +16,7 @@
 
 <template>
     <div class="p-4">
-        <h4 v-if="user">
-            Welcome {{ user.firstName }} {{ user.lastName }}
-        </h4>
+        <h4 v-if="user">Welcome {{ user.displayName }} {{ user.lastName }}</h4>
     </div>
 </template>
 

@@ -5,8 +5,9 @@ namespace ProjectTemplate2024.Domain.Entities;
 
 public class User : IdentityUser, IAuditable
 {
-    public string? FirstName { get; init; }
-    public string? LastName { get; init; }
+    public string DisplayName { get; set; }
+    public string? Bio { get; set; }
+    public string? AvatarFileName { get; set; }
 
     public DateTimeOffset CreatedOn { get; set; }
     public DateTimeOffset? ModifiedOn { get; set; }

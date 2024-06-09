@@ -52,22 +52,13 @@
                                 Validation.Auth.Password.MaxLength
                             ),
                         ]),
-                        new ModelProperty<string>("firstName", undefined, [
+                        new ModelProperty<string>("displayName", undefined, [
                             Validators.required(),
                             Validators.minLength(
-                                Validation.User.FirstName.MinLength
+                                Validation.User.DisplayName.MinLength
                             ),
                             Validators.maxLength(
-                                Validation.User.FirstName.MaxLength
-                            ),
-                        ]),
-                        new ModelProperty<string>("lastName", undefined, [
-                            Validators.required(),
-                            Validators.minLength(
-                                Validation.User.LastName.MinLength
-                            ),
-                            Validators.maxLength(
-                                Validation.User.LastName.MaxLength
+                                Validation.User.DisplayName.MaxLength
                             ),
                         ]),
                     ])
@@ -81,11 +72,8 @@
             password(): ModelProperty<string> {
                 return this.state.model.password;
             },
-            firstName(): ModelProperty<string> {
-                return this.state.model.firstName;
-            },
-            lastName(): ModelProperty<string> {
-                return this.state.model.lastName;
+            displayName(): ModelProperty<string> {
+                return this.state.model.displayName;
             },
         },
         methods: {
@@ -270,78 +258,38 @@
                 <div class="field">
                     <span class="p-float-label">
                         <InputText
-                            :id="firstName.propertyName.toLowerCase()"
-                            :name="firstName.propertyName.toLowerCase()"
-                            :model-value="firstName.value"
-                            :autocomplete="firstName.propertyName.toLowerCase()"
+                            :id="displayName.propertyName.toLowerCase()"
+                            :name="displayName.propertyName.toLowerCase()"
+                            :model-value="displayName.value"
+                            :autocomplete="
+                                displayName.propertyName.toLowerCase()
+                            "
                             class="w-full"
                             :class="{
                                 'p-invalid':
-                                    firstName.touched && !firstName.isValid,
+                                    displayName.touched && !displayName.isValid,
                             }"
                             @input="
                                 this.state.setProperty<string>(
-                                    firstName.propertyName,
+                                    displayName.propertyName,
                                     $event.target.value
                                 )
                             "
-                            @blur="firstName.touch()"
+                            @blur="displayName.touch()"
                         />
-                        <label :for="firstName.propertyName.toLowerCase()">
-                            {{ firstName.propertyName.toTitleCase() }}
+                        <label :for="displayName.propertyName.toLowerCase()">
+                            {{ displayName.propertyName.toTitleCase() }}
                             <span
-                                v-if="firstName.isRequired"
+                                v-if="displayName.isRequired"
                                 class="p-error"
                             >
                                 *
                             </span>
                         </label>
                     </span>
-                    <div v-if="firstName.touched && !firstName.isValid">
+                    <div v-if="displayName.touched && !displayName.isValid">
                         <small
-                            v-for="error in firstName.errors"
-                            :key="error"
-                            class="p-error"
-                        >
-                            {{ error }} <br />
-                        </small>
-                    </div>
-                </div>
-
-                <!-- Last Name -->
-                <div class="field">
-                    <span class="p-float-label">
-                        <InputText
-                            :id="lastName.propertyName.toLowerCase()"
-                            :name="lastName.propertyName.toLowerCase()"
-                            :model-value="lastName.value"
-                            :autocomplete="lastName.propertyName.toLowerCase()"
-                            class="w-full"
-                            :class="{
-                                'p-invalid':
-                                    lastName.touched && !lastName.isValid,
-                            }"
-                            @input="
-                                this.state.setProperty<string>(
-                                    lastName.propertyName,
-                                    $event.target.value
-                                )
-                            "
-                            @blur="lastName.touch()"
-                        />
-                        <label :for="lastName.propertyName.toLowerCase()">
-                            {{ lastName.propertyName.toTitleCase() }}
-                            <span
-                                v-if="lastName.isRequired"
-                                class="p-error"
-                            >
-                                *
-                            </span>
-                        </label>
-                    </span>
-                    <div v-if="lastName.touched && !lastName.isValid">
-                        <small
-                            v-for="error in lastName.errors"
+                            v-for="error in displayName.errors"
                             :key="error"
                             class="p-error"
                         >

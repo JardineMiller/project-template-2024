@@ -23,12 +23,7 @@ public class ConfirmEmailCommandHandlerTests
     private const string validEmail = "test2@email.com";
     private const string validToken = "tokens-are-awesome";
     private readonly User _validUser =
-        new()
-        {
-            FirstName = "Test",
-            LastName = "User",
-            Email = validEmail
-        };
+        new() { DisplayName = "Test User", Email = validEmail };
 
     public ConfirmEmailCommandHandlerTests()
     {
@@ -161,8 +156,7 @@ public class ConfirmEmailCommandHandlerTests
 
         // Assert
         result.Value.Token.ShouldBe("token");
-        result.Value.User.FirstName.ShouldBe(this._validUser.FirstName);
-        result.Value.User.LastName.ShouldBe(this._validUser.LastName);
+        result.Value.User.DisplayName.ShouldBe(this._validUser.DisplayName);
         result.Value.User.Email.ShouldBe(this._validUser.Email);
     }
 }

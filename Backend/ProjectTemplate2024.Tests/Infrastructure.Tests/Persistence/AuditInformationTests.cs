@@ -13,8 +13,7 @@ namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Persistence
 public class AuditInformationTests
 {
     private readonly ApplicationDbContext _context;
-    private readonly Mock<IDateTimeProvider> _dateTimeProviderMock =
-        new();
+    private readonly Mock<IDateTimeProvider> _dateTimeProviderMock = new();
 
     private readonly User _user =
         new()
@@ -23,16 +22,14 @@ public class AuditInformationTests
             UserName = "User 1",
             Email = "user1@test.com",
             EmailConfirmed = true,
-            FirstName = "First Name",
-            LastName = "Last Name"
+            DisplayName = "Display Name",
         };
 
     public AuditInformationTests()
     {
-        var options =
-            new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
         this._context = new ApplicationDbContext(
             options,
@@ -73,8 +70,7 @@ public class AuditInformationTests
             UserName = "User 2",
             Email = "user2@test.com",
             EmailConfirmed = true,
-            FirstName = "First Name",
-            LastName = "Last Name"
+            DisplayName = "First Name",
         };
 
         user2.CreatedOn.ShouldBe(default);

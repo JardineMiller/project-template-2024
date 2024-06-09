@@ -26,10 +26,6 @@ public class AuthenticationMappingConfig : IRegister
                 (src, dest) => string.IsNullOrEmpty(src.Token),
                 dest => dest.Token!
             )
-            .IgnoreIf(
-                (src, dest) => string.IsNullOrEmpty(src.PlayerId),
-                dest => dest.PlayerId!
-            )
             .Map(dest => dest, src => src.User);
 
         config

@@ -1,6 +1,6 @@
-﻿using Xunit;
-using FluentValidation.TestHelper;
+﻿using FluentValidation.TestHelper;
 using ProjectTemplate2024.Application.Authentication.Commands.Register;
+using Xunit;
 
 namespace ProjectTemplate2024.Application.Tests.Application.Tests.Authentication.Commands.Register;
 
@@ -8,8 +8,7 @@ public class RegisterCommandValidationTests
 {
     private readonly RegisterCommandValidation _validator;
     private const string validPassword = "Password123!";
-    private const string validFirstName = "Test";
-    private const string validLastName = "User";
+    private const string validDisplayName = "Test User";
     private const string validEmail = "test@user.com";
 
     public RegisterCommandValidationTests()
@@ -27,48 +26,18 @@ public class RegisterCommandValidationTests
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     )]
     public void Should_Have_Error_When_FirstName_Is_Invalid(
-        string invalidFirstName
+        string invalidDisplayName
     )
     {
         var command = new RegisterCommand(
-            invalidFirstName,
-            validLastName,
+            invalidDisplayName,
             validEmail,
             validPassword
         );
 
         var result = this._validator.TestValidate(command);
 
-        result.ShouldHaveValidationErrorFor(x => x.FirstName);
-        result.ShouldNotHaveValidationErrorFor(x => x.LastName);
-        result.ShouldNotHaveValidationErrorFor(x => x.Email);
-        result.ShouldNotHaveValidationErrorFor(x => x.Password);
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
-    [InlineData(" ")]
-    [InlineData("    ")]
-    [InlineData("a")]
-    [InlineData(
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    )]
-    public void Should_Have_Error_When_LastName_Is_Invalid(
-        string invalidLastName
-    )
-    {
-        var command = new RegisterCommand(
-            validFirstName,
-            invalidLastName,
-            validEmail,
-            validPassword
-        );
-
-        var result = this._validator.TestValidate(command);
-
-        result.ShouldHaveValidationErrorFor(x => x.LastName);
-        result.ShouldNotHaveValidationErrorFor(x => x.FirstName);
+        result.ShouldHaveValidationErrorFor(x => x.DisplayName);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.Password);
     }
@@ -80,13 +49,10 @@ public class RegisterCommandValidationTests
     [InlineData("    ")]
     [InlineData("a")]
     [InlineData("just_a_random_string")]
-    public void Should_Have_Error_When_Email_Is_Invalid(
-        string invalidEmail
-    )
+    public void Should_Have_Error_When_Email_Is_Invalid(string invalidEmail)
     {
         var command = new RegisterCommand(
-            validFirstName,
-            validLastName,
+            validDisplayName,
             invalidEmail,
             validPassword
         );
@@ -94,8 +60,7 @@ public class RegisterCommandValidationTests
         var result = this._validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
-        result.ShouldNotHaveValidationErrorFor(x => x.FirstName);
-        result.ShouldNotHaveValidationErrorFor(x => x.LastName);
+        result.ShouldNotHaveValidationErrorFor(x => x.DisplayName);
         result.ShouldNotHaveValidationErrorFor(x => x.Password);
     }
 
@@ -117,8 +82,7 @@ public class RegisterCommandValidationTests
     )
     {
         var command = new RegisterCommand(
-            validFirstName,
-            validLastName,
+            validDisplayName,
             validEmail,
             invalidPassword
         );
@@ -126,8 +90,7 @@ public class RegisterCommandValidationTests
         var result = this._validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Password);
-        result.ShouldNotHaveValidationErrorFor(x => x.FirstName);
-        result.ShouldNotHaveValidationErrorFor(x => x.LastName);
+        result.ShouldNotHaveValidationErrorFor(x => x.DisplayName);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
     }
 
@@ -135,16 +98,14 @@ public class RegisterCommandValidationTests
     public void Should_Not_Have_Error_With_Valid_Input()
     {
         var command = new RegisterCommand(
-            validFirstName,
-            validLastName,
+            validDisplayName,
             validEmail,
             validPassword
         );
 
         var result = this._validator.TestValidate(command);
 
-        result.ShouldNotHaveValidationErrorFor(x => x.FirstName);
-        result.ShouldNotHaveValidationErrorFor(x => x.LastName);
+        result.ShouldNotHaveValidationErrorFor(x => x.DisplayName);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.Password);
     }

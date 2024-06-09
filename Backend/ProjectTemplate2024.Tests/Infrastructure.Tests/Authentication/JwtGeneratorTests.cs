@@ -25,8 +25,8 @@ public class JwtGeneratorTests
     private readonly User _user1 =
         new()
         {
-            FirstName = "test",
-            LastName = "user1",
+            Id = Guid.NewGuid().ToString(),
+            DisplayName = "test",
             Email = "test@user1.com"
         };
 

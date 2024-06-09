@@ -31,7 +31,7 @@
                         @click="toggleMenu"
                         aria-haspopup="true"
                         aria-controls="overlay_menu"
-                        :label="user.firstName[0]"
+                        :label="user.displayName[0]"
                         class="mr-2 cursor-pointer"
                         size="large"
                         style="background-color: #2196f3; color: #ffffff"
