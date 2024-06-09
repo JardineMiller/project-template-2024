@@ -1,47 +1,4 @@
-﻿<script lang="ts">
-    import ProgressBar from "primevue/progressbar";
-    import FileUpload from "primevue/fileupload";
-    import InputText from "primevue/inputtext";
-    import Textarea from "primevue/textarea";
-    import { defineComponent } from "vue";
-    import Button from "primevue/button";
-    import Avatar from "primevue/avatar";
-    import Toast from "primevue/toast";
-    import Badge from "primevue/badge";
-
-    export default defineComponent({
-        head: {
-            title: "Profile",
-        },
-        components: {
-            InputText,
-            Textarea,
-            FileUpload,
-            Button,
-            Toast,
-            Avatar,
-        },
-        data() {
-            return {
-                files: [],
-                totalSize: 0,
-                totalSizePercent: 0,
-            };
-        },
-        methods: {
-            onUpload() {
-                this.$toast.add({
-                    severity: "info",
-                    summary: "Success",
-                    detail: "File Uploaded",
-                    life: 3000,
-                });
-            },
-        },
-    });
-</script>
-
-<template>
+﻿<template>
     <div class="p-5 flex flex-column align-items-center flex-auto">
         <div class="col-10">
             <div class="text-900 font-medium text-xl mb-3">Profile</div>
@@ -108,20 +65,23 @@
                             Avatar
                         </label>
 
-                        <div class="surface-card flex">
+                        <div
+                            class="surface-card flex h-full pb-4 justify-content-center"
+                        >
                             <Toast />
                             <div
-                                class="flex justify-content-center align-items-center gap-1"
+                                class="flex justify-content-center align-items-center gap-2"
                             >
                                 <Avatar
                                     class="mr-2"
                                     shape="circle"
-                                    label="T"
+                                    :label="user?.firstName[0]"
                                     size="xlarge"
                                 />
 
                                 <FileUpload
                                     mode="basic"
+                                    class="p-button-outlined"
                                     name="demo[]"
                                     url="/api/upload"
                                     accept="image/*"
@@ -151,3 +111,50 @@
 </template>
 
 <style scoped></style>
+
+<script lang="ts">
+    import Auth from "@/modules/auth/services/Auth";
+    import FileUpload from "primevue/fileupload";
+    import InputText from "primevue/inputtext";
+    import Textarea from "primevue/textarea";
+    import { defineComponent } from "vue";
+    import Button from "primevue/button";
+    import Avatar from "primevue/avatar";
+    import Toast from "primevue/toast";
+
+    export default defineComponent({
+        head: {
+            title: "Profile",
+        },
+        components: {
+            InputText,
+            Textarea,
+            FileUpload,
+            Button,
+            Toast,
+            Avatar,
+        },
+        data() {
+            return {
+                files: [],
+                totalSize: 0,
+                totalSizePercent: 0,
+            };
+        },
+        computed: {
+            user() {
+                return Auth.user.value;
+            },
+        },
+        methods: {
+            onUpload() {
+                this.$toast.add({
+                    severity: "info",
+                    summary: "Success",
+                    detail: "File Uploaded",
+                    life: 3000,
+                });
+            },
+        },
+    });
+</script>
