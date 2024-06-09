@@ -15,4 +15,10 @@ public interface IUserRepository
         string refreshToken,
         CancellationToken cancellationToken
     );
+
+    Task<User?> GetUserById(
+        string id,
+        CancellationToken cancellationToken,
+        params Expression<Func<User, object>>[] includes
+    );
 }

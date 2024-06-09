@@ -19,9 +19,7 @@ public class AccountController : ApiController
     }
 
     [HttpGet(nameof(ResetPassword))]
-    public async Task<IActionResult> ResetPassword(
-        ResetPasswordRequest request
-    )
+    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
         var cmd = request.Adapt<ResetPasswordCommand>();
         var result = await this._mediator.Send(cmd);
@@ -42,8 +40,7 @@ public class AccountController : ApiController
         var result = await this._mediator.Send(cmd);
 
         return result.Match(
-            success =>
-                Ok(success.Adapt<RequestResetPasswordResponse>()),
+            success => Ok(success.Adapt<RequestResetPasswordResponse>()),
             errors => Problem(errors)
         );
     }
