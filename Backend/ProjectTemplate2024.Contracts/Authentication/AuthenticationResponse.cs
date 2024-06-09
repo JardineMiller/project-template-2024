@@ -2,9 +2,7 @@
 
 public record AuthenticationResponse(
     Guid Id,
-    string FirstName,
-    string LastName,
+    string DisplayName,
     string Email,
-    string? Token = null,
-    string? PlayerId = null
+    string? Token = null
 );

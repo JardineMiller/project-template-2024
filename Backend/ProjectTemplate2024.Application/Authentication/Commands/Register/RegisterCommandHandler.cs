@@ -29,10 +29,7 @@ public class RegisterCommandHandler
     )
     {
         // Check if user already exists
-        if (
-            await this._userManager.FindByEmailAsync(cmd.Email)
-            is not null
-        )
+        if (await this._userManager.FindByEmailAsync(cmd.Email) is not null)
         {
             return Errors.User.DuplicateEmail;
         }
@@ -40,16 +37,12 @@ public class RegisterCommandHandler
         // Create user (generate unique id)
         var user = new User
         {
-            FirstName = cmd.FirstName,
-            LastName = cmd.LastName,
+            DisplayName = cmd.DisplayName,
             Email = cmd.Email,
             UserName = cmd.Email,
         };
 
-        var result = await this._userManager.CreateAsync(
-            user,
-            cmd.Password
-        );
+        var result = await this._userManager.CreateAsync(user, cmd.Password);
 
         if (!result.Succeeded)
         {
@@ -58,10 +51,8 @@ public class RegisterCommandHandler
 
         this._emailService.SendConfirmationEmail(
             user.Email,
-            user.FirstName,
-            await this._userManager.GenerateEmailConfirmationTokenAsync(
-                user
-            )
+            user.DisplayName,
+            await this._userManager.GenerateEmailConfirmationTokenAsync(user)
         );
 
         return new AuthenticationResult(user);

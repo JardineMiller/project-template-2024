@@ -39,8 +39,7 @@ public class TestDbContextFactory
             UserName = "User 1",
             Email = "user1@test.com",
             EmailConfirmed = true,
-            FirstName = "First Name 1",
-            LastName = "Last Name 1"
+            DisplayName = "Display Name 1",
         };
 
         var user2 = new User
@@ -49,8 +48,7 @@ public class TestDbContextFactory
             UserName = "User 2",
             Email = "user2@test.com",
             EmailConfirmed = true,
-            FirstName = "First Name 1",
-            LastName = "Last Name 2"
+            DisplayName = "Display Name 2",
         };
 
         context.Users.AddRange(user1, user2);

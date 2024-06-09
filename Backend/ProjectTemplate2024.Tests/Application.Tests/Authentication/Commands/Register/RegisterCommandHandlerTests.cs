@@ -16,8 +16,7 @@ public class RegisterCommandHandlerTests
     private readonly Mock<UserManager<User>> _userManagerMock;
     private readonly Mock<IEmailService> _emailServiceMock;
 
-    private const string validFirstName = "Test";
-    private const string validLastName = "User";
+    private const string validDisplayName = "Test User";
     private const string validEmail = "test2@email.com";
     private const string validPassword = "Password123!";
 
@@ -47,18 +46,11 @@ public class RegisterCommandHandlerTests
             .ReturnsAsync(null as User);
 
         this._userManagerMock
-            .Setup(
-                x =>
-                    x.CreateAsync(
-                        It.IsAny<User>(),
-                        It.IsAny<string>()
-                    )
-            )
+            .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
             .ReturnsAsync(IdentityResult.Success);
 
         var command = new RegisterCommand(
-            validFirstName,
-            validLastName,
+            validDisplayName,
             validEmail,
             validPassword
         );
@@ -69,14 +61,11 @@ public class RegisterCommandHandlerTests
             this._emailServiceMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = handler.Handle(command, CancellationToken.None).Result;
 
         // Assert
         result.Value.Token.ShouldBe(null);
-        result.Value.User.FirstName.ShouldBe(validFirstName);
-        result.Value.User.LastName.ShouldBe(validLastName);
+        result.Value.User.DisplayName.ShouldBe(validDisplayName);
         result.Value.User.Email.ShouldBe(validEmail);
     }
 
@@ -86,11 +75,10 @@ public class RegisterCommandHandlerTests
         // Arrange
         this._userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(new User() { Email = validEmail });
+            .ReturnsAsync(new User { Email = validEmail });
 
         var command = new RegisterCommand(
-            validFirstName,
-            validLastName,
+            validDisplayName,
             validEmail,
             validPassword
         );
@@ -101,20 +89,14 @@ public class RegisterCommandHandlerTests
             this._emailServiceMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = handler.Handle(command, CancellationToken.None).Result;
 
         // Assert
         result.Errors.Count.ShouldBe(1);
+        result.Errors.First().Code.ShouldBe(Errors.User.DuplicateEmail.Code);
         result.Errors
             .First()
-            .Code.ShouldBe(Errors.User.DuplicateEmail.Code);
-        result.Errors
-            .First()
-            .Description.ShouldBe(
-                Errors.User.DuplicateEmail.Description
-            );
+            .Description.ShouldBe(Errors.User.DuplicateEmail.Description);
     }
 
     [Fact]
@@ -126,18 +108,11 @@ public class RegisterCommandHandlerTests
             .ReturnsAsync(null as User);
 
         this._userManagerMock
-            .Setup(
-                x =>
-                    x.CreateAsync(
-                        It.IsAny<User>(),
-                        It.IsAny<string>()
-                    )
-            )
+            .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
             .ReturnsAsync(IdentityResult.Failed());
 
         var command = new RegisterCommand(
-            validFirstName,
-            validLastName,
+            validDisplayName,
             validEmail,
             validPassword
         );
@@ -148,19 +123,13 @@ public class RegisterCommandHandlerTests
             this._emailServiceMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = handler.Handle(command, CancellationToken.None).Result;
 
         // Assert
         result.Errors.Count.ShouldBe(1);
+        result.Errors.First().Code.ShouldBe(Errors.User.CreationFailed.Code);
         result.Errors
             .First()
-            .Code.ShouldBe(Errors.User.CreationFailed.Code);
-        result.Errors
-            .First()
-            .Description.ShouldBe(
-                Errors.User.CreationFailed.Description
-            );
+            .Description.ShouldBe(Errors.User.CreationFailed.Description);
     }
 }

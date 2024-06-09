@@ -37,12 +37,9 @@ public class TokenGenerator : ITokenGenerator
         var claims = new Claim[]
         {
             new(JwtRegisteredClaimNames.Sub, user.Id),
-            new(JwtRegisteredClaimNames.GivenName, user.FirstName!),
-            new(JwtRegisteredClaimNames.FamilyName, user.LastName!),
-            new(
-                JwtRegisteredClaimNames.Jti,
-                Guid.NewGuid().ToString()
-            )
+            new(JwtRegisteredClaimNames.GivenName, user.DisplayName!),
+            new(JwtRegisteredClaimNames.Email, user.Email!),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
         var securityToken = new JwtSecurityToken(
@@ -55,15 +52,12 @@ public class TokenGenerator : ITokenGenerator
             signingCredentials: signingCredentials
         );
 
-        return new JwtSecurityTokenHandler().WriteToken(
-            securityToken
-        );
+        return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
 
     public RefreshToken GenerateRefreshToken()
     {
-        using var rngCryptoServiceProvider =
-            new RNGCryptoServiceProvider();
+        using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
 
         var randomBytes = new byte[64];
         rngCryptoServiceProvider.GetBytes(randomBytes);

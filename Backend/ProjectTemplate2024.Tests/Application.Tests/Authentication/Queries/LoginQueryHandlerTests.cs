@@ -24,8 +24,7 @@ public class LoginQueryHandlerTests
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
     private readonly Mock<IDateTimeProvider> _dateTimeProviderMock;
 
-    private const string validFirstName = "Test";
-    private const string validLastName = "User";
+    private const string validDisplayName = "Test";
     private const string validEmail = "test1@user.com";
     private const string validPassword = "Password123!";
 
@@ -103,8 +102,7 @@ public class LoginQueryHandlerTests
                 {
                     new User
                     {
-                        FirstName = validFirstName,
-                        LastName = validLastName,
+                        DisplayName = validDisplayName,
                         Email = validEmail,
                         EmailConfirmed = true
                     }
@@ -146,11 +144,10 @@ public class LoginQueryHandlerTests
         // Arrange
         var user = new User
         {
-            FirstName = validFirstName,
-            LastName = validLastName,
+            DisplayName = validDisplayName,
             Email = validEmail,
         };
-        
+
         this._userManagerMock
             .Setup(x => x.Users)
             .Returns(new List<User> { user }.AsQueryable());
@@ -201,8 +198,7 @@ public class LoginQueryHandlerTests
         // Arrange
         var user = new User
         {
-            FirstName = validFirstName,
-            LastName = validLastName,
+            DisplayName = validDisplayName,
             Email = validEmail,
             EmailConfirmed = true
         };
@@ -236,8 +232,7 @@ public class LoginQueryHandlerTests
         // Assert
         result.Value.Token.ShouldBe("token");
         result.Value.RefreshToken.ShouldBe("refresh-token");
-        result.Value.User.FirstName.ShouldBe(validFirstName);
-        result.Value.User.LastName.ShouldBe(validLastName);
+        result.Value.User.DisplayName.ShouldBe(validDisplayName);
         result.Value.User.Email.ShouldBe(validEmail);
     }
 }

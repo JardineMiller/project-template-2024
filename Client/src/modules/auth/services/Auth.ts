@@ -40,16 +40,6 @@ function stopRefreshTokenTimer() {
     clearTimeout(refreshTokenTimeout);
 }
 
-const setPlayerId = (playerId: string): void => {
-    if (!playerId) {
-        throw new Error(`Invalid PlayerId [${playerId}]`);
-    }
-
-    if (user.value) {
-        user.value.playerId = playerId;
-    }
-};
-
 const confirm = async (token: string, email: string) => {
     return axios
         .get<AuthenticationResponse>(URLs.CONFIRM, {
@@ -58,10 +48,9 @@ const confirm = async (token: string, email: string) => {
             headers: { "Content-Type": "application/json" },
         })
         .then(async (response) => {
-            const { id, firstName, lastName, email, token } =
-                response.data;
+            const { id, displayName, email, token } = response.data;
 
-            user.value = new User(id, firstName, lastName, email);
+            user.value = new User(id, displayName, email);
             authToken.value = token;
 
             startRefreshTokenTimer();
@@ -82,22 +71,9 @@ const login = async (request: LoginRequest) => {
             headers: { "Content-Type": "application/json" },
         })
         .then(async (response) => {
-            const {
-                id,
-                firstName,
-                lastName,
-                email,
-                token,
-                playerId,
-            } = response.data;
+            const { id, displayName, email, token } = response.data;
 
-            user.value = new User(
-                id,
-                firstName,
-                lastName,
-                email,
-                playerId
-            );
+            user.value = new User(id, displayName, email);
 
             authToken.value = token;
 
@@ -108,13 +84,9 @@ const login = async (request: LoginRequest) => {
 };
 
 const register = async (request: RegisterRequest) => {
-    return axios.post<AuthenticationResponse>(
-        URLs.REGISTER,
-        request,
-        {
-            headers: { "Content-Type": "application/json" },
-        }
-    );
+    return axios.post<AuthenticationResponse>(URLs.REGISTER, request, {
+        headers: { "Content-Type": "application/json" },
+    });
 };
 
 const logout = async (): Promise<void> => {
@@ -141,23 +113,10 @@ const refreshToken = async (): Promise<void> => {
             headers: { "Content-Type": "application/json" },
         })
         .then(async (response) => {
-            const {
-                id,
-                firstName,
-                lastName,
-                email,
-                token,
-                playerId,
-            } = response.data;
+            const { id, displayName, email, token } = response.data;
 
             if (response.status == 200) {
-                user.value = new User(
-                    id,
-                    firstName,
-                    lastName,
-                    email,
-                    playerId
-                );
+                user.value = new User(id, displayName, email);
 
                 authToken.value = token;
 
@@ -175,5 +134,4 @@ export default {
     register: register,
     confirm: confirm,
     refreshToken: refreshToken,
-    setPlayerId: setPlayerId,
 };

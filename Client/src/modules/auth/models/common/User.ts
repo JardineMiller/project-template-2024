@@ -1,21 +1,11 @@
 ﻿export default class User {
     id: string;
-    firstName: string;
-    lastName: string;
+    displayName: string;
     email: string;
-    playerId?: string;
 
-    constructor(
-        id: string,
-        firstName: string,
-        lastName: string,
-        email: string,
-        playerId?: string
-    ) {
+    constructor(id: string, displayName: string, email: string) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.displayName = displayName;
         this.email = email;
-        this.playerId = playerId;
     }
 }
