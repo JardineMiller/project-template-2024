@@ -51,7 +51,6 @@
                                 custom
                             >
                                 <a
-                                    v-ripple
                                     :href="href"
                                     v-bind="props.action"
                                     @click="navigate"

@@ -1,6 +1,6 @@
 import { addJwtInterceptor } from "@/modules/auth/interceptors/httpInterceptor";
 import { createHead, VueHeadMixin } from "@unhead/vue";
-import Auth from "@/modules/auth/services/Auth";
+import ToastService from "primevue/toastservice";
 import Tooltip from "primevue/tooltip";
 import PrimeVue from "primevue/config";
 import router from "@/router/router";
@@ -16,6 +16,7 @@ async function startApp() {
     app.use(createHead());
     app.use(router);
     app.use(PrimeVue);
+    app.use(ToastService);
 
     app.directive("tooltip", Tooltip);
 
