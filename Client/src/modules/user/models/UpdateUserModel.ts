@@ -19,6 +19,10 @@ export default class UpdateUserModel
         return this.get<string>("email");
     }
 
+    get avatarUrl(): ModelProperty<string> {
+        return this.get<string>("avatarUrl");
+    }
+
     get bio(): ModelProperty<string> {
         return this.get<string>("bio");
     }
