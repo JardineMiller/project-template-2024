@@ -2,7 +2,6 @@ using ErrorOr;
 using MediatR;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
 using ProjectTemplate2024.Application.Common.Interfaces.Services;
-using ProjectTemplate2024.Application.Helpers;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
 
@@ -13,14 +12,17 @@ public class GetUserDetailsQueryHandler
 {
     private readonly IUserRepository _userRepository;
     private readonly ICurrentUserService _currentUserService;
+    private readonly IBlobStorageService _blobStorageService;
 
     public GetUserDetailsQueryHandler(
         IUserRepository userRepository,
-        ICurrentUserService currentUserService
+        ICurrentUserService currentUserService,
+        IBlobStorageService blobStorageService
     )
     {
         this._userRepository = userRepository;
         this._currentUserService = currentUserService;
+        this._blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<GetUserDetailsResult>> Handle(
@@ -47,7 +49,7 @@ public class GetUserDetailsQueryHandler
 
         return new GetUserDetailsResult(
             user,
-            BlobStorageHelper.GetAvatarUrl(user, user.AvatarFileName)
+            this._blobStorageService.GetAvatarUrl(user, user.AvatarFileName)
         );
     }
 }

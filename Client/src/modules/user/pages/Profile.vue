@@ -51,6 +51,9 @@
             bio(): ModelProperty<string> {
                 return this.state.model.bio;
             },
+            avatarUrl(): ModelProperty<string> {
+                return this.state.model.avatarUrl;
+            },
             displayName(): ModelProperty<string> {
                 return this.state.model.displayName;
             },
@@ -71,6 +74,11 @@
                         new ModelProperty<string>("bio", userData.bio, [
                             Validators.maxLength(Validation.User.Bio.MaxLength),
                         ]),
+                        new ModelProperty<string>(
+                            "avatarUrl",
+                            userData.avatarUrl,
+                            []
+                        ),
                         new ModelProperty<string>(
                             "displayName",
                             userData.displayName,
@@ -249,7 +257,14 @@
                                 class="flex justify-content-center align-items-center gap-2"
                             >
                                 <Avatar
-                                    :label="user?.displayName[0]"
+                                    :image="
+                                        avatarUrl.value
+                                            ? avatarUrl.value
+                                            : undefined
+                                    "
+                                    :label="
+                                        avatarUrl ? '' : user?.displayName[0]
+                                    "
                                     class="mr-2"
                                     shape="circle"
                                     size="xlarge"
