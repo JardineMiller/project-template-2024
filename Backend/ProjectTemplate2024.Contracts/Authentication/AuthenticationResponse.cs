@@ -4,5 +4,6 @@ public record AuthenticationResponse(
     Guid Id,
     string DisplayName,
     string Email,
-    string? Token = null
+    string? Token = null,
+    string? AvatarUrl = null
 );

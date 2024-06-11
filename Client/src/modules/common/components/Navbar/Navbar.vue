@@ -31,10 +31,10 @@
                         @click="toggleMenu"
                         aria-haspopup="true"
                         aria-controls="overlay_menu"
-                        :label="user.displayName[0]"
+                        :image="user.avatarUrl ? user.avatarUrl : undefined"
+                        :label="user.avatarUrl ? '' : user?.displayName[0]"
                         class="mr-2 cursor-pointer"
                         size="large"
-                        style="background-color: #2196f3; color: #ffffff"
                         shape="circle"
                     />
                     <Menu

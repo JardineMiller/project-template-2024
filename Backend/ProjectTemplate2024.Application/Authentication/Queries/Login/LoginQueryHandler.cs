@@ -17,18 +17,21 @@ public class LoginQueryHandler
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IBlobStorageService _blobStorageService;
 
     public LoginQueryHandler(
         ITokenGenerator tokenGenerator,
         UserManager<User> userManager,
         IDateTimeProvider dateTimeProvider,
-        IUserRepository userRepository
+        IUserRepository userRepository,
+        IBlobStorageService blobStorageService
     )
     {
         this._tokenGenerator = tokenGenerator;
         this._userManager = userManager;
         this._dateTimeProvider = dateTimeProvider;
         this._userRepository = userRepository;
+        this._blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -79,7 +82,8 @@ public class LoginQueryHandler
         var response = new AuthenticationResult(
             user,
             jwt,
-            newRefreshToken.Token
+            newRefreshToken.Token,
+            this._blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
         );
 
         return response;
