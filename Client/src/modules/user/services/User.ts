@@ -1,5 +1,4 @@
 ﻿import type GetUserDetailsResponse from "@/modules/user/models/GetUserDetailsResponse";
-import type UploadImageReponse from "@/modules/user/models/ImageUploadResponse";
 import axios from "axios";
 
 const meta = import.meta.env;
@@ -23,22 +22,6 @@ const getUserDetails = async (): Promise<GetUserDetailsResponse> => {
         });
 };
 
-const uploadImage = async (base64data): Promise<UploadImageReponse> => {
-    return axios
-        .post<UploadImageReponse>(URLs.UPLOAD_IMAGE, {
-            withCredentials: true,
-            headers: { "Content-Type": "multipart/form-data" },
-            file: base64data,
-        })
-        .then(async (response) => {
-            return response.data;
-        })
-        .catch(async (err) => {
-            return err;
-        });
-};
-
 export default {
     getUserDetails,
-    uploadImage,
 };
