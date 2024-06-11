@@ -1,4 +1,4 @@
-﻿using Mapster;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTemplate2024.Application.Account.Commands.UploadImage;
