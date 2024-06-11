@@ -1,5 +1,10 @@
 ﻿<script lang="ts">
+    import FileUpload, {
+        type FileUploadBeforeUploadEvent,
+        type FileUploadUploadEvent,
+    } from "primevue/fileupload";
     import type GetUserDetailsResponse from "@/modules/user/models/GetUserDetailsResponse";
+    import type UploadImageResponse from "@/modules/user/models/UploadImageResponse";
     import StateTracker from "@/modules/stateTracker/models/StateTracker";
     import UpdateUserModel from "@/modules/user/models/UpdateUserModel";
     import { Validators } from "@/modules/forms/validation/Validators";
@@ -8,7 +13,6 @@
     import Validation from "@/validation/validation";
     import Auth from "@/modules/auth/services/Auth";
     import User from "@/modules/user/services/User";
-    import FileUpload from "primevue/fileupload";
     import InputText from "primevue/inputtext";
     import Textarea from "primevue/textarea";
     import { defineComponent } from "vue";
@@ -95,7 +99,18 @@
                     ])
                 );
             },
-            onUpload() {
+            beforeSend(event: FileUploadBeforeUploadEvent) {
+                event.xhr.setRequestHeader(
+                    "Authorization",
+                    `Bearer ${Auth.token.value}`
+                );
+            },
+            onUpload(event: FileUploadUploadEvent) {
+                const response = JSON.parse(
+                    event.xhr.response
+                ) as UploadImageResponse;
+                this.avatarUrl.value = response.imageUrl;
+
                 this.$toast.add({
                     severity: "info",
                     summary: "Success",
@@ -272,13 +287,15 @@
 
                                 <FileUpload
                                     :maxFileSize="1000000"
-                                    accept="image/*"
+                                    :with-credentials="true"
                                     auto
+                                    url="https://localhost:7097/api/users/upload"
+                                    accept="image/*"
                                     chooseLabel="Browse"
                                     class="p-button-outlined"
                                     mode="basic"
-                                    name="demo[]"
-                                    url="/api/upload"
+                                    name="file"
+                                    @before-send="beforeSend"
                                     @upload="onUpload"
                                 />
                             </div>

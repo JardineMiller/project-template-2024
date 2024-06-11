@@ -4,5 +4,4 @@ public class ClientAppSettings
 {
     public static readonly string SectionName = "ClientApp";
     public string? Url { get; set; }
-    public string? BlobUrl { get; set; }
 }
