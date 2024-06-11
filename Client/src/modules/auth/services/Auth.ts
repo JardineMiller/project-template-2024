@@ -48,9 +48,9 @@ const confirm = async (token: string, email: string) => {
             headers: { "Content-Type": "application/json" },
         })
         .then(async (response) => {
-            const { id, displayName, email, token } = response.data;
+            const { id, displayName, email, token, avatarUrl } = response.data;
 
-            user.value = new User(id, displayName, email);
+            user.value = new User(id, displayName, email, avatarUrl);
             authToken.value = token;
 
             startRefreshTokenTimer();
@@ -71,9 +71,9 @@ const login = async (request: LoginRequest) => {
             headers: { "Content-Type": "application/json" },
         })
         .then(async (response) => {
-            const { id, displayName, email, token } = response.data;
+            const { id, displayName, email, token, avatarUrl } = response.data;
 
-            user.value = new User(id, displayName, email);
+            user.value = new User(id, displayName, email, avatarUrl);
 
             authToken.value = token;
 
@@ -95,7 +95,7 @@ const logout = async (): Promise<void> => {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
         })
-        .then((response) => {
+        .then((_) => {
             user.value = undefined;
             authToken.value = undefined;
 
@@ -113,10 +113,10 @@ const refreshToken = async (): Promise<void> => {
             headers: { "Content-Type": "application/json" },
         })
         .then(async (response) => {
-            const { id, displayName, email, token } = response.data;
+            const { id, displayName, email, token, avatarUrl } = response.data;
 
             if (response.status == 200) {
-                user.value = new User(id, displayName, email);
+                user.value = new User(id, displayName, email, avatarUrl);
 
                 authToken.value = token;
 

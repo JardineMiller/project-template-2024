@@ -17,18 +17,21 @@ public class RefreshTokenCommandHandler
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IBlobStorageService _blobStorageService;
 
     public RefreshTokenCommandHandler(
         UserManager<User> userManager,
         ITokenGenerator tokenGenerator,
         IDateTimeProvider dateTimeProvider,
-        IUserRepository userRepository
+        IUserRepository userRepository,
+        IBlobStorageService blobStorageService
     )
     {
         this._userManager = userManager;
         this._tokenGenerator = tokenGenerator;
         this._dateTimeProvider = dateTimeProvider;
         this._userRepository = userRepository;
+        this._blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -70,7 +73,8 @@ public class RefreshTokenCommandHandler
         var response = new AuthenticationResult(
             user,
             jwt,
-            newRefreshToken.Token
+            newRefreshToken.Token,
+            this._blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
         );
 
         return response;
