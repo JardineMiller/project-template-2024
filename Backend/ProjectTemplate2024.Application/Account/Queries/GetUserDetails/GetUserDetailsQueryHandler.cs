@@ -49,7 +49,7 @@ public class GetUserDetailsQueryHandler
 
         return new GetUserDetailsResult(
             user,
-            this._blobStorageService.GetAvatarUrl(user, user.AvatarFileName)
+            this._blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
         );
     }
 }

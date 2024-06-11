@@ -1,8 +1,14 @@
-using ProjectTemplate2024.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace ProjectTemplate2024.Application.Common.Interfaces.Services;
 
 public interface IBlobStorageService
 {
-    string? GetAvatarUrl(User user, string? fileName);
+    string? GetAvatarUrl(string userId, string? fileName);
+
+    Task<string?> UploadFile(
+        IFormFile file,
+        string userId,
+        CancellationToken cancellationToken
+    );
 }

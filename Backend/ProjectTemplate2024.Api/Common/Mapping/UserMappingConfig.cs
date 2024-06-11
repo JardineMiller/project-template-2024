@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using ProjectTemplate2024.Application.Account.Commands.UploadImage;
 using ProjectTemplate2024.Application.Account.Queries.GetUserDetails;
 using ProjectTemplate2024.Contracts.Account.GetUserDetails;
 
@@ -23,5 +24,7 @@ public class UserMappingConfig : IRegister
                 (src, dest) => string.IsNullOrEmpty(src.AvatarUrl),
                 dest => dest.AvatarUrl!
             );
+
+        config.NewConfig<UploadImageResult, UploadImageResult>();
     }
 }
