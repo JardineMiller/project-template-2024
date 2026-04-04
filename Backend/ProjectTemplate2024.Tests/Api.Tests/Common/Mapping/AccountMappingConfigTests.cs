@@ -11,10 +11,10 @@ namespace ProjectTemplate2024.Application.Tests.Api.Tests.Common.Mapping;
 
 public class AccountMappingConfigTests
 {
-    private const string validEmail = "email@email.com";
-    private const string validPassword = "newPassword123!";
-    private const string validOldPassword = "oldPassword123!";
-    private const string validToken = "token";
+    private const string ValidEmail = "email@email.com";
+    private const string ValidPassword = "newPassword123!";
+    private const string ValidOldPassword = "oldPassword123!";
+    private const string ValidToken = "token";
 
     public AccountMappingConfigTests()
     {
@@ -26,16 +26,16 @@ public class AccountMappingConfigTests
     public void ResetPasswordRequest_WithTokenProvided_ShouldMapTo_ResetPasswordCommand_WithNullOldPassword()
     {
         var src = new ResetPasswordRequest(
-            validEmail,
-            validPassword,
-            validToken
+            ValidEmail,
+            ValidPassword,
+            ValidToken
         );
 
         var result = src.Adapt<ResetPasswordCommand>();
 
-        result.Email.ShouldBe(validEmail);
-        result.NewPassword.ShouldBe(validPassword);
-        result.Token.ShouldBe(validToken);
+        result.Email.ShouldBe(ValidEmail);
+        result.NewPassword.ShouldBe(ValidPassword);
+        result.Token.ShouldBe(ValidToken);
         result.OldPassword.ShouldBe(null);
     }
 
@@ -43,18 +43,18 @@ public class AccountMappingConfigTests
     public void ResetPasswordRequest_WithOldPasswordProvided_ShouldMapTo_ResetPasswordCommand_WithNullToken()
     {
         var src = new ResetPasswordRequest(
-            validEmail,
-            validPassword,
+            ValidEmail,
+            ValidPassword,
             null,
-            validOldPassword
+            ValidOldPassword
         );
 
         var result = src.Adapt<ResetPasswordCommand>();
 
-        result.Email.ShouldBe(validEmail);
-        result.NewPassword.ShouldBe(validPassword);
+        result.Email.ShouldBe(ValidEmail);
+        result.NewPassword.ShouldBe(ValidPassword);
         result.Token.ShouldBe(null);
-        result.OldPassword.ShouldBe(validOldPassword);
+        result.OldPassword.ShouldBe(ValidOldPassword);
     }
 
     [Fact]
@@ -69,19 +69,19 @@ public class AccountMappingConfigTests
     [Fact]
     public void RequestResetPasswordRequest_ShouldMapTo_RequestResetPasswordCommand()
     {
-        var src = new RequestResetPasswordRequest(validEmail);
+        var src = new RequestResetPasswordRequest(ValidEmail);
         var result = src.Adapt<RequestResetPasswordCommand>();
 
-        result.Email.ShouldBe(validEmail);
+        result.Email.ShouldBe(ValidEmail);
     }
 
     [Fact]
     public void RequestResetPasswordResult_ShouldMapTo_RequestResetPasswordResponse()
     {
-        var src = new RequestResetPasswordResult(validToken);
+        var src = new RequestResetPasswordResult(ValidToken);
         var result = src.Adapt<RequestResetPasswordResponse>();
 
         result.ShouldBeOfType<RequestResetPasswordResponse>();
-        result.Token.ShouldBe(validToken);
+        result.Token.ShouldBe(ValidToken);
     }
 }

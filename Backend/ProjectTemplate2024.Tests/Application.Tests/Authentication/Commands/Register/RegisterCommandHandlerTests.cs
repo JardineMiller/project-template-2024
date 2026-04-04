@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using ProjectTemplate2024.Application.Authentication.Commands.Register;
@@ -16,33 +17,33 @@ public class RegisterCommandHandlerTests
     private readonly Mock<UserManager<User>> _userManagerMock;
     private readonly Mock<IEmailService> _emailServiceMock;
 
-    private const string validDisplayName = "Test User";
-    private const string validEmail = "test2@email.com";
-    private const string validPassword = "Password123!";
+    private const string ValidDisplayName = "Test User";
+    private const string ValidEmail = "test2@email.com";
+    private const string ValidPassword = "Password123!";
 
     public RegisterCommandHandlerTests()
     {
         _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!
         );
 
         _emailServiceMock = new Mock<IEmailService>();
     }
 
     [Fact]
-    public void Handle_GivenValidRequest_ReturnsCorrectResponse()
+    public async Task Handle_GivenValidRequest_ReturnsCorrectResponse()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
             .ReturnsAsync(null as User);
 
         _userManagerMock
@@ -50,9 +51,9 @@ public class RegisterCommandHandlerTests
             .ReturnsAsync(IdentityResult.Success);
 
         var command = new RegisterCommand(
-            validDisplayName,
-            validEmail,
-            validPassword
+            ValidDisplayName,
+            ValidEmail,
+            ValidPassword
         );
 
         // Act
@@ -61,26 +62,26 @@ public class RegisterCommandHandlerTests
             _emailServiceMock.Object
         );
 
-        var result = handler.Handle(command, CancellationToken.None).Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Value.Token.ShouldBe(null);
-        result.Value.User.DisplayName.ShouldBe(validDisplayName);
-        result.Value.User.Email.ShouldBe(validEmail);
+        result.Value.User.DisplayName.ShouldBe(ValidDisplayName);
+        result.Value.User.Email.ShouldBe(ValidEmail);
     }
 
     [Fact]
-    public void Handle_GivenExistingUserEmail_ShouldReturnUserAuthError()
+    public async Task Handle_GivenExistingUserEmail_ShouldReturnUserAuthError()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(new User { Email = validEmail });
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
+            .ReturnsAsync(new User { Email = ValidEmail });
 
         var command = new RegisterCommand(
-            validDisplayName,
-            validEmail,
-            validPassword
+            ValidDisplayName,
+            ValidEmail,
+            ValidPassword
         );
 
         // Act
@@ -89,7 +90,7 @@ public class RegisterCommandHandlerTests
             _emailServiceMock.Object
         );
 
-        var result = handler.Handle(command, CancellationToken.None).Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Errors.Count.ShouldBe(1);
@@ -100,11 +101,11 @@ public class RegisterCommandHandlerTests
     }
 
     [Fact]
-    public void Handle_GivenUserCreationFailed_ShouldReturnCreationFailedError()
+    public async Task Handle_GivenUserCreationFailed_ShouldReturnCreationFailedError()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
             .ReturnsAsync(null as User);
 
         _userManagerMock
@@ -112,9 +113,9 @@ public class RegisterCommandHandlerTests
             .ReturnsAsync(IdentityResult.Failed());
 
         var command = new RegisterCommand(
-            validDisplayName,
-            validEmail,
-            validPassword
+            ValidDisplayName,
+            ValidEmail,
+            ValidPassword
         );
 
         // Act
@@ -123,7 +124,7 @@ public class RegisterCommandHandlerTests
             _emailServiceMock.Object
         );
 
-        var result = handler.Handle(command, CancellationToken.None).Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Errors.Count.ShouldBe(1);

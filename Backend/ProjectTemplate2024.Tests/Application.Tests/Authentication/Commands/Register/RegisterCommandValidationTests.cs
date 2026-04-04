@@ -7,9 +7,9 @@ namespace ProjectTemplate2024.Application.Tests.Application.Tests.Authentication
 public class RegisterCommandValidationTests
 {
     private readonly RegisterCommandValidation _validator;
-    private const string validPassword = "Password123!";
-    private const string validDisplayName = "Test User";
-    private const string validEmail = "test@user.com";
+    private const string ValidPassword = "Password123!";
+    private const string ValidDisplayName = "Test User";
+    private const string ValidEmail = "test@user.com";
 
     public RegisterCommandValidationTests()
     {
@@ -26,13 +26,13 @@ public class RegisterCommandValidationTests
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     )]
     public void Should_Have_Error_When_FirstName_Is_Invalid(
-        string invalidDisplayName
+        string? invalidDisplayName
     )
     {
         var command = new RegisterCommand(
-            invalidDisplayName,
-            validEmail,
-            validPassword
+            invalidDisplayName!,
+            ValidEmail,
+            ValidPassword
         );
 
         var result = _validator.TestValidate(command);
@@ -49,12 +49,12 @@ public class RegisterCommandValidationTests
     [InlineData("    ")]
     [InlineData("a")]
     [InlineData("just_a_random_string")]
-    public void Should_Have_Error_When_Email_Is_Invalid(string invalidEmail)
+    public void Should_Have_Error_When_Email_Is_Invalid(string? invalidEmail)
     {
         var command = new RegisterCommand(
-            validDisplayName,
-            invalidEmail,
-            validPassword
+            ValidDisplayName,
+            invalidEmail!,
+            ValidPassword
         );
 
         var result = _validator.TestValidate(command);
@@ -78,13 +78,13 @@ public class RegisterCommandValidationTests
     [InlineData("Password!")]
     [InlineData("More_Than_Sixteen_Digits_Long_1!")]
     public void Should_Have_Error_When_Password_Is_Invalid(
-        string invalidPassword
+        string? invalidPassword
     )
     {
         var command = new RegisterCommand(
-            validDisplayName,
-            validEmail,
-            invalidPassword
+            ValidDisplayName,
+            ValidEmail,
+            invalidPassword!
         );
 
         var result = _validator.TestValidate(command);
@@ -98,9 +98,9 @@ public class RegisterCommandValidationTests
     public void Should_Not_Have_Error_With_Valid_Input()
     {
         var command = new RegisterCommand(
-            validDisplayName,
-            validEmail,
-            validPassword
+            ValidDisplayName,
+            ValidEmail,
+            ValidPassword
         );
 
         var result = _validator.TestValidate(command);

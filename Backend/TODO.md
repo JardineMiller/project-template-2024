@@ -2,9 +2,10 @@
 
 ## General
 
----
+- Add Copilot instructions
+- Remove Mapster in favour of explicit mapping methods
 
-- Remove Game entity
+---
 
 ## Features
 
@@ -12,14 +13,7 @@
 
 ### Authentication
 
-- Add Nickname to User
-- Add Bio to User
-- Add Profile Image to User
-
 ### Update User
-
-- Enable users to edit their details
-- Enable users to upload a profile image
 
 ### File directory
 

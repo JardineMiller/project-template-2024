@@ -16,7 +16,7 @@ public class JwtGeneratorTests
     private readonly JwtSettings _jwtSettings =
         new()
         {
-            Secret = "super-secret-secret",
+            Secret = "extremely-very-incredibly-important-secret",
             Issuer = "issuer",
             Audience = "audience",
             ExpiryMinutes = 60

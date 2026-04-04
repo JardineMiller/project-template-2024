@@ -4,10 +4,10 @@ namespace ProjectTemplate2024.Infrastructure.Generators;
 
 public class TinyGuidGenerator : ITinyGuidGenerator
 {
-    private static readonly Random random = new();
+    private static readonly Random Random = new();
 
     public string Generate()
     {
-        return random.Next(int.MaxValue).ToString("x8");
+        return Random.Next(int.MaxValue).ToString("x8");
     }
 }

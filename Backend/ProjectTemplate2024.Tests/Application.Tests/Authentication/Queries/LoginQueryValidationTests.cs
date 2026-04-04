@@ -8,8 +8,8 @@ public class LoginQueryValidationTests
 {
     private readonly LoginQueryValidation _validator;
 
-    private const string validPassword = "Password123!";
-    private const string validEmail = "test@user.com";
+    private const string ValidPassword = "Password123!";
+    private const string ValidEmail = "test@user.com";
 
     public LoginQueryValidationTests()
     {
@@ -24,10 +24,10 @@ public class LoginQueryValidationTests
     [InlineData("a")]
     [InlineData("just_a_random_string")]
     private void Should_Have_Error_When_Email_Is_Invalid(
-        string invalidEmail
+        string? invalidEmail
     )
     {
-        var query = new LoginQuery(invalidEmail, validPassword);
+        var query = new LoginQuery(invalidEmail!, ValidPassword);
         var result = _validator.TestValidate(query);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
@@ -40,10 +40,10 @@ public class LoginQueryValidationTests
     [InlineData(" ")]
     [InlineData("    ")]
     private void Should_Have_Error_When_Password_Is_Invalid(
-        string invalidPassword
+        string? invalidPassword
     )
     {
-        var query = new LoginQuery(validEmail, invalidPassword);
+        var query = new LoginQuery(ValidEmail, invalidPassword!);
         var result = _validator.TestValidate(query);
 
         result.ShouldHaveValidationErrorFor(x => x.Password);
@@ -53,7 +53,7 @@ public class LoginQueryValidationTests
     [Fact]
     private void Should_Pass_When_Valid_Input_Provided()
     {
-        var query = new LoginQuery(validEmail, validPassword);
+        var query = new LoginQuery(ValidEmail, ValidPassword);
         var result = _validator.TestValidate(query);
 
         result.ShouldNotHaveValidationErrorFor(x => x.Email);

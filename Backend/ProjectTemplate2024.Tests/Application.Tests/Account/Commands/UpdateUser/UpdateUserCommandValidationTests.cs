@@ -20,11 +20,11 @@ public class UpdateUserCommandValidationTests
     [InlineData("    ")]
     [InlineData("a")]
     [InlineData("just_a_random_string")]
-    public void Should_Have_Error_When_Email_Is_Invalid(string invalidEmail)
+    public void Should_Have_Error_When_Email_Is_Invalid(string? invalidEmail)
     {
         var command = new UpdateUserCommand
         {
-            Email = invalidEmail,
+            Email = invalidEmail!,
             DisplayName = "Valid Name"
         };
 
@@ -41,12 +41,12 @@ public class UpdateUserCommandValidationTests
     [InlineData("    ")]
     [InlineData("a")]
     [InlineData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")] // 51 chars
-    public void Should_Have_Error_When_DisplayName_Is_Invalid(string invalidDisplayName)
+    public void Should_Have_Error_When_DisplayName_Is_Invalid(string? invalidDisplayName)
     {
         var command = new UpdateUserCommand
         {
             Email = "valid@user.com",
-            DisplayName = invalidDisplayName
+            DisplayName = invalidDisplayName!
         };
 
         var result = _validator.TestValidate(command);

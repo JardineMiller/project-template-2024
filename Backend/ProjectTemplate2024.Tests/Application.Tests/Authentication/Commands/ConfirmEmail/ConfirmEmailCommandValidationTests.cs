@@ -7,8 +7,8 @@ namespace ProjectTemplate2024.Application.Tests.Application.Tests.Authentication
 public class ConfirmEmailCommandValidationTests
 {
     private readonly ConfirmEmailValidation _validator;
-    private const string validToken = "token";
-    private const string validEmail = "test@user.com";
+    private const string ValidToken = "token";
+    private const string ValidEmail = "test@user.com";
 
     public ConfirmEmailCommandValidationTests()
     {
@@ -25,12 +25,12 @@ public class ConfirmEmailCommandValidationTests
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     )]
     public void Should_Have_Error_When_Email_Is_Invalid(
-        string invalidEmail
+        string? invalidEmail
     )
     {
         var command = new ConfirmEmailCommand(
-            invalidEmail,
-            validToken
+            invalidEmail!,
+            ValidToken
         );
 
         var result = _validator.TestValidate(command);
@@ -45,12 +45,12 @@ public class ConfirmEmailCommandValidationTests
     [InlineData(" ")]
     [InlineData("    ")]
     public void Should_Have_Error_When_Token_Is_Invalid(
-        string invalidToken
+        string? invalidToken
     )
     {
         var command = new ConfirmEmailCommand(
-            validEmail,
-            invalidToken
+            ValidEmail,
+            invalidToken!
         );
 
         var result = _validator.TestValidate(command);
@@ -62,7 +62,7 @@ public class ConfirmEmailCommandValidationTests
     [Fact]
     public void Should_Not_Have_Error_With_Valid_Input()
     {
-        var command = new ConfirmEmailCommand(validEmail, validToken);
+        var command = new ConfirmEmailCommand(ValidEmail, ValidToken);
 
         var result = _validator.TestValidate(command);
 
