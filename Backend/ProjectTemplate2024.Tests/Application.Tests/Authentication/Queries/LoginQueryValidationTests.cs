@@ -13,7 +13,7 @@ public class LoginQueryValidationTests
 
     public LoginQueryValidationTests()
     {
-        this._validator = new LoginQueryValidation();
+        _validator = new LoginQueryValidation();
     }
 
     [Theory]
@@ -28,7 +28,7 @@ public class LoginQueryValidationTests
     )
     {
         var query = new LoginQuery(invalidEmail, validPassword);
-        var result = this._validator.TestValidate(query);
+        var result = _validator.TestValidate(query);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.Password);
@@ -44,7 +44,7 @@ public class LoginQueryValidationTests
     )
     {
         var query = new LoginQuery(validEmail, invalidPassword);
-        var result = this._validator.TestValidate(query);
+        var result = _validator.TestValidate(query);
 
         result.ShouldHaveValidationErrorFor(x => x.Password);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
@@ -54,7 +54,7 @@ public class LoginQueryValidationTests
     private void Should_Pass_When_Valid_Input_Provided()
     {
         var query = new LoginQuery(validEmail, validPassword);
-        var result = this._validator.TestValidate(query);
+        var result = _validator.TestValidate(query);
 
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.Password);

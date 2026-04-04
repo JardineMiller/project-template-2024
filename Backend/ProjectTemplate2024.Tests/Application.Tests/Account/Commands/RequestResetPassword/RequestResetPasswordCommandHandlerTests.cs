@@ -21,7 +21,7 @@ public class RequestResetPasswordCommandHandlerTests
 
     public RequestResetPasswordCommandHandlerTests()
     {
-        this._userManagerMock = new Mock<UserManager<User>>(
+        _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
             null,
             null,
@@ -33,18 +33,18 @@ public class RequestResetPasswordCommandHandlerTests
             null
         );
 
-        this._emailServiceMock = new Mock<IEmailService>();
+        _emailServiceMock = new Mock<IEmailService>();
     }
 
     [Fact]
     public void Handle_ValidRequest_ReturnsCorrectResponse()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
             .ReturnsAsync(new User { Email = validEmail });
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x =>
                     x.GeneratePasswordResetTokenAsync(
@@ -57,8 +57,8 @@ public class RequestResetPasswordCommandHandlerTests
 
         // Act
         var handler = new RequestResetPasswordCommandHandler(
-            this._userManagerMock.Object,
-            this._emailServiceMock.Object
+            _userManagerMock.Object,
+            _emailServiceMock.Object
         );
 
         var result = handler
@@ -75,7 +75,7 @@ public class RequestResetPasswordCommandHandlerTests
     public void Handle_InvalidRequest_ReturnsError()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
             .ReturnsAsync(null as User);
 
@@ -83,8 +83,8 @@ public class RequestResetPasswordCommandHandlerTests
 
         // Act
         var handler = new RequestResetPasswordCommandHandler(
-            this._userManagerMock.Object,
-            this._emailServiceMock.Object
+            _userManagerMock.Object,
+            _emailServiceMock.Object
         );
 
         var result = handler

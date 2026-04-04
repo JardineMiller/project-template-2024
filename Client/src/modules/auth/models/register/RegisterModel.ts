@@ -28,20 +28,15 @@ export default class RegisterModel
         return this.get<string>("password");
     }
 
-    get firstName(): ModelProperty<string> {
-        return this.get<string>("firstName");
-    }
-
-    get lastName(): ModelProperty<string> {
-        return this.get<string>("lastName");
+    get displayName(): ModelProperty<string> {
+        return this.get<string>("displayName");
     }
 
     toRequest(): RegisterRequest {
         return new RegisterRequest(
             this.email.value!,
             this.password.value!,
-            this.firstName.value!,
-            this.lastName.value!
+            this.displayName.value!
         );
     }
 

@@ -7,6 +7,7 @@ using Moq;
 using ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
 using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
 using Shouldly;
@@ -19,20 +20,16 @@ public class ConfirmEmailCommandHandlerTests
     private readonly Mock<UserManager<User>> _userManagerMock;
     private readonly Mock<ITokenGenerator> _tokenGenerator = new();
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
+    private readonly Mock<IBlobStorageService> _blobStorageServiceMock = new();
 
     private const string validEmail = "test2@email.com";
     private const string validToken = "tokens-are-awesome";
     private readonly User _validUser =
-        new()
-        {
-            FirstName = "Test",
-            LastName = "User",
-            Email = validEmail
-        };
+        new() { DisplayName = "Test User", Email = validEmail };
 
     public ConfirmEmailCommandHandlerTests()
     {
-        this._userManagerMock = new Mock<UserManager<User>>(
+        _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
             null,
             null,
@@ -49,7 +46,7 @@ public class ConfirmEmailCommandHandlerTests
     public void Handle_GivenNonExistingEmail_ReturnsInvalidCredError()
     {
         // Arrange
-        this._userRepositoryMock
+        _userRepositoryMock
             .Setup(
                 x =>
                     x.GetUserByEmail(
@@ -62,9 +59,10 @@ public class ConfirmEmailCommandHandlerTests
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
-            this._userManagerMock.Object,
-            this._tokenGenerator.Object,
-            this._userRepositoryMock.Object
+            _userManagerMock.Object,
+            _tokenGenerator.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -86,13 +84,13 @@ public class ConfirmEmailCommandHandlerTests
     public void Handle_GivenInvalidEmailAndToken_ReturnsInvalidCredError()
     {
         // Arrange
-        this._userRepositoryMock
+        _userRepositoryMock
             .Setup(
                 x => x.GetUserByEmail(validEmail, It.IsAny<CancellationToken>())
             )!
-            .ReturnsAsync(this._validUser);
+            .ReturnsAsync(_validUser);
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x => x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
             )!
@@ -100,9 +98,10 @@ public class ConfirmEmailCommandHandlerTests
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
-            this._userManagerMock.Object,
-            this._tokenGenerator.Object,
-            this._userRepositoryMock.Object
+            _userManagerMock.Object,
+            _tokenGenerator.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -124,7 +123,7 @@ public class ConfirmEmailCommandHandlerTests
     public void Handle_GivenValidInput_ReturnsValidOutput()
     {
         // Arrange
-        this._userRepositoryMock
+        _userRepositoryMock
             .Setup(
                 x =>
                     x.GetUserByEmail(
@@ -133,27 +132,28 @@ public class ConfirmEmailCommandHandlerTests
                         It.IsAny<Expression<Func<User, object>>[]>()
                     )
             )!
-            .ReturnsAsync(this._validUser);
+            .ReturnsAsync(_validUser);
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x => x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
             )!
             .ReturnsAsync(IdentityResult.Success);
 
-        this._tokenGenerator
+        _tokenGenerator
             .Setup(x => x.GenerateJwt(It.IsAny<User>()))
             .Returns("token");
 
-        this._tokenGenerator
+        _tokenGenerator
             .Setup(x => x.GenerateRefreshToken())
             .Returns(new RefreshToken());
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
-            this._userManagerMock.Object,
-            this._tokenGenerator.Object,
-            this._userRepositoryMock.Object
+            _userManagerMock.Object,
+            _tokenGenerator.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -161,8 +161,7 @@ public class ConfirmEmailCommandHandlerTests
 
         // Assert
         result.Value.Token.ShouldBe("token");
-        result.Value.User.FirstName.ShouldBe(this._validUser.FirstName);
-        result.Value.User.LastName.ShouldBe(this._validUser.LastName);
-        result.Value.User.Email.ShouldBe(this._validUser.Email);
+        result.Value.User.DisplayName.ShouldBe(_validUser.DisplayName);
+        result.Value.User.Email.ShouldBe(_validUser.Email);
     }
 }

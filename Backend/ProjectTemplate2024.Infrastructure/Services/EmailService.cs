@@ -17,9 +17,9 @@ public class EmailService : IEmailService
         IOptions<ClientAppSettings> clientAppSettings
     )
     {
-        this._emailSender = emailSender;
-        this._emailPathService = emailPathService;
-        this._clientAppSettings = clientAppSettings.Value;
+        _emailSender = emailSender;
+        _emailPathService = emailPathService;
+        _clientAppSettings = clientAppSettings.Value;
     }
 
     public void SendConfirmationEmail(
@@ -36,10 +36,10 @@ public class EmailService : IEmailService
             .Replace("[email]", toEmail)
             .Replace(
                 "[welcome-link]",
-                $"{this._clientAppSettings.Url}/confirm?token={encodedToken}&email={toEmail}"
+                $"{_clientAppSettings.Url}/confirm?token={encodedToken}&email={toEmail}"
             );
 
-        this._emailSender.SendEmail(
+        _emailSender.SendEmail(
             toEmail,
             $"Welcome to ProjectTemplate2024, {firstName}",
             mailText
@@ -58,7 +58,7 @@ public class EmailService : IEmailService
                 $"https://localhost:7097/api/account/resetpassword?token={encodedToken}&email={toEmail}" //TODO Put url in AppSettings?
             );
 
-        this._emailSender.SendEmail(
+        _emailSender.SendEmail(
             toEmail,
             "ProjectTemplate2024 - Reset Password",
             mailText
@@ -68,7 +68,7 @@ public class EmailService : IEmailService
     private string GetEmailContent(string emailFileName)
     {
         var streamReader = new StreamReader(
-            this._emailPathService.GetEmailPath(emailFileName)
+            _emailPathService.GetEmailPath(emailFileName)
         );
 
         var mailText = streamReader.ReadToEnd();

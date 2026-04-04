@@ -9,13 +9,13 @@ public class EmailPathService : IEmailPathService
 
     public EmailPathService(IWebHostEnvironment hostingEnvironment)
     {
-        this._hostingEnvironment = hostingEnvironment;
+        _hostingEnvironment = hostingEnvironment;
     }
 
     public string GetEmailPath(string emailName)
     {
         return Path.Combine(
-            this._hostingEnvironment.ContentRootPath,
+            _hostingEnvironment.ContentRootPath,
             "Email",
             "Templates",
             emailName

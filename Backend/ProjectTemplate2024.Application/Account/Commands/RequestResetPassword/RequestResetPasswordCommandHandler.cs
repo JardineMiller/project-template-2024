@@ -22,8 +22,8 @@ public class RequestResetPasswordCommandHandler
         IEmailService emailService
     )
     {
-        this._userManager = userManager;
-        this._emailService = emailService;
+        _userManager = userManager;
+        _emailService = emailService;
     }
 
     public async Task<ErrorOr<RequestResetPasswordResult>> Handle(
@@ -31,7 +31,7 @@ public class RequestResetPasswordCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userManager.FindByEmailAsync(
+        var user = await _userManager.FindByEmailAsync(
             request.Email
         );
 
@@ -41,13 +41,13 @@ public class RequestResetPasswordCommandHandler
         }
 
         var token =
-            await this._userManager.GeneratePasswordResetTokenAsync(
+            await _userManager.GeneratePasswordResetTokenAsync(
                 user
             );
 
         var encodedToken = HttpUtility.UrlEncode(token);
 
-        this._emailService.SendPasswordResetEmail(user.Email, token);
+        _emailService.SendPasswordResetEmail(user.Email, token);
 
         return new RequestResetPasswordResult(encodedToken);
     }

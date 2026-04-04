@@ -1,6 +1,5 @@
 using ErrorOr;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
 using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Domain.Common.Errors;
@@ -12,18 +11,15 @@ public class RevokeTokenCommandHandler
     : IRequestHandler<RevokeTokenCommand, ErrorOr<bool>>
 {
     private readonly IUserRepository _userRepository;
-    private readonly UserManager<User> _userManager;
     private readonly IDateTimeProvider _dateTimeProvider;
 
     public RevokeTokenCommandHandler(
-        UserManager<User> userManager,
         IDateTimeProvider dateTimeProvider,
         IUserRepository userRepository
     )
     {
-        this._userManager = userManager;
-        this._dateTimeProvider = dateTimeProvider;
-        this._userRepository = userRepository;
+        _dateTimeProvider = dateTimeProvider;
+        _userRepository = userRepository;
     }
 
     public async Task<ErrorOr<bool>> Handle(
@@ -31,7 +27,7 @@ public class RevokeTokenCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userRepository.GetUserByRefreshToken(
+        var user = await _userRepository.GetUserByRefreshToken(
             request.Token,
             cancellationToken
         );
@@ -51,9 +47,9 @@ public class RevokeTokenCommandHandler
             return Errors.Authentication.TokenExpired;
         }
 
-        refreshToken.RevokedOn = this._dateTimeProvider.UtcNow;
+        refreshToken.RevokedOn = _dateTimeProvider.UtcNow;
 
-        await this._userManager.UpdateAsync(user);
+        await _userRepository.UpdateUser(user, cancellationToken);
 
         return true;
     }

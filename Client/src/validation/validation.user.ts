@@ -1,11 +1,9 @@
 ﻿export default {
-    FirstName: {
+    DisplayName: {
         MinLength: 2,
         MaxLength: 50,
     },
-
-    LastName: {
-        MinLength: 2,
-        MaxLength: 50,
+    Bio: {
+        MaxLength: 250,
     },
 };

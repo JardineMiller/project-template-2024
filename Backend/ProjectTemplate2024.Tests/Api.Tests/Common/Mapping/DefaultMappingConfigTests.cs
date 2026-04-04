@@ -13,7 +13,7 @@ public class DefaultMappingConfigTests
 
         public TestClass(string testProperty)
         {
-            this.TestProperty = testProperty;
+            TestProperty = testProperty;
         }
     }
     

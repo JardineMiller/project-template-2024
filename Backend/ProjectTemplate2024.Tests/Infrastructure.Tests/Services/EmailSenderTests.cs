@@ -28,11 +28,11 @@ public class EmailSenderTests
             .GetSection(EmailSettings.SectionName)
             .Get<EmailSettings>();
 
-        this._emailSender = new EmailSender(
+        _emailSender = new EmailSender(
             Options.Create(emailSettings)
         );
 
-        var result = this._emailSender.SendEmail(
+        var result = _emailSender.SendEmail(
             "test@test.com",
             "Test",
             "Test"
@@ -55,11 +55,11 @@ public class EmailSenderTests
             Password = ""
         };
 
-        this._emailSender = new EmailSender(
+        _emailSender = new EmailSender(
             Options.Create(emailSettings)
         );
 
-        var result = this._emailSender.SendEmail(
+        var result = _emailSender.SendEmail(
             "test@test.com",
             "Test",
             "Test"

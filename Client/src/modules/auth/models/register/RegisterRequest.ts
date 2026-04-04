@@ -1,18 +1,11 @@
 ﻿export default class RegisterRequest {
     email: string;
     password: string;
-    firstName: string;
-    lastName: string;
+    displayName: string;
 
-    constructor(
-        email: string,
-        password: string,
-        firstName: string,
-        lastName: string
-    ) {
+    constructor(email: string, password: string, displayName: string) {
         this.email = email;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.displayName = displayName;
     }
 }

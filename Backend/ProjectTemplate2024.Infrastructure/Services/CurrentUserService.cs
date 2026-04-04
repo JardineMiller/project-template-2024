@@ -12,22 +12,22 @@ public class CurrentUserService : ICurrentUserService
         IHttpContextAccessor httpContextAccessor
     )
     {
-        this._user = httpContextAccessor.HttpContext?.User!;
+        _user = httpContextAccessor.HttpContext?.User!;
     }
 
     public bool IsAuthenticated =>
-        this._user.Identity?.IsAuthenticated ?? false;
+        _user.Identity?.IsAuthenticated ?? false;
 
     public string? UserName
     {
         get
         {
-            if (!this.IsAuthenticated)
+            if (!IsAuthenticated)
             {
                 return null;
             }
 
-            return this._user.Claims
+            return _user.Claims
                 .FirstOrDefault(x => x.Type == ClaimTypes.GivenName)
                 ?.Value;
         }
@@ -37,12 +37,12 @@ public class CurrentUserService : ICurrentUserService
     {
         get
         {
-            if (!this.IsAuthenticated)
+            if (!IsAuthenticated)
             {
                 return null;
             }
 
-            return this._user.Claims
+            return _user.Claims
                 .FirstOrDefault(
                     x => x.Type == ClaimTypes.NameIdentifier
                 )

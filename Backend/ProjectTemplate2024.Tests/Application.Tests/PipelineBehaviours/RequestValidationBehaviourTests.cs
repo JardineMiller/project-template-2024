@@ -48,7 +48,7 @@ public class RequestValidationBehaviourTests
             new RequestValidationBehaviour<
                 LoginQuery,
                 ErrorOr<AuthenticationResult>
-            >(this._validators);
+            >(_validators);
 
         var query = new LoginQuery("test@email.com", "Password123!");
 
@@ -73,7 +73,7 @@ public class RequestValidationBehaviourTests
             new RequestValidationBehaviour<
                 LoginQuery,
                 ErrorOr<AuthenticationResult>
-            >(this._validators);
+            >(_validators);
 
         var query = new LoginQuery("test@email.com", "");
 

@@ -13,8 +13,7 @@ namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Persistence
 public class AuditInformationTests
 {
     private readonly ApplicationDbContext _context;
-    private readonly Mock<IDateTimeProvider> _dateTimeProviderMock =
-        new();
+    private readonly Mock<IDateTimeProvider> _dateTimeProviderMock = new();
 
     private readonly User _user =
         new()
@@ -23,40 +22,38 @@ public class AuditInformationTests
             UserName = "User 1",
             Email = "user1@test.com",
             EmailConfirmed = true,
-            FirstName = "First Name",
-            LastName = "Last Name"
+            DisplayName = "Display Name",
         };
 
     public AuditInformationTests()
     {
-        var options =
-            new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
-        this._context = new ApplicationDbContext(
+        _context = new ApplicationDbContext(
             options,
-            this._dateTimeProviderMock.Object
+            _dateTimeProviderMock.Object
         );
 
-        this._context.Users.Add(this._user);
-        this._context.SaveChanges();
+        _context.Users.Add(_user);
+        _context.SaveChanges();
     }
 
     [Fact]
     public void IAuditable_HasModifiedPropertiesSet_WhenModified()
     {
         var now = DateTimeOffset.Now.UtcDateTime;
-        this._dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
+        _dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
 
-        var user1 = this._context.Users.FirstOrDefault(
-            x => x.Id == this._user.Id
+        var user1 = _context.Users.FirstOrDefault(
+            x => x.Id == _user.Id
         )!;
 
         user1.ModifiedOn.ShouldBe(default);
 
-        this._context.Users.Update(user1);
-        this._context.SaveChanges();
+        _context.Users.Update(user1);
+        _context.SaveChanges();
 
         user1.ModifiedOn.ShouldBe(now);
     }
@@ -65,7 +62,7 @@ public class AuditInformationTests
     public void IAuditable_HasAuditablePropertiesSet_WhenCreated()
     {
         var now = DateTimeOffset.Now.UtcDateTime;
-        this._dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
+        _dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
 
         var user2 = new User
         {
@@ -73,15 +70,14 @@ public class AuditInformationTests
             UserName = "User 2",
             Email = "user2@test.com",
             EmailConfirmed = true,
-            FirstName = "First Name",
-            LastName = "Last Name"
+            DisplayName = "First Name",
         };
 
         user2.CreatedOn.ShouldBe(default);
         user2.ModifiedOn.ShouldBe(default);
 
-        this._context.Users.Add(user2);
-        this._context.SaveChanges();
+        _context.Users.Add(user2);
+        _context.SaveChanges();
 
         user2.CreatedOn.ShouldBe(now);
         user2.ModifiedOn.ShouldBe(default);
@@ -91,16 +87,16 @@ public class AuditInformationTests
     public void IAuditable_HasModifiedPropertiesSet_WhenModified_Async()
     {
         var now = DateTimeOffset.Now.UtcDateTime;
-        this._dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
+        _dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
 
-        var user1 = this._context.Users.FirstOrDefault(
-            x => x.Id == this._user.Id
+        var user1 = _context.Users.FirstOrDefault(
+            x => x.Id == _user.Id
         )!;
 
         user1.ModifiedOn.ShouldBe(default);
 
-        this._context.Users.Update(user1);
-        this._context.SaveChangesAsync();
+        _context.Users.Update(user1);
+        _context.SaveChangesAsync();
 
         user1.ModifiedOn.ShouldBe(now);
     }
@@ -109,7 +105,7 @@ public class AuditInformationTests
     public void IAuditable_HasAuditablePropertiesSet_WhenCreated_Async()
     {
         var now = DateTimeOffset.Now.UtcDateTime;
-        this._dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
+        _dateTimeProviderMock.Setup(x => x.UtcNow).Returns(now);
 
         var user2 = new User
         {
@@ -122,8 +118,8 @@ public class AuditInformationTests
         user2.CreatedOn.ShouldBe(default);
         user2.ModifiedOn.ShouldBe(default);
 
-        this._context.Users.Add(user2);
-        this._context.SaveChangesAsync();
+        _context.Users.Add(user2);
+        _context.SaveChangesAsync();
 
         user2.CreatedOn.ShouldBe(now);
         user2.ModifiedOn.ShouldBe(default);

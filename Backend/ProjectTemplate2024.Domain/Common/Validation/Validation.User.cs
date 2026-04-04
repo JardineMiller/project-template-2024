@@ -15,5 +15,16 @@ public static partial class Validation
             public const int MinLength = 2;
             public const int MaxLength = 50;
         }
+
+        public static class DisplayName
+        {
+            public const int MinLength = 2;
+            public const int MaxLength = 50;
+        }
+
+        public static class Bio
+        {
+            public const int MaxLength = 250;
+        }
     }
 }

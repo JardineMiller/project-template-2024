@@ -9,11 +9,11 @@ public class QueryTestBase : IDisposable
 
     public QueryTestBase()
     {
-        this.Context = TestDbContextFactory.Create();
+        Context = TestDbContextFactory.Create();
     }
 
     public void Dispose()
     {
-        TestDbContextFactory.Destroy(this.Context);
+        TestDbContextFactory.Destroy(Context);
     }
 }

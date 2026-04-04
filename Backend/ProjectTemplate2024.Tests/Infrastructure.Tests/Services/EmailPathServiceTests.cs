@@ -16,19 +16,19 @@ public class EmailPathServiceTests
 
     public EmailPathServiceTests()
     {
-        this._webHostEnvironmentMock
+        _webHostEnvironmentMock
             .Setup(x => x.ContentRootPath)
             .Returns("Root");
 
-        this._emailPathService = new EmailPathService(
-            this._webHostEnvironmentMock.Object
+        _emailPathService = new EmailPathService(
+            _webHostEnvironmentMock.Object
         );
     }
 
     [Fact]
     public void EmailPathService_GetEmailPath_ReturnsCorrectPath()
     {
-        var path = this._emailPathService.GetEmailPath("test.html");
+        var path = _emailPathService.GetEmailPath("test.html");
         path.ShouldBe(@"Root\Email\Templates\test.html");
     }
 }

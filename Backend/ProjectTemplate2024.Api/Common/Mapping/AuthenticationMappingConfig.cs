@@ -26,11 +26,11 @@ public class AuthenticationMappingConfig : IRegister
                 (src, dest) => string.IsNullOrEmpty(src.Token),
                 dest => dest.Token!
             )
+            .Map(dest => dest, src => src.User)
             .IgnoreIf(
-                (src, dest) => string.IsNullOrEmpty(src.PlayerId),
-                dest => dest.PlayerId!
-            )
-            .Map(dest => dest, src => src.User);
+                (src, dest) => string.IsNullOrEmpty(src.AvatarUrl),
+                dest => dest.AvatarUrl!
+            );
 
         config
             .NewConfig<RegisterCommand, User>()

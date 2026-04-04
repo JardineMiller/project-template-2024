@@ -23,15 +23,15 @@ public class AuthController : ApiController
         IDateTimeProvider dateTimeProvider
     )
     {
-        this._mediator = mediator;
-        this._dateTimeProvider = dateTimeProvider;
+        _mediator = mediator;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     [HttpPost(nameof(Register))]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
         var cmd = request.Adapt<RegisterCommand>();
-        var authResult = await this._mediator.Send(cmd);
+        var authResult = await _mediator.Send(cmd);
 
         return authResult.Match(
             result => Ok(result.Adapt<AuthenticationResponse>()),
@@ -43,7 +43,7 @@ public class AuthController : ApiController
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var qry = request.Adapt<LoginQuery>();
-        var authResult = await this._mediator.Send(qry);
+        var authResult = await _mediator.Send(qry);
 
         return authResult.Match(
             result =>
@@ -58,7 +58,7 @@ public class AuthController : ApiController
     [HttpGet(nameof(RefreshToken))]
     public async Task<IActionResult> RefreshToken()
     {
-        var refreshToken = this.Request.Cookies["refreshToken"];
+        var refreshToken = Request.Cookies["refreshToken"];
 
         if (refreshToken is null)
         {
@@ -67,7 +67,7 @@ public class AuthController : ApiController
 
         var cmd = new RefreshTokenCommand(refreshToken);
 
-        var result = await this._mediator.Send(cmd);
+        var result = await _mediator.Send(cmd);
 
         return result.Match(
             authResult =>
@@ -86,12 +86,12 @@ public class AuthController : ApiController
     [HttpGet(nameof(RevokeToken))]
     public async Task<IActionResult> RevokeToken()
     {
-        var refreshToken = this.Request.Cookies["refreshToken"];
+        var refreshToken = Request.Cookies["refreshToken"];
         var cmd = new RevokeTokenCommand(refreshToken!);
 
         RemoveCookie();
 
-        var result = await this._mediator.Send(cmd);
+        var result = await _mediator.Send(cmd);
 
         return result.Match(_ => Ok(), errors => Problem(errors));
     }
@@ -103,7 +103,7 @@ public class AuthController : ApiController
     )
     {
         var cmd = new ConfirmEmailCommand(email, token);
-        var authResult = await this._mediator.Send(cmd);
+        var authResult = await _mediator.Send(cmd);
 
         return authResult.Match(
             result =>
@@ -119,13 +119,13 @@ public class AuthController : ApiController
     {
         var cookieOptions = new CookieOptions
         {
-            Expires = this._dateTimeProvider.UtcNow.AddDays(7),
+            Expires = _dateTimeProvider.UtcNow.AddDays(7),
             HttpOnly = true,
             SameSite = SameSiteMode.None,
             Secure = true,
         };
 
-        this.Response.Cookies.Append(
+        Response.Cookies.Append(
             "refreshToken",
             refreshToken,
             cookieOptions
@@ -136,13 +136,13 @@ public class AuthController : ApiController
     {
         var cookieOptions = new CookieOptions
         {
-            Expires = this._dateTimeProvider.UtcNow.AddDays(-1),
+            Expires = _dateTimeProvider.UtcNow.AddDays(-1),
             HttpOnly = true,
             SameSite = SameSiteMode.None,
             Secure = true,
         };
 
-        this.Response.Cookies.Append(
+        Response.Cookies.Append(
             "refreshToken",
             string.Empty,
             cookieOptions

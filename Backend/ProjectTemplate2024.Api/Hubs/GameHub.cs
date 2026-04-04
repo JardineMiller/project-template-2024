@@ -34,19 +34,19 @@ public class GameHub : Hub<IGameHub>
         IDateTimeProvider dateTimeProvider
     )
     {
-        this._mediator = mediator;
-        this._logger = logger;
-        this._dateTimeProvider = dateTimeProvider;
+        _mediator = mediator;
+        _logger = logger;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public Task JoinGame(string gameCode, string user)
     {
-        var groupTask = this.Groups.AddToGroupAsync(
-            this.Context.ConnectionId,
+        var groupTask = Groups.AddToGroupAsync(
+            Context.ConnectionId,
             gameCode
         );
 
-        var messageTask = this.Clients
+        var messageTask = Clients
             .Group(gameCode)
             .PlayerConnected(user, user);
 
@@ -55,12 +55,12 @@ public class GameHub : Hub<IGameHub>
 
     public Task LeaveGame(string gameCode, string user)
     {
-        var groupTask = this.Groups.RemoveFromGroupAsync(
-            this.Context.ConnectionId,
+        var groupTask = Groups.RemoveFromGroupAsync(
+            Context.ConnectionId,
             gameCode
         );
 
-        var messageTask = this.Clients
+        var messageTask = Clients
             .Group(gameCode)
             .PlayerDisconnected(user, user);
 
@@ -69,23 +69,23 @@ public class GameHub : Hub<IGameHub>
 
     public Task SendMessage(string gameCode, string user, string message)
     {
-        return this.Clients
+        return Clients
             .Group(gameCode)
             .ReceiveMessage(
                 user,
                 message,
-                this._dateTimeProvider.UtcNow,
+                _dateTimeProvider.UtcNow,
                 Guid.NewGuid().ToString()
             );
     }
 
     public Task LikeMessage(string gameCode, string messageId)
     {
-        return this.Clients.Group(gameCode).ReceiveLike(messageId);
+        return Clients.Group(gameCode).ReceiveLike(messageId);
     }
 
     public Task UnlikeMessage(string gameCode, string messageId)
     {
-        return this.Clients.Group(gameCode).ReceiveUnlike(messageId);
+        return Clients.Group(gameCode).ReceiveUnlike(messageId);
     }
 }

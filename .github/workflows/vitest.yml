@@ -1,0 +1,42 @@
+name: Vitest (PR)
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  vitest:
+    name: Run Vitest on PRs to main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: Client/package-lock.json
+
+      - name: Install dependencies
+        working-directory: Client
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          elif [ -f pnpm-lock.yaml ]; then
+            npm i -g pnpm
+            pnpm install
+          elif [ -f yarn.lock ]; then
+            npm i -g yarn
+            yarn install
+          else
+            npm install
+          fi
+
+      - name: Run unit tests (vitest)
+        working-directory: Client
+        env:
+          CI: true
+        run: npm run test:unit -- --run

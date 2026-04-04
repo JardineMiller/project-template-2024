@@ -23,7 +23,7 @@ public class RefreshToken
 
     public string? ReplacedBy { get; set; }
 
-    public bool IsActive => this.RevokedOn is null && !this.IsExpired;
+    public bool IsActive => RevokedOn is null && !IsExpired;
 
-    public bool IsExpired => DateTimeOffset.UtcNow >= this.Expires;
+    public bool IsExpired => DateTimeOffset.UtcNow >= Expires;
 }
