@@ -21,4 +21,8 @@ public interface IUserRepository
         CancellationToken cancellationToken,
         params Expression<Func<User, object>>[] includes
     );
+
+    Task UpdateUser(User user, CancellationToken cancellationToken);
+
+    Task<bool> CheckPasswordAsync(User user, string password, CancellationToken cancellationToken);
 }

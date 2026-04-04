@@ -17,7 +17,7 @@ public class DefaultMappingConfig : IRegister
     private static void AddTrim(TypeAdapterConfig config)
     {
         config.Default.AddDestinationTransform(
-            (string x) => x.Trim()
+            (string x) => x == null ? null : x.Trim()
         );
     }
 }

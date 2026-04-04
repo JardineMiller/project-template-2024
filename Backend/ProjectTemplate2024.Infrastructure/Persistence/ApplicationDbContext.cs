@@ -17,7 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
         IDateTimeProvider dateTimeProvider
     ) : base(options)
     {
-        this._dateTimeProvider = dateTimeProvider;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -47,25 +47,25 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
     private void ApplyAuditInfo()
     {
-        var entries = this.ChangeTracker.Entries<IAuditable>();
+        var entries = ChangeTracker.Entries<IAuditable>();
 
         foreach (var entry in entries)
         {
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedOn = this._dateTimeProvider.UtcNow;
+                    entry.Entity.CreatedOn = _dateTimeProvider.UtcNow;
                     break;
 
                 case EntityState.Modified:
-                    entry.Entity.ModifiedOn = this._dateTimeProvider.UtcNow;
+                    entry.Entity.ModifiedOn = _dateTimeProvider.UtcNow;
                     break;
 
                 case EntityState.Deleted:
                     if (entry.Entity is IDeletable deletableEntity)
                     {
                         deletableEntity.DeletedOn =
-                            this._dateTimeProvider.UtcNow;
+                            _dateTimeProvider.UtcNow;
                         deletableEntity.IsDeleted = true;
                         entry.State = EntityState.Modified;
                     }

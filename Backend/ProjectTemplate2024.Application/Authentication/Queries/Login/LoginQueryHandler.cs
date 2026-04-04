@@ -1,6 +1,5 @@
 ﻿using ErrorOr;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using ProjectTemplate2024.Application.Authentication.Common;
 using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
@@ -14,24 +13,21 @@ public class LoginQueryHandler
     : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {
     private readonly IUserRepository _userRepository;
-    private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IBlobStorageService _blobStorageService;
 
     public LoginQueryHandler(
         ITokenGenerator tokenGenerator,
-        UserManager<User> userManager,
         IDateTimeProvider dateTimeProvider,
         IUserRepository userRepository,
         IBlobStorageService blobStorageService
     )
     {
-        this._tokenGenerator = tokenGenerator;
-        this._userManager = userManager;
-        this._dateTimeProvider = dateTimeProvider;
-        this._userRepository = userRepository;
-        this._blobStorageService = blobStorageService;
+        _tokenGenerator = tokenGenerator;
+        _dateTimeProvider = dateTimeProvider;
+        _userRepository = userRepository;
+        _blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -39,7 +35,7 @@ public class LoginQueryHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userRepository.GetUserByEmail(
+        var user = await _userRepository.GetUserByEmail(
             qry.Email,
             cancellationToken,
             x => x.RefreshTokens
@@ -55,7 +51,7 @@ public class LoginQueryHandler
             return Errors.Authentication.EmailNotConfirmed;
         }
 
-        if (!await this._userManager.CheckPasswordAsync(user, qry.Password))
+        if (!await _userRepository.CheckPasswordAsync(user, qry.Password, cancellationToken))
         {
             return Errors.Authentication.InvalidCredentials;
         }
@@ -65,25 +61,25 @@ public class LoginQueryHandler
             .MaxBy(x => x.CreatedOn);
 
         // replace old refresh token with a new one and save
-        var newRefreshToken = this._tokenGenerator.GenerateRefreshToken();
+        var newRefreshToken = _tokenGenerator.GenerateRefreshToken();
 
         if (oldRefreshToken is not null)
         {
-            oldRefreshToken.RevokedOn = this._dateTimeProvider.UtcNow;
+            oldRefreshToken.RevokedOn = _dateTimeProvider.UtcNow;
             oldRefreshToken.ReplacedBy = newRefreshToken.Token;
         }
 
         user.RefreshTokens.Add(newRefreshToken);
-        await this._userManager.UpdateAsync(user);
+        await _userRepository.UpdateUser(user, cancellationToken);
 
         // generate new jwt
-        var jwt = this._tokenGenerator.GenerateJwt(user);
+        var jwt = _tokenGenerator.GenerateJwt(user);
 
         var response = new AuthenticationResult(
             user,
             jwt,
             newRefreshToken.Token,
-            this._blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
+            _blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
         );
 
         return response;

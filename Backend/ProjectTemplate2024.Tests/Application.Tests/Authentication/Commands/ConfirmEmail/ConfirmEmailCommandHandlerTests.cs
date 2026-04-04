@@ -29,7 +29,7 @@ public class ConfirmEmailCommandHandlerTests
 
     public ConfirmEmailCommandHandlerTests()
     {
-        this._userManagerMock = new Mock<UserManager<User>>(
+        _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
             null,
             null,
@@ -46,7 +46,7 @@ public class ConfirmEmailCommandHandlerTests
     public void Handle_GivenNonExistingEmail_ReturnsInvalidCredError()
     {
         // Arrange
-        this._userRepositoryMock
+        _userRepositoryMock
             .Setup(
                 x =>
                     x.GetUserByEmail(
@@ -59,10 +59,10 @@ public class ConfirmEmailCommandHandlerTests
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
-            this._userManagerMock.Object,
-            this._tokenGenerator.Object,
-            this._userRepositoryMock.Object,
-            this._blobStorageServiceMock.Object
+            _userManagerMock.Object,
+            _tokenGenerator.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -84,13 +84,13 @@ public class ConfirmEmailCommandHandlerTests
     public void Handle_GivenInvalidEmailAndToken_ReturnsInvalidCredError()
     {
         // Arrange
-        this._userRepositoryMock
+        _userRepositoryMock
             .Setup(
                 x => x.GetUserByEmail(validEmail, It.IsAny<CancellationToken>())
             )!
-            .ReturnsAsync(this._validUser);
+            .ReturnsAsync(_validUser);
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x => x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
             )!
@@ -98,10 +98,10 @@ public class ConfirmEmailCommandHandlerTests
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
-            this._userManagerMock.Object,
-            this._tokenGenerator.Object,
-            this._userRepositoryMock.Object,
-            this._blobStorageServiceMock.Object
+            _userManagerMock.Object,
+            _tokenGenerator.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -123,7 +123,7 @@ public class ConfirmEmailCommandHandlerTests
     public void Handle_GivenValidInput_ReturnsValidOutput()
     {
         // Arrange
-        this._userRepositoryMock
+        _userRepositoryMock
             .Setup(
                 x =>
                     x.GetUserByEmail(
@@ -132,28 +132,28 @@ public class ConfirmEmailCommandHandlerTests
                         It.IsAny<Expression<Func<User, object>>[]>()
                     )
             )!
-            .ReturnsAsync(this._validUser);
+            .ReturnsAsync(_validUser);
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x => x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
             )!
             .ReturnsAsync(IdentityResult.Success);
 
-        this._tokenGenerator
+        _tokenGenerator
             .Setup(x => x.GenerateJwt(It.IsAny<User>()))
             .Returns("token");
 
-        this._tokenGenerator
+        _tokenGenerator
             .Setup(x => x.GenerateRefreshToken())
             .Returns(new RefreshToken());
 
         var command = new ConfirmEmailCommand(validEmail, validToken);
         var handler = new ConfirmEmailCommandHandler(
-            this._userManagerMock.Object,
-            this._tokenGenerator.Object,
-            this._userRepositoryMock.Object,
-            this._blobStorageServiceMock.Object
+            _userManagerMock.Object,
+            _tokenGenerator.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -161,7 +161,7 @@ public class ConfirmEmailCommandHandlerTests
 
         // Assert
         result.Value.Token.ShouldBe("token");
-        result.Value.User.DisplayName.ShouldBe(this._validUser.DisplayName);
-        result.Value.User.Email.ShouldBe(this._validUser.Email);
+        result.Value.User.DisplayName.ShouldBe(_validUser.DisplayName);
+        result.Value.User.Email.ShouldBe(_validUser.Email);
     }
 }

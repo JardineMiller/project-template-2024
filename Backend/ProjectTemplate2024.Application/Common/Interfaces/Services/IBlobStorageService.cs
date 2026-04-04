@@ -11,4 +11,6 @@ public interface IBlobStorageService
         string userId,
         CancellationToken cancellationToken
     );
+
+    Task<bool> DeleteFile(string userId, string fileName, CancellationToken cancellationToken = default);
 }

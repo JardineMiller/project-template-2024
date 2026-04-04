@@ -31,7 +31,9 @@ export default class UpdateUserModel
         return this.get<string>("displayName");
     }
 
-    handleErrorResponse(error: HttpErrorResponse): void {}
+    handleErrorResponse(error: HttpErrorResponse): void {
+        console.error(error);
+    }
 
     get responseErrors(): { [p: string]: boolean } {
         return {};
@@ -41,7 +43,8 @@ export default class UpdateUserModel
         return new UpdateUserRequest(
             this.email.value!,
             this.displayName.value!,
-            this.bio.value!
+            this.bio.value!,
+            this.avatarUrl.value!
         );
     }
 }

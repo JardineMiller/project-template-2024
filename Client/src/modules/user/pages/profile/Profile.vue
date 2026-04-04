@@ -12,7 +12,7 @@
     import "@/utils/extensions/string/string-extensions";
     import Validation from "@/validation/validation";
     import Auth from "@/modules/auth/services/Auth";
-    import User from "@/modules/user/services/User";
+    import User, { URLs } from "@/modules/user/services/User";
     import InputText from "primevue/inputtext";
     import Textarea from "primevue/textarea";
     import { defineComponent } from "vue";
@@ -48,6 +48,9 @@
         computed: {
             user() {
                 return Auth.user.value;
+            },
+            uploadUrl(): string {
+                return URLs.UPLOAD_IMAGE;
             },
             email(): ModelProperty<string> {
                 return this.state.model.email;
@@ -111,25 +114,99 @@
                 ) as UploadImageResponse;
                 this.avatarUrl.value = response.imageUrl;
 
+                if (Auth.user.value) {
+                    Auth.user.value.avatarUrl = response.imageUrl;
+                }
+
                 this.$toast.add({
                     severity: "info",
                     summary: "Success",
                     detail: "File Uploaded",
-                    life: 3000,
+                    life: 1500,
                 });
             },
-            handleSubmit(): void {
+            async clearAvatar(): Promise<void> {
+                if (!this.avatarUrl.value) {
+                    return;
+                }
+
                 this.saving = true;
 
-                setTimeout(() => {
+                try {
+                    let fileName = this.avatarUrl.value as string;
+
+                    try {
+                        const url = new URL(fileName);
+                        fileName = url.pathname.split("/").pop() || fileName;
+                    } catch {
+                        fileName = (fileName as string).split("/").pop() || fileName;
+                    }
+
+                    // strip query string if present
+                    fileName = (fileName as string).split("?")[0];
+
+                    const result = await User.deleteAvatar(fileName);
+
+                    // update UI and auth
+                    this.avatarUrl.value = undefined;
+
+                    if (Auth.user.value) {
+                        Auth.user.value.avatarUrl = undefined;
+                    }
+
+                    this.$toast.add({
+                        severity: "success",
+                        summary: "Success",
+                        detail: "Avatar removed",
+                        life: 1500,
+                    });
+                } catch (err) {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "Error",
+                        detail: "Could not remove avatar",
+                        life: 1500,
+                    });
+                } finally {
                     this.saving = false;
+                }
+            },
+            async handleSubmit(): Promise<void> {
+                this.saving = true;
+
+                const payload = this.state.model.toRequest();
+
+                try {
+                    const result = await User.updateUser(payload);
+
+                    if (Auth.user.value) {
+                        Auth.user.value.displayName = result.displayName;
+                        Auth.user.value.email = result.email;
+                        Auth.user.value.avatarUrl = result.avatarUrl;
+                    }
+
+                    // Update local model values from server response
+                    this.state.setProperty<string>(
+                        "bio",
+                        result.bio ?? ""
+                    );
+
                     this.$toast.add({
                         severity: "success",
                         summary: "Success",
                         detail: "Saved",
-                        life: 3000,
+                        life: 1500,
                     });
-                }, 3_000);
+                } catch (err) {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "Error",
+                        detail: "Could not save changes",
+                        life: 1500,
+                    });
+                } finally {
+                    this.saving = false;
+                }
             },
         },
     });
@@ -280,7 +357,7 @@
                                     :label="
                                         avatarUrl ? '' : user?.displayName[0]
                                     "
-                                    class="mr-2"
+                                    class="mr-2 flex-none"
                                     shape="circle"
                                     size="xlarge"
                                 />
@@ -289,14 +366,21 @@
                                     :maxFileSize="1000000"
                                     :with-credentials="true"
                                     auto
-                                    url="https://localhost:7097/api/users/upload"
+                                    :url="uploadUrl"
                                     accept="image/*"
-                                    chooseLabel="Browse"
+                                    chooseLabel="Upload"
                                     class="p-button-outlined"
                                     mode="basic"
                                     name="file"
                                     @before-send="beforeSend"
                                     @upload="onUpload"
+                                />
+                                <Button
+                                    icon="pi pi-trash"
+                                    title="Clear avatar"
+                                    class="p-button-danger p-button-icon-only"
+                                    :disabled="!avatarUrl.value"
+                                    @click="clearAvatar"
                                 />
                             </div>
                         </div>

@@ -18,7 +18,7 @@ public class BlobStorageService : IBlobStorageService
             throw new ArgumentNullException(nameof(databaseSettings));
         }
 
-        this._databaseSettings = databaseSettings.Value;
+        _databaseSettings = databaseSettings.Value;
     }
 
     public string? GetAvatarUrl(string userId, string? fileName)
@@ -33,7 +33,7 @@ public class BlobStorageService : IBlobStorageService
             return null;
         }
 
-        return $"{this._databaseSettings.BlobUrl}/{userId}/images/{fileName}";
+        return $"{_databaseSettings.BlobUrl}/{userId}/images/{fileName}";
     }
 
     public async Task<string?> UploadFile(
@@ -43,7 +43,7 @@ public class BlobStorageService : IBlobStorageService
     )
     {
         var client = new BlobServiceClient(
-            this._databaseSettings.BlobConnectionString
+            _databaseSettings.BlobConnectionString
         );
         var containerClient = client.GetBlobContainerClient(userId);
 
@@ -77,5 +77,29 @@ public class BlobStorageService : IBlobStorageService
         }
 
         return null;
+    }
+
+    public async Task<bool> DeleteFile(
+        string userId,
+        string fileName,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var client = new BlobServiceClient(
+            _databaseSettings.BlobConnectionString
+        );
+
+        var containerClient = client.GetBlobContainerClient(userId);
+
+        if (!await containerClient.ExistsAsync(cancellationToken))
+        {
+            return false;
+        }
+
+        var blobClient = containerClient.GetBlobClient($"images/{fileName}");
+
+        var response = await blobClient.DeleteIfExistsAsync(cancellationToken: cancellationToken);
+
+        return response.Value;
     }
 }

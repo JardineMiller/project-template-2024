@@ -34,16 +34,16 @@ public class LoginQueryHandlerTests
 
     public LoginQueryHandlerTests()
     {
-        this._tokenGeneratorMock = new Mock<ITokenGenerator>();
-        this._tokenGeneratorMock
+        _tokenGeneratorMock = new Mock<ITokenGenerator>();
+        _tokenGeneratorMock
             .Setup(x => x.GenerateJwt(It.IsAny<User>()))
             .Returns("token");
 
-        this._tokenGeneratorMock
+        _tokenGeneratorMock
             .Setup(x => x.GenerateRefreshToken())
             .Returns(new RefreshToken { Token = "refresh-token" });
 
-        this._userManagerMock = new Mock<UserManager<User>>(
+        _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
             null,
             null,
@@ -55,8 +55,8 @@ public class LoginQueryHandlerTests
             null
         );
 
-        this._dateTimeProviderMock = new Mock<IDateTimeProvider>();
-        this._dateTimeProviderMock
+        _dateTimeProviderMock = new Mock<IDateTimeProvider>();
+        _dateTimeProviderMock
             .Setup(x => x.UtcNow)
             .Returns(new DateTime(2023, 1, 1));
     }
@@ -65,17 +65,27 @@ public class LoginQueryHandlerTests
     public async Task Handle_GivenNonExistingUser_ReturnsError()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.Users)
             .Returns(new List<User>().AsQueryable());
 
+        _userRepositoryMock
+            .Setup(
+                x =>
+                    x.GetUserByEmail(
+                        invalidEmail,
+                        It.IsAny<CancellationToken>(),
+                        It.IsAny<Expression<Func<User, object>>[]>()
+                    )
+            )
+            .ReturnsAsync((User?)null);
+
         var query = new LoginQuery(invalidEmail, validPassword);
         var handler = new LoginQueryHandler(
-            this._tokenGeneratorMock.Object,
-            this._userManagerMock.Object,
-            this._dateTimeProviderMock.Object,
-            this._userRepositoryMock.Object,
-            this._blobStorageServiceMock.Object
+            _tokenGeneratorMock.Object,
+            _dateTimeProviderMock.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -97,7 +107,7 @@ public class LoginQueryHandlerTests
     public async Task Handle_GivenIncorrectPassword_ReturnsError()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.Users)
             .Returns(
                 new List<User>
@@ -111,19 +121,16 @@ public class LoginQueryHandlerTests
                 }.AsQueryable()
             );
 
-        this._userManagerMock
-            .Setup(
-                x => x.CheckPasswordAsync(It.IsAny<User>(), invalidPassword)
-            )!
+        _userRepositoryMock
+            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), invalidPassword, It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
 
         var query = new LoginQuery(validEmail, invalidPassword);
         var handler = new LoginQueryHandler(
-            this._tokenGeneratorMock.Object,
-            this._userManagerMock.Object,
-            this._dateTimeProviderMock.Object,
-            this._userRepositoryMock.Object,
-            this._blobStorageServiceMock.Object
+            _tokenGeneratorMock.Object,
+            _dateTimeProviderMock.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -151,11 +158,7 @@ public class LoginQueryHandlerTests
             Email = validEmail,
         };
 
-        this._userManagerMock
-            .Setup(x => x.Users)
-            .Returns(new List<User> { user }.AsQueryable());
-
-        this._userRepositoryMock
+        _userRepositoryMock
             .Setup(
                 x =>
                     x.GetUserByEmail(
@@ -166,19 +169,16 @@ public class LoginQueryHandlerTests
             )
             .ReturnsAsync(user);
 
-        this._userManagerMock
-            .Setup(
-                x => x.CheckPasswordAsync(It.IsAny<User>(), invalidPassword)
-            )!
+        _userRepositoryMock
+            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), invalidPassword, It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
 
         var query = new LoginQuery(validEmail, invalidPassword);
         var handler = new LoginQueryHandler(
-            this._tokenGeneratorMock.Object,
-            this._userManagerMock.Object,
-            this._dateTimeProviderMock.Object,
-            this._userRepositoryMock.Object,
-            this._blobStorageServiceMock.Object
+            _tokenGeneratorMock.Object,
+            _dateTimeProviderMock.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act
@@ -207,7 +207,7 @@ public class LoginQueryHandlerTests
             EmailConfirmed = true
         };
 
-        this._userRepositoryMock
+        _userRepositoryMock
             .Setup(
                 x =>
                     x.GetUserByEmail(
@@ -218,17 +218,16 @@ public class LoginQueryHandlerTests
             )
             .ReturnsAsync(user);
 
-        this._userManagerMock
-            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), validPassword))!
+        _userRepositoryMock
+            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), validPassword, It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
         var query = new LoginQuery(validEmail, validPassword);
         var handler = new LoginQueryHandler(
-            this._tokenGeneratorMock.Object,
-            this._userManagerMock.Object,
-            this._dateTimeProviderMock.Object,
-            this._userRepositoryMock.Object,
-            this._blobStorageServiceMock.Object
+            _tokenGeneratorMock.Object,
+            _dateTimeProviderMock.Object,
+            _userRepositoryMock.Object,
+            _blobStorageServiceMock.Object
         );
 
         // Act

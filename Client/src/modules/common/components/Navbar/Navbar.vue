@@ -1,3 +1,43 @@
+<script>
+    import Auth from "@/modules/auth/services/Auth";
+    import { routes } from "@/router/router";
+    import { RouterLink } from "vue-router";
+    import { defineComponent } from "vue";
+    import Avatar from "primevue/avatar";
+    import Toast from "primevue/toast";
+    import Menu from "primevue/menu";
+
+    export default defineComponent({
+        username: "NavBar",
+        components: { Avatar, Menu, Toast, RouterLink },
+        data: () => {
+            return {
+                routes: routes,
+                items: [
+                    {
+                        label: "Profile",
+                        icon: "pi pi-fw pi-user",
+                        route: "/profile",
+                    },
+                ],
+            };
+        },
+        computed: {
+            user() {
+                return Auth.user.value;
+            },
+        },
+        methods: {
+            logout() {
+                Auth.logout();
+            },
+            toggleMenu(event) {
+                this.$refs.menu.toggle(event);
+            },
+        },
+    });
+</script>
+
 <template>
     <div
         v-if="user"
@@ -75,46 +115,6 @@
         </div>
     </div>
 </template>
-
-<script>
-    import Auth from "@/modules/auth/services/Auth";
-    import { routes } from "@/router/router";
-    import { RouterLink } from "vue-router";
-    import { defineComponent } from "vue";
-    import Avatar from "primevue/avatar";
-    import Toast from "primevue/toast";
-    import Menu from "primevue/menu";
-
-    export default defineComponent({
-        username: "NavBar",
-        components: { Avatar, Menu, Toast, RouterLink },
-        data: () => {
-            return {
-                routes: routes,
-                items: [
-                    {
-                        label: "Profile",
-                        icon: "pi pi-fw pi-user",
-                        route: "/profile",
-                    },
-                ],
-            };
-        },
-        computed: {
-            user() {
-                return Auth.user.value;
-            },
-        },
-        methods: {
-            logout() {
-                Auth.logout();
-            },
-            toggleMenu(event) {
-                this.$refs.menu.toggle(event);
-            },
-        },
-    });
-</script>
 
 <style scoped>
     .navbar {

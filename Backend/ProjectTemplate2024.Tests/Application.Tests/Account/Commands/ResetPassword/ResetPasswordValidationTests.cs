@@ -14,7 +14,7 @@ public class ResetPasswordValidationTests
 
     public ResetPasswordValidationTests()
     {
-        this._validator = new ResetPasswordCommandValidation();
+        _validator = new ResetPasswordCommandValidation();
     }
 
     [Theory]
@@ -34,7 +34,7 @@ public class ResetPasswordValidationTests
                 validPassword,
                 validToken
             );
-        var result = this._validator.TestValidate(query);
+        var result = _validator.TestValidate(query);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.NewPassword);
@@ -66,7 +66,7 @@ public class ResetPasswordValidationTests
                 validToken
             );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.NewPassword);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
@@ -90,7 +90,7 @@ public class ResetPasswordValidationTests
                 invalidToken
             );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Token);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
@@ -106,7 +106,7 @@ public class ResetPasswordValidationTests
                 validPassword
             );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Token);
         result.ShouldHaveValidationErrorFor(x => x.OldPassword);
@@ -124,7 +124,7 @@ public class ResetPasswordValidationTests
             validPassword
         );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.NewPassword);
         result.ShouldNotHaveValidationErrorFor(x => x.OldPassword);
@@ -143,7 +143,7 @@ public class ResetPasswordValidationTests
                 validPassword
             );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Token);
         result.ShouldHaveValidationErrorFor(x => x.OldPassword);

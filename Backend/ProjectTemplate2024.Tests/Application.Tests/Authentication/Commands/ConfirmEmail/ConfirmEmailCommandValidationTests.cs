@@ -12,7 +12,7 @@ public class ConfirmEmailCommandValidationTests
 
     public ConfirmEmailCommandValidationTests()
     {
-        this._validator = new ConfirmEmailValidation();
+        _validator = new ConfirmEmailValidation();
     }
 
     [Theory]
@@ -33,7 +33,7 @@ public class ConfirmEmailCommandValidationTests
             validToken
         );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.Token);
@@ -53,7 +53,7 @@ public class ConfirmEmailCommandValidationTests
             invalidToken
         );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Token);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
@@ -64,7 +64,7 @@ public class ConfirmEmailCommandValidationTests
     {
         var command = new ConfirmEmailCommand(validEmail, validToken);
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.Token);

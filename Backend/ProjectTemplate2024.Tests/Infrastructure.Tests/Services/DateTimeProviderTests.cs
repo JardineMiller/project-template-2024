@@ -12,7 +12,7 @@ public class DateTimeProviderTests
     [Fact]
     public void Provider_Returns_Current_DateTime()
     {
-        var now = this._dateTimeProvider.UtcNow;
+        var now = _dateTimeProvider.UtcNow;
 
         now.ShouldNotBe(DateTime.MinValue);
         now.ShouldNotBe(DateTime.MaxValue);
@@ -21,7 +21,7 @@ public class DateTimeProviderTests
     [Fact]
     public void Provider_Returns_Current_DateTimeOffset()
     {
-        var now = this._dateTimeProvider.Now;
+        var now = _dateTimeProvider.Now;
 
         now.ShouldNotBe(DateTimeOffset.MinValue);
         now.ShouldNotBe(DateTimeOffset.MaxValue);

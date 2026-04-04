@@ -12,7 +12,7 @@ public class UserRepository : IUserRepository
 
     public UserRepository(UserManager<User> userManager)
     {
-        this._userManager = userManager;
+        _userManager = userManager;
     }
 
     public async Task<User?> GetUserByEmail(
@@ -21,7 +21,7 @@ public class UserRepository : IUserRepository
         params Expression<Func<User, object>>[] includes
     )
     {
-        var query = this._userManager.Users.Where(x => x.Email == email);
+        var query = _userManager.Users.Where(x => x.Email == email);
 
         query = includes.Aggregate(
             query.AsQueryable(),
@@ -36,7 +36,7 @@ public class UserRepository : IUserRepository
         CancellationToken cancellationToken = new()
     )
     {
-        return await this._userManager.Users
+        return await _userManager.Users
             .Include(x => x.RefreshTokens)
             .FirstOrDefaultAsync(
                 x => x.RefreshTokens.Any(t => t.Token == refreshToken),
@@ -50,7 +50,7 @@ public class UserRepository : IUserRepository
         params Expression<Func<User, object>>[] includes
     )
     {
-        var query = this._userManager.Users.Where(x => x.Id == id);
+        var query = _userManager.Users.Where(x => x.Id == id);
 
         query = includes.Aggregate(
             query.AsQueryable(),
@@ -58,5 +58,17 @@ public class UserRepository : IUserRepository
         );
 
         return await query.FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task UpdateUser(User user, CancellationToken cancellationToken)
+    {
+        await _userManager.UpdateAsync(user);
+    }
+
+    public async Task<bool> CheckPasswordAsync(User user, string password, CancellationToken cancellationToken)
+    {
+        // UserManager.CheckPasswordAsync does not accept a CancellationToken.
+        // Keep the signature consistent with repository methods and ignore the token here.
+        return await _userManager.CheckPasswordAsync(user, password);
     }
 }

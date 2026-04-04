@@ -19,8 +19,8 @@ public class RegisterCommandHandler
         IEmailService emailService
     )
     {
-        this._userManager = userManager;
-        this._emailService = emailService;
+        _userManager = userManager;
+        _emailService = emailService;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -29,7 +29,7 @@ public class RegisterCommandHandler
     )
     {
         // Check if user already exists
-        if (await this._userManager.FindByEmailAsync(cmd.Email) is not null)
+        if (await _userManager.FindByEmailAsync(cmd.Email) is not null)
         {
             return Errors.User.DuplicateEmail;
         }
@@ -42,17 +42,17 @@ public class RegisterCommandHandler
             UserName = cmd.Email,
         };
 
-        var result = await this._userManager.CreateAsync(user, cmd.Password);
+        var result = await _userManager.CreateAsync(user, cmd.Password);
 
         if (!result.Succeeded)
         {
             return Errors.User.CreationFailed;
         }
 
-        this._emailService.SendConfirmationEmail(
+        _emailService.SendConfirmationEmail(
             user.Email,
             user.DisplayName,
-            await this._userManager.GenerateEmailConfirmationTokenAsync(user)
+            await _userManager.GenerateEmailConfirmationTokenAsync(user)
         );
 
         return new AuthenticationResult(user);

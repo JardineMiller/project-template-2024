@@ -19,19 +19,19 @@ public class CurrentUserServiceTests
 
     public CurrentUserServiceTests()
     {
-        this._httpContextMock.Setup(x => x.User).Returns(this._userMock.Object);
+        _httpContextMock.Setup(x => x.User).Returns(_userMock.Object);
 
-        this._httpContextAccessorMock
+        _httpContextAccessorMock
             .Setup(x => x.HttpContext)
-            .Returns(this._httpContextMock.Object);
+            .Returns(_httpContextMock.Object);
     }
 
     [Fact]
     public void IsAuthenticated_ShouldReturnTrue_WhenUserIsAuthenticated()
     {
-        this._userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(true);
+        _userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(true);
 
-        var sut = new CurrentUserService(this._httpContextAccessorMock.Object);
+        var sut = new CurrentUserService(_httpContextAccessorMock.Object);
 
         sut.IsAuthenticated.ShouldBeTrue();
     }
@@ -39,15 +39,15 @@ public class CurrentUserServiceTests
     [Fact]
     public void UserName_ShouldReturnUserName_WhenUserIsAuthenticated()
     {
-        this._userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(true);
+        _userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(true);
 
-        this._userMock
+        _userMock
             .Setup(x => x.Claims)
             .Returns(
                 new List<Claim> { new(ClaimTypes.GivenName, "user-1-name") }
             );
 
-        var sut = new CurrentUserService(this._httpContextAccessorMock.Object);
+        var sut = new CurrentUserService(_httpContextAccessorMock.Object);
 
         sut.UserName.ShouldBe("user-1-name");
     }
@@ -55,15 +55,15 @@ public class CurrentUserServiceTests
     [Fact]
     public void UserId_ShouldReturnUserId_WhenUserIsAuthenticated()
     {
-        this._userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(true);
+        _userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(true);
 
-        this._userMock
+        _userMock
             .Setup(x => x.Claims)
             .Returns(
                 new List<Claim> { new(ClaimTypes.NameIdentifier, "user-1-id") }
             );
 
-        var sut = new CurrentUserService(this._httpContextAccessorMock.Object);
+        var sut = new CurrentUserService(_httpContextAccessorMock.Object);
 
         sut.UserId.ShouldBe("user-1-id");
     }
@@ -71,9 +71,9 @@ public class CurrentUserServiceTests
     [Fact]
     public void IsAuthenticated_ShouldReturnFalse_WhenUserIsNotAuthenticated()
     {
-        this._userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(false);
+        _userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(false);
 
-        var sut = new CurrentUserService(this._httpContextAccessorMock.Object);
+        var sut = new CurrentUserService(_httpContextAccessorMock.Object);
 
         sut.IsAuthenticated.ShouldBeFalse();
     }
@@ -81,9 +81,9 @@ public class CurrentUserServiceTests
     [Fact]
     public void UserName_ShouldReturnNull_WhenUserIsNotAuthenticated()
     {
-        this._userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(false);
+        _userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(false);
 
-        var sut = new CurrentUserService(this._httpContextAccessorMock.Object);
+        var sut = new CurrentUserService(_httpContextAccessorMock.Object);
 
         sut.UserName.ShouldBe(null);
     }
@@ -91,9 +91,9 @@ public class CurrentUserServiceTests
     [Fact]
     public void UserId_ShouldReturnNull_WhenUserIsNotAuthenticated()
     {
-        this._userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(false);
+        _userMock.Setup(x => x.Identity!.IsAuthenticated).Returns(false);
 
-        var sut = new CurrentUserService(this._httpContextAccessorMock.Object);
+        var sut = new CurrentUserService(_httpContextAccessorMock.Object);
 
         sut.UserId.ShouldBe(null);
     }

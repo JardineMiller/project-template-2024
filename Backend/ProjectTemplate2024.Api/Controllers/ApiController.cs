@@ -22,7 +22,7 @@ public abstract class ApiController : ControllerBase
             return ValidationProblem(errors);
         }
 
-        this.HttpContext.Items["errors"] = errors;
+        HttpContext.Items["errors"] = errors;
 
         return Problem(errors[0]);
     }

@@ -12,7 +12,7 @@ public class EmailSender : IEmailSender
 
     public EmailSender(IOptions<EmailSettings> emailSettings)
     {
-        this._emailSettings = emailSettings.Value;
+        _emailSettings = emailSettings.Value;
     }
 
     public bool SendEmail(string toEmail, string subject, string body)
@@ -20,19 +20,19 @@ public class EmailSender : IEmailSender
         try
         {
             var client = new SmtpClient(
-                this._emailSettings.Host,
-                this._emailSettings.Port
+                _emailSettings.Host,
+                _emailSettings.Port
             )
             {
                 Credentials = new NetworkCredential(
-                    this._emailSettings.Username,
-                    this._emailSettings.Password
+                    _emailSettings.Username,
+                    _emailSettings.Password
                 ),
                 EnableSsl = true
             };
 
             var message = new MailMessage(
-                this._emailSettings.From,
+                _emailSettings.From,
                 toEmail,
                 subject,
                 body

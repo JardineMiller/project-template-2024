@@ -16,7 +16,7 @@ public class ResetPasswordCommandHandler
 
     public ResetPasswordCommandHandler(UserManager<User> userManager)
     {
-        this._userManager = userManager;
+        _userManager = userManager;
     }
 
     public async Task<ErrorOr<ResetPasswordResult>> Handle(
@@ -33,7 +33,7 @@ public class ResetPasswordCommandHandler
         ResetPasswordCommand cmd
     )
     {
-        var user = await this._userManager.FindByEmailAsync(
+        var user = await _userManager.FindByEmailAsync(
             cmd.Email
         );
 
@@ -43,7 +43,7 @@ public class ResetPasswordCommandHandler
         }
 
         var changeResult =
-            await this._userManager.ChangePasswordAsync(
+            await _userManager.ChangePasswordAsync(
                 user,
                 cmd.OldPassword,
                 cmd.NewPassword
@@ -61,7 +61,7 @@ public class ResetPasswordCommandHandler
         ResetPasswordCommand cmd
     )
     {
-        var user = await this._userManager.FindByEmailAsync(
+        var user = await _userManager.FindByEmailAsync(
             cmd.Email
         );
 
@@ -70,7 +70,7 @@ public class ResetPasswordCommandHandler
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var changeResult = await this._userManager.ResetPasswordAsync(
+        var changeResult = await _userManager.ResetPasswordAsync(
             user,
             cmd.Token,
             cmd.NewPassword

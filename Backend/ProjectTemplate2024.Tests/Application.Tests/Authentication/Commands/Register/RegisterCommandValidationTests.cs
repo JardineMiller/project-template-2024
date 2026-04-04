@@ -13,7 +13,7 @@ public class RegisterCommandValidationTests
 
     public RegisterCommandValidationTests()
     {
-        this._validator = new RegisterCommandValidation();
+        _validator = new RegisterCommandValidation();
     }
 
     [Theory]
@@ -35,7 +35,7 @@ public class RegisterCommandValidationTests
             validPassword
         );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.DisplayName);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
@@ -57,7 +57,7 @@ public class RegisterCommandValidationTests
             validPassword
         );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
         result.ShouldNotHaveValidationErrorFor(x => x.DisplayName);
@@ -87,7 +87,7 @@ public class RegisterCommandValidationTests
             invalidPassword
         );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(x => x.Password);
         result.ShouldNotHaveValidationErrorFor(x => x.DisplayName);
@@ -103,7 +103,7 @@ public class RegisterCommandValidationTests
             validPassword
         );
 
-        var result = this._validator.TestValidate(command);
+        var result = _validator.TestValidate(command);
 
         result.ShouldNotHaveValidationErrorFor(x => x.DisplayName);
         result.ShouldNotHaveValidationErrorFor(x => x.Email);

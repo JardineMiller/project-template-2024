@@ -21,7 +21,7 @@ public class ResetPasswordCommandHandlerTests
 
     public ResetPasswordCommandHandlerTests()
     {
-        this._userManagerMock = new Mock<UserManager<User>>(
+        _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
             null,
             null,
@@ -38,11 +38,11 @@ public class ResetPasswordCommandHandlerTests
     public void Handle_ValidOldPasswordRequest_ReturnsCorrectResponse()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
             .ReturnsAsync(new User { Email = validEmail });
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x =>
                     x.ChangePasswordAsync(
@@ -62,7 +62,7 @@ public class ResetPasswordCommandHandlerTests
 
         // Act
         var handler = new ResetPasswordCommandHandler(
-            this._userManagerMock.Object
+            _userManagerMock.Object
         );
 
         var result = handler
@@ -78,7 +78,7 @@ public class ResetPasswordCommandHandlerTests
     public void Handle_InvalidOldPasswordRequest_IncorrectEmail_ReturnsError()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
             .ReturnsAsync(null as User);
 
@@ -91,7 +91,7 @@ public class ResetPasswordCommandHandlerTests
 
         // Act
         var handler = new ResetPasswordCommandHandler(
-            this._userManagerMock.Object
+            _userManagerMock.Object
         );
 
         var result = handler
@@ -117,11 +117,11 @@ public class ResetPasswordCommandHandlerTests
     public void Handle_InvalidOldPasswordRequest_IncorrectToken_ReturnsError()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
             .ReturnsAsync(new User { Email = validEmail });
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x =>
                     x.ChangePasswordAsync(
@@ -141,7 +141,7 @@ public class ResetPasswordCommandHandlerTests
 
         // Act
         var handler = new ResetPasswordCommandHandler(
-            this._userManagerMock.Object
+            _userManagerMock.Object
         );
 
         var result = handler
@@ -167,11 +167,11 @@ public class ResetPasswordCommandHandlerTests
     public void Handle_ValidTokenRequest_ReturnsCorrectResponse()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
             .ReturnsAsync(new User { Email = validEmail });
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x =>
                     x.ResetPasswordAsync(
@@ -190,7 +190,7 @@ public class ResetPasswordCommandHandlerTests
 
         // Act
         var handler = new ResetPasswordCommandHandler(
-            this._userManagerMock.Object
+            _userManagerMock.Object
         );
 
         var result = handler
@@ -206,7 +206,7 @@ public class ResetPasswordCommandHandlerTests
     public void Handle_InvalidTokenRequest_IncorrectEmail_ReturnsError()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
             .ReturnsAsync(null as User);
 
@@ -218,7 +218,7 @@ public class ResetPasswordCommandHandlerTests
 
         // Act
         var handler = new ResetPasswordCommandHandler(
-            this._userManagerMock.Object
+            _userManagerMock.Object
         );
 
         var result = handler
@@ -244,11 +244,11 @@ public class ResetPasswordCommandHandlerTests
     public void Handle_InvalidTokenRequest_IncorrectToken_ReturnsError()
     {
         // Arrange
-        this._userManagerMock
+        _userManagerMock
             .Setup(x => x.FindByEmailAsync(validEmail))!
             .ReturnsAsync(new User { Email = validEmail });
 
-        this._userManagerMock
+        _userManagerMock
             .Setup(
                 x =>
                     x.ResetPasswordAsync(
@@ -267,7 +267,7 @@ public class ResetPasswordCommandHandlerTests
 
         // Act
         var handler = new ResetPasswordCommandHandler(
-            this._userManagerMock.Object
+            _userManagerMock.Object
         );
 
         var result = handler

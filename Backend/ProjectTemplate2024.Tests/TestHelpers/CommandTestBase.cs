@@ -9,11 +9,11 @@ public class CommandTestBase : IDisposable
 
     public CommandTestBase()
     {
-        this.Context = TestDbContextFactory.Create();
+        Context = TestDbContextFactory.Create();
     }
 
     public void Dispose()
     {
-        TestDbContextFactory.Destroy(this.Context);
+        TestDbContextFactory.Destroy(Context);
     }
 }

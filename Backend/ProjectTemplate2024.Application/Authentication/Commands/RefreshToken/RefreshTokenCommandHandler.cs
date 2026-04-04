@@ -1,6 +1,5 @@
 using ErrorOr;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using ProjectTemplate2024.Application.Authentication.Common;
 using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
@@ -14,24 +13,21 @@ public class RefreshTokenCommandHandler
     : IRequestHandler<RefreshTokenCommand, ErrorOr<AuthenticationResult>>
 {
     private readonly IUserRepository _userRepository;
-    private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IBlobStorageService _blobStorageService;
 
     public RefreshTokenCommandHandler(
-        UserManager<User> userManager,
         ITokenGenerator tokenGenerator,
         IDateTimeProvider dateTimeProvider,
         IUserRepository userRepository,
         IBlobStorageService blobStorageService
     )
     {
-        this._userManager = userManager;
-        this._tokenGenerator = tokenGenerator;
-        this._dateTimeProvider = dateTimeProvider;
-        this._userRepository = userRepository;
-        this._blobStorageService = blobStorageService;
+        _tokenGenerator = tokenGenerator;
+        _dateTimeProvider = dateTimeProvider;
+        _userRepository = userRepository;
+        _blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -39,7 +35,7 @@ public class RefreshTokenCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await this._userRepository.GetUserByRefreshToken(
+        var user = await _userRepository.GetUserByRefreshToken(
             request.Token,
             cancellationToken
         );
@@ -59,22 +55,22 @@ public class RefreshTokenCommandHandler
         }
 
         // replace old refresh token with a new one and save
-        var newRefreshToken = this._tokenGenerator.GenerateRefreshToken();
+        var newRefreshToken = _tokenGenerator.GenerateRefreshToken();
 
-        oldRefreshToken.RevokedOn = this._dateTimeProvider.UtcNow;
+        oldRefreshToken.RevokedOn = _dateTimeProvider.UtcNow;
         oldRefreshToken.ReplacedBy = newRefreshToken.Token;
 
         user.RefreshTokens.Add(newRefreshToken);
-        await this._userManager.UpdateAsync(user);
+        await _userRepository.UpdateUser(user, cancellationToken);
 
         // generate new jwt
-        var jwt = this._tokenGenerator.GenerateJwt(user);
+        var jwt = _tokenGenerator.GenerateJwt(user);
 
         var response = new AuthenticationResult(
             user,
             jwt,
             newRefreshToken.Token,
-            this._blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
+            _blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
         );
 
         return response;

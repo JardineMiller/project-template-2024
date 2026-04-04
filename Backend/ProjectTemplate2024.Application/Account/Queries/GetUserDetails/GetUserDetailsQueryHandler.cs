@@ -20,9 +20,9 @@ public class GetUserDetailsQueryHandler
         IBlobStorageService blobStorageService
     )
     {
-        this._userRepository = userRepository;
-        this._currentUserService = currentUserService;
-        this._blobStorageService = blobStorageService;
+        _userRepository = userRepository;
+        _currentUserService = currentUserService;
+        _blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<GetUserDetailsResult>> Handle(
@@ -30,14 +30,14 @@ public class GetUserDetailsQueryHandler
         CancellationToken cancellationToken
     )
     {
-        var userId = this._currentUserService.UserId;
+        var userId = _currentUserService.UserId;
 
         if (userId is null)
         {
             return Errors.Common.NotFound(nameof(User));
         }
 
-        var user = await this._userRepository.GetUserById(
+        var user = await _userRepository.GetUserById(
             userId,
             cancellationToken
         );
@@ -49,7 +49,7 @@ public class GetUserDetailsQueryHandler
 
         return new GetUserDetailsResult(
             user,
-            this._blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
+            _blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
         );
     }
 }

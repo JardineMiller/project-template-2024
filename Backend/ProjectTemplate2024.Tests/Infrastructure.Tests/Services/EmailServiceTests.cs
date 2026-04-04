@@ -20,17 +20,17 @@ public class EmailServiceTests
 
     public EmailServiceTests()
     {
-        this._emailService = new EmailService(
-            this._emailSenderMock.Object,
-            this._emailPathServiceMock.Object,
-            Options.Create(this._clientAppSettings)
+        _emailService = new EmailService(
+            _emailSenderMock.Object,
+            _emailPathServiceMock.Object,
+            Options.Create(_clientAppSettings)
         );
     }
 
     [Fact]
     public void SendConfirmationEmail_WithValidEmail_ShouldSendEmail()
     {
-        this._emailPathServiceMock
+        _emailPathServiceMock
             .Setup(x => x.GetEmailPath("EmailConfirmation.html"))
             .Returns(
                 Path.Combine(
@@ -45,13 +45,13 @@ public class EmailServiceTests
         var firstName = "first name";
         var token = "token";
 
-        this._emailService.SendConfirmationEmail(
+        _emailService.SendConfirmationEmail(
             toEmail,
             firstName,
             token
         );
 
-        this._emailSenderMock.Verify(
+        _emailSenderMock.Verify(
             x =>
                 x.SendEmail(
                     It.IsAny<string>(),
@@ -65,7 +65,7 @@ public class EmailServiceTests
     [Fact]
     public void SendPasswordReset_WithValidEmail_ShouldSendEmail()
     {
-        this._emailPathServiceMock
+        _emailPathServiceMock
             .Setup(x => x.GetEmailPath("ResetPassword.html"))
             .Returns(
                 Path.Combine(
@@ -79,9 +79,9 @@ public class EmailServiceTests
         var toEmail = "to";
         var token = "token";
 
-        this._emailService.SendPasswordResetEmail(toEmail, token);
+        _emailService.SendPasswordResetEmail(toEmail, token);
 
-        this._emailSenderMock.Verify(
+        _emailSenderMock.Verify(
             x =>
                 x.SendEmail(
                     It.IsAny<string>(),

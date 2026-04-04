@@ -16,7 +16,7 @@ public class RequestValidationBehaviour<TRequest, TResponse>
         IEnumerable<IValidator<TRequest>> validators
     )
     {
-        this._validators = validators;
+        _validators = validators;
     }
 
     public async Task<TResponse> Handle(
@@ -25,13 +25,13 @@ public class RequestValidationBehaviour<TRequest, TResponse>
         RequestHandlerDelegate<TResponse> next
     )
     {
-        if (!this._validators.Any())
+        if (!_validators.Any())
         {
             return await next();
         }
 
         var context = new ValidationContext<TRequest>(request);
-        var failures = this._validators
+        var failures = _validators
             .Select(v => v.Validate(context))
             .SelectMany(result => result.Errors)
             .Where(f => f != null)

@@ -10,7 +10,7 @@ public class ResetPasswordValidationTests
 
     public ResetPasswordValidationTests()
     {
-        this._validator = new RequestResetPasswordCommandValidation();
+        _validator = new RequestResetPasswordCommandValidation();
     }
 
     [Theory]
@@ -28,7 +28,7 @@ public class ResetPasswordValidationTests
             new RequestResetPasswordCommand(
                 invalidEmail
             );
-        var result = this._validator.TestValidate(query);
+        var result = _validator.TestValidate(query);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
     }
@@ -45,7 +45,7 @@ public class ResetPasswordValidationTests
             new RequestResetPasswordCommand(
                 validEmail
             );
-        var result = this._validator.TestValidate(query);
+        var result = _validator.TestValidate(query);
 
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
     }

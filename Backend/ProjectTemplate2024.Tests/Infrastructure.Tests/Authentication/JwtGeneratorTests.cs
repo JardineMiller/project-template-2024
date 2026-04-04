@@ -32,8 +32,8 @@ public class JwtGeneratorTests
 
     public JwtGeneratorTests()
     {
-        this._dateTimeProviderMock = new Mock<IDateTimeProvider>();
-        this._dateTimeProviderMock
+        _dateTimeProviderMock = new Mock<IDateTimeProvider>();
+        _dateTimeProviderMock
             .Setup(x => x.UtcNow)
             .Returns(new DateTime(2023, 1, 1));
     }
@@ -43,12 +43,12 @@ public class JwtGeneratorTests
     {
         // Arrange
         var generator = new TokenGenerator(
-            this._dateTimeProviderMock.Object,
-            Options.Create(this._jwtSettings)
+            _dateTimeProviderMock.Object,
+            Options.Create(_jwtSettings)
         );
 
         // Act
-        var token1 = generator.GenerateJwt(this._user1);
+        var token1 = generator.GenerateJwt(_user1);
 
         // Assert
         token1.ShouldNotBeNull();

@@ -10,7 +10,7 @@ public class ErrorsController : ApiController
     [Route("/error")]
     public IActionResult Error()
     {
-        Exception? exception = this.HttpContext.Features
+        Exception? exception = HttpContext.Features
             .Get<IExceptionHandlerFeature>()
             ?.Error;
 

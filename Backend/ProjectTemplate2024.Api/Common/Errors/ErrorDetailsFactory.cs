@@ -13,7 +13,7 @@ public class ErrorDetailsFactory : ProblemDetailsFactory
 
     public ErrorDetailsFactory(IOptions<ApiBehaviorOptions>? options)
     {
-        this._options =
+        _options =
             options?.Value
             ?? throw new ArgumentException(nameof(options));
     }
@@ -99,7 +99,7 @@ public class ErrorDetailsFactory : ProblemDetailsFactory
         problemDetails.Status ??= statusCode;
 
         if (
-            this._options.ClientErrorMapping.TryGetValue(
+            _options.ClientErrorMapping.TryGetValue(
                 statusCode,
                 out var clientErrorData
             )
