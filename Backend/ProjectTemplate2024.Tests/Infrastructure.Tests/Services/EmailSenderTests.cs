@@ -29,7 +29,7 @@ public class EmailSenderTests
             .Get<EmailSettings>();
 
         _emailSender = new EmailSender(
-            Options.Create(emailSettings)
+            Options.Create(emailSettings!)
         );
 
         var result = _emailSender.SendEmail(

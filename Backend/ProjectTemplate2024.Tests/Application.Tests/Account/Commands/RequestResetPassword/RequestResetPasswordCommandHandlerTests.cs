@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using ProjectTemplate2024.Application.Account.Commands.RequestResetPassword;
@@ -16,33 +17,33 @@ public class RequestResetPasswordCommandHandlerTests
     private readonly Mock<UserManager<User>> _userManagerMock;
     private readonly Mock<IEmailService> _emailServiceMock;
 
-    private const string validEmail = "test2@email.com";
-    private const string validToken = "validToken";
+    private const string ValidEmail = "test2@email.com";
+    private const string ValidToken = "validToken";
 
     public RequestResetPasswordCommandHandlerTests()
     {
         _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!
         );
 
         _emailServiceMock = new Mock<IEmailService>();
     }
 
     [Fact]
-    public void Handle_ValidRequest_ReturnsCorrectResponse()
+    public async Task Handle_ValidRequest_ReturnsCorrectResponse()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(new User { Email = validEmail });
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
+            .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
             .Setup(
@@ -51,9 +52,9 @@ public class RequestResetPasswordCommandHandlerTests
                         It.IsAny<User>()
                     )
             )
-            .ReturnsAsync(validToken);
+            .ReturnsAsync(ValidToken);
 
-        var command = new RequestResetPasswordCommand(validEmail);
+        var command = new RequestResetPasswordCommand(ValidEmail);
 
         // Act
         var handler = new RequestResetPasswordCommandHandler(
@@ -61,25 +62,23 @@ public class RequestResetPasswordCommandHandlerTests
             _emailServiceMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(false);
         result.Value.ShouldBeOfType<RequestResetPasswordResult>();
-        result.Value.Token.ShouldBe(validToken);
+        result.Value.Token.ShouldBe(ValidToken);
     }
 
     [Fact]
-    public void Handle_InvalidRequest_ReturnsError()
+    public async Task Handle_InvalidRequest_ReturnsError()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
             .ReturnsAsync(null as User);
 
-        var command = new RequestResetPasswordCommand(validEmail);
+        var command = new RequestResetPasswordCommand(ValidEmail);
 
         // Act
         var handler = new RequestResetPasswordCommandHandler(
@@ -87,9 +86,7 @@ public class RequestResetPasswordCommandHandlerTests
             _emailServiceMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);

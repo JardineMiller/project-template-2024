@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using ProjectTemplate2024.Application.Account.Commands.ResetPassword;
@@ -14,50 +15,50 @@ public class ResetPasswordCommandHandlerTests
 {
     private readonly Mock<UserManager<User>> _userManagerMock;
 
-    private const string validEmail = "test2@email.com";
-    private const string validOldPassword = "newPassword123!";
-    private const string validNewPassword = "oldPassword123!";
-    private const string validToken = "validToken";
+    private const string ValidEmail = "test2@email.com";
+    private const string ValidOldPassword = "newPassword123!";
+    private const string ValidNewPassword = "oldPassword123!";
+    private const string ValidToken = "validToken";
 
     public ResetPasswordCommandHandlerTests()
     {
         _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!
         );
     }
 
     [Fact]
-    public void Handle_ValidOldPasswordRequest_ReturnsCorrectResponse()
+    public async Task Handle_ValidOldPasswordRequest_ReturnsCorrectResponse()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(new User { Email = validEmail });
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
+            .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
             .Setup(
                 x =>
                     x.ChangePasswordAsync(
-                        It.IsAny<User>(),
-                        validOldPassword,
-                        validNewPassword
+                            It.IsAny<User>(),
+                            ValidOldPassword,
+                            ValidNewPassword
                     )
             )
             .ReturnsAsync(IdentityResult.Success);
 
         var command = new ResetPasswordCommand(
-            validEmail,
-            validNewPassword,
+            ValidEmail,
+            ValidNewPassword,
             null,
-            validOldPassword
+            ValidOldPassword
         );
 
         // Act
@@ -65,9 +66,7 @@ public class ResetPasswordCommandHandlerTests
             _userManagerMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(false);
@@ -75,18 +74,18 @@ public class ResetPasswordCommandHandlerTests
     }
 
     [Fact]
-    public void Handle_InvalidOldPasswordRequest_IncorrectEmail_ReturnsError()
+    public async Task Handle_InvalidOldPasswordRequest_IncorrectEmail_ReturnsError()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
             .ReturnsAsync(null as User);
 
         var command = new ResetPasswordCommand(
-            validEmail,
-            validNewPassword,
+            ValidEmail,
+            ValidNewPassword,
             null,
-            validOldPassword
+            ValidOldPassword
         );
 
         // Act
@@ -94,9 +93,7 @@ public class ResetPasswordCommandHandlerTests
             _userManagerMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);
@@ -114,29 +111,29 @@ public class ResetPasswordCommandHandlerTests
     }
 
     [Fact]
-    public void Handle_InvalidOldPasswordRequest_IncorrectToken_ReturnsError()
+    public async Task Handle_InvalidOldPasswordRequest_IncorrectToken_ReturnsError()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(new User { Email = validEmail });
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
+            .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
             .Setup(
                 x =>
                     x.ChangePasswordAsync(
                         It.IsAny<User>(),
-                        validOldPassword,
-                        validNewPassword
+                        ValidOldPassword,
+                        ValidNewPassword
                     )
             )
             .ReturnsAsync(IdentityResult.Failed());
 
         var command = new ResetPasswordCommand(
-            validEmail,
-            validNewPassword,
+            ValidEmail,
+            ValidNewPassword,
             null,
-            validOldPassword
+            ValidOldPassword
         );
 
         // Act
@@ -144,9 +141,7 @@ public class ResetPasswordCommandHandlerTests
             _userManagerMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);
@@ -164,28 +159,28 @@ public class ResetPasswordCommandHandlerTests
     }
 
     [Fact]
-    public void Handle_ValidTokenRequest_ReturnsCorrectResponse()
+    public async Task Handle_ValidTokenRequest_ReturnsCorrectResponse()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(new User { Email = validEmail });
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
+            .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
             .Setup(
                 x =>
                     x.ResetPasswordAsync(
                         It.IsAny<User>(),
-                        validToken,
-                        validNewPassword
+                        ValidToken,
+                        ValidNewPassword
                     )
             )
             .ReturnsAsync(IdentityResult.Success);
 
         var command = new ResetPasswordCommand(
-            validEmail,
-            validNewPassword,
-            validToken
+            ValidEmail,
+            ValidNewPassword,
+            ValidToken
         );
 
         // Act
@@ -193,9 +188,7 @@ public class ResetPasswordCommandHandlerTests
             _userManagerMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(false);
@@ -203,17 +196,17 @@ public class ResetPasswordCommandHandlerTests
     }
 
     [Fact]
-    public void Handle_InvalidTokenRequest_IncorrectEmail_ReturnsError()
+    public async Task Handle_InvalidTokenRequest_IncorrectEmail_ReturnsError()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
             .ReturnsAsync(null as User);
 
         var command = new ResetPasswordCommand(
-            validEmail,
-            validNewPassword,
-            validToken
+            ValidEmail,
+            ValidNewPassword,
+            ValidToken
         );
 
         // Act
@@ -221,9 +214,7 @@ public class ResetPasswordCommandHandlerTests
             _userManagerMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);
@@ -241,28 +232,28 @@ public class ResetPasswordCommandHandlerTests
     }
 
     [Fact]
-    public void Handle_InvalidTokenRequest_IncorrectToken_ReturnsError()
+    public async Task Handle_InvalidTokenRequest_IncorrectToken_ReturnsError()
     {
         // Arrange
         _userManagerMock
-            .Setup(x => x.FindByEmailAsync(validEmail))!
-            .ReturnsAsync(new User { Email = validEmail });
+            .Setup(x => x.FindByEmailAsync(ValidEmail))
+            .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
             .Setup(
                 x =>
                     x.ResetPasswordAsync(
                         It.IsAny<User>(),
-                        validToken,
-                        validNewPassword
+                        ValidToken,
+                        ValidNewPassword
                     )
             )
             .ReturnsAsync(IdentityResult.Failed());
 
         var command = new ResetPasswordCommand(
-            validEmail,
-            validNewPassword,
-            validToken
+            ValidEmail,
+            ValidNewPassword,
+            ValidToken
         );
 
         // Act
@@ -270,9 +261,7 @@ public class ResetPasswordCommandHandlerTests
             _userManagerMock.Object
         );
 
-        var result = handler
-            .Handle(command, CancellationToken.None)
-            .Result;
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);

@@ -4,7 +4,7 @@ namespace ProjectTemplate2024.Api.Common.Extensions;
 
 public static class WebApplicationExtensions
 {
-    private const string prefix = "/hubs";
+    private const string Prefix = "/hubs";
 
     public static WebApplication? MapHubs(this WebApplication? app)
     {
@@ -13,7 +13,7 @@ public static class WebApplicationExtensions
             return null;
         }
 
-        app.MapHub<GameHub>($"{prefix}/game");
+        app.MapHub<GameHub>($"{Prefix}/game");
 
         return app;
     }

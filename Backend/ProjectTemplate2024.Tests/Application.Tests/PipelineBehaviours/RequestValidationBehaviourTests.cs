@@ -29,13 +29,13 @@ public class RequestValidationBehaviourTests
 
         var result = await requestValidationBehaviour.Handle(
             query,
-            CancellationToken.None,
             () =>
             {
                 return Task.Run(
                     () => new ErrorOr<AuthenticationResult>()
                 );
-            }
+            },
+            CancellationToken.None
         );
 
         result.IsError.ShouldBeFalse();
@@ -54,13 +54,13 @@ public class RequestValidationBehaviourTests
 
         var result = await requestValidationBehaviour.Handle(
             query,
-            CancellationToken.None,
             () =>
             {
                 return Task.Run(
                     () => new ErrorOr<AuthenticationResult>()
                 );
-            }
+            },
+            CancellationToken.None
         );
 
         result.IsError.ShouldBeFalse();
@@ -79,13 +79,13 @@ public class RequestValidationBehaviourTests
 
         var result = await requestValidationBehaviour.Handle(
             query,
-            CancellationToken.None,
             () =>
             {
                 return Task.Run(
                     () => new ErrorOr<AuthenticationResult>()
                 );
-            }
+            },
+            CancellationToken.None
         );
 
         result.IsError.ShouldBeTrue();

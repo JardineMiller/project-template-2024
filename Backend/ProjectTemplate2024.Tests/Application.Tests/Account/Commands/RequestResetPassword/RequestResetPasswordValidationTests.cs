@@ -21,12 +21,12 @@ public class ResetPasswordValidationTests
     [InlineData("a")]
     [InlineData("just_a_random_string")]
     private void Should_Have_Error_When_Email_Is_Invalid(
-        string invalidEmail
+        string? invalidEmail
     )
     {
         var query =
             new RequestResetPasswordCommand(
-                invalidEmail
+                invalidEmail!
             );
         var result = _validator.TestValidate(query);
 

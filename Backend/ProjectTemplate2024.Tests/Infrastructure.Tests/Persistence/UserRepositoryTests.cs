@@ -20,14 +20,14 @@ public class UserRepositoryTests : QueryTestBase
         // Arrange
         var userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!
         );
 
         userManagerMock.Setup(x => x.Users).Returns(Context.Users);
@@ -47,14 +47,14 @@ public class UserRepositoryTests : QueryTestBase
     {
         var userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!
         );
 
         userManagerMock.Setup(x => x.Users).Returns(Context.Users);
@@ -80,14 +80,14 @@ public class UserRepositoryTests : QueryTestBase
     {
         var userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!
         );
 
         userManagerMock.Setup(x => x.Users).Returns(Context.Users);
@@ -110,14 +110,14 @@ public class UserRepositoryTests : QueryTestBase
     {
         var userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!
         );
 
         // add a refresh token to one of the seeded users

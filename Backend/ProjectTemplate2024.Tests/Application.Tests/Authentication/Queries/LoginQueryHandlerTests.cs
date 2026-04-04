@@ -25,12 +25,12 @@ public class LoginQueryHandlerTests
     private readonly Mock<IDateTimeProvider> _dateTimeProviderMock;
     private readonly Mock<IBlobStorageService> _blobStorageServiceMock = new();
 
-    private const string validDisplayName = "Test";
-    private const string validEmail = "test1@user.com";
-    private const string validPassword = "Password123!";
+    private const string ValidDisplayName = "Test";
+    private const string ValidEmail = "test1@user.com";
+    private const string ValidPassword = "Password123!";
 
-    private const string invalidEmail = "doesnt@exist.com";
-    private const string invalidPassword = "IncorrectPassword!";
+    private const string InvalidEmail = "doesnt@exist.com";
+    private const string InvalidPassword = "IncorrectPassword!";
 
     public LoginQueryHandlerTests()
     {
@@ -45,14 +45,14 @@ public class LoginQueryHandlerTests
 
         _userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!,
+            null!
         );
 
         _dateTimeProviderMock = new Mock<IDateTimeProvider>();
@@ -73,14 +73,14 @@ public class LoginQueryHandlerTests
             .Setup(
                 x =>
                     x.GetUserByEmail(
-                        invalidEmail,
+                        InvalidEmail,
                         It.IsAny<CancellationToken>(),
                         It.IsAny<Expression<Func<User, object>>[]>()
                     )
             )
             .ReturnsAsync((User?)null);
 
-        var query = new LoginQuery(invalidEmail, validPassword);
+        var query = new LoginQuery(InvalidEmail, ValidPassword);
         var handler = new LoginQueryHandler(
             _tokenGeneratorMock.Object,
             _dateTimeProviderMock.Object,
@@ -114,18 +114,18 @@ public class LoginQueryHandlerTests
                 {
                     new User
                     {
-                        DisplayName = validDisplayName,
-                        Email = validEmail,
+                        DisplayName = ValidDisplayName,
+                        Email = ValidEmail,
                         EmailConfirmed = true
                     }
                 }.AsQueryable()
             );
 
         _userRepositoryMock
-            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), invalidPassword, It.IsAny<CancellationToken>()))
+            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), InvalidPassword, It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
 
-        var query = new LoginQuery(validEmail, invalidPassword);
+        var query = new LoginQuery(ValidEmail, InvalidPassword);
         var handler = new LoginQueryHandler(
             _tokenGeneratorMock.Object,
             _dateTimeProviderMock.Object,
@@ -154,15 +154,15 @@ public class LoginQueryHandlerTests
         // Arrange
         var user = new User
         {
-            DisplayName = validDisplayName,
-            Email = validEmail,
+            DisplayName = ValidDisplayName,
+            Email = ValidEmail,
         };
 
         _userRepositoryMock
             .Setup(
                 x =>
                     x.GetUserByEmail(
-                        validEmail,
+                        ValidEmail,
                         It.IsAny<CancellationToken>(),
                         It.IsAny<Expression<Func<User, object>>[]>()
                     )
@@ -170,10 +170,10 @@ public class LoginQueryHandlerTests
             .ReturnsAsync(user);
 
         _userRepositoryMock
-            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), invalidPassword, It.IsAny<CancellationToken>()))
+            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), InvalidPassword, It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
 
-        var query = new LoginQuery(validEmail, invalidPassword);
+        var query = new LoginQuery(ValidEmail, InvalidPassword);
         var handler = new LoginQueryHandler(
             _tokenGeneratorMock.Object,
             _dateTimeProviderMock.Object,
@@ -202,8 +202,8 @@ public class LoginQueryHandlerTests
         // Arrange
         var user = new User
         {
-            DisplayName = validDisplayName,
-            Email = validEmail,
+            DisplayName = ValidDisplayName,
+            Email = ValidEmail,
             EmailConfirmed = true
         };
 
@@ -211,7 +211,7 @@ public class LoginQueryHandlerTests
             .Setup(
                 x =>
                     x.GetUserByEmail(
-                        validEmail,
+                        ValidEmail,
                         It.IsAny<CancellationToken>(),
                         It.IsAny<Expression<Func<User, object>>[]>()
                     )
@@ -219,10 +219,10 @@ public class LoginQueryHandlerTests
             .ReturnsAsync(user);
 
         _userRepositoryMock
-            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), validPassword, It.IsAny<CancellationToken>()))
+            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), ValidPassword, It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
-        var query = new LoginQuery(validEmail, validPassword);
+        var query = new LoginQuery(ValidEmail, ValidPassword);
         var handler = new LoginQueryHandler(
             _tokenGeneratorMock.Object,
             _dateTimeProviderMock.Object,
@@ -236,7 +236,7 @@ public class LoginQueryHandlerTests
         // Assert
         result.Value.Token.ShouldBe("token");
         result.Value.RefreshToken.ShouldBe("refresh-token");
-        result.Value.User.DisplayName.ShouldBe(validDisplayName);
-        result.Value.User.Email.ShouldBe(validEmail);
+        result.Value.User.DisplayName.ShouldBe(ValidDisplayName);
+        result.Value.User.Email.ShouldBe(ValidEmail);
     }
 }

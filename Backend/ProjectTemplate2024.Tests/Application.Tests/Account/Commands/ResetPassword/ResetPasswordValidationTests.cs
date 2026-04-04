@@ -8,9 +8,9 @@ public class ResetPasswordValidationTests
 {
     private readonly ResetPasswordCommandValidation _validator;
 
-    private const string validPassword = "Password123!";
-    private const string validEmail = "test@user.com";
-    private const string validToken = "token";
+    private const string ValidPassword = "Password123!";
+    private const string ValidEmail = "test@user.com";
+    private const string ValidToken = "token";
 
     public ResetPasswordValidationTests()
     {
@@ -25,14 +25,14 @@ public class ResetPasswordValidationTests
     [InlineData("a")]
     [InlineData("just_a_random_string")]
     private void Should_Have_Error_When_Email_Is_Invalid(
-        string invalidEmail
+        string? invalidEmail
     )
     {
         var query =
             new ResetPasswordCommand(
-                invalidEmail,
-                validPassword,
-                validToken
+                invalidEmail!,
+                ValidPassword,
+                ValidToken
             );
         var result = _validator.TestValidate(query);
 
@@ -56,14 +56,14 @@ public class ResetPasswordValidationTests
     [InlineData("Password!")]
     [InlineData("More_Than_Sixteen_Digits_Long_1!")]
     public void Should_Have_Error_When_Password_Is_Invalid(
-        string invalidPassword
+        string? invalidPassword
     )
     {
         var command =
             new ResetPasswordCommand(
-                validEmail,
-                invalidPassword,
-                validToken
+                ValidEmail,
+                invalidPassword!,
+                ValidToken
             );
 
         var result = _validator.TestValidate(command);
@@ -80,13 +80,13 @@ public class ResetPasswordValidationTests
     [InlineData(" ")]
     [InlineData("    ")]
     public void Should_Have_Error_When_Token_Is_Invalid(
-        string invalidToken
+        string? invalidToken
     )
     {
         var command =
             new ResetPasswordCommand(
-                validEmail,
-                validPassword,
+                ValidEmail,
+                ValidPassword,
                 invalidToken
             );
 
@@ -102,8 +102,8 @@ public class ResetPasswordValidationTests
     {
         var command =
             new ResetPasswordCommand(
-                validEmail,
-                validPassword
+                ValidEmail,
+                ValidPassword
             );
 
         var result = _validator.TestValidate(command);
@@ -118,10 +118,10 @@ public class ResetPasswordValidationTests
     public void Should_Have_Error_When_OldPassword_And_NewPassword_Are_Equals()
     {
         var command = new ResetPasswordCommand(
-            validEmail,
-            validPassword,
+            ValidEmail,
+            ValidPassword,
             null,
-            validPassword
+            ValidPassword
         );
 
         var result = _validator.TestValidate(command);
@@ -137,10 +137,10 @@ public class ResetPasswordValidationTests
     {
         var command =
             new ResetPasswordCommand(
-                validEmail,
+                ValidEmail,
                 "newPassword123!",
-                validToken,
-                validPassword
+                ValidToken,
+                ValidPassword
             );
 
         var result = _validator.TestValidate(command);
