@@ -50,6 +50,7 @@ public class BlobStorageService : IBlobStorageService
         if (!await containerClient.ExistsAsync(cancellationToken))
         {
             await containerClient.CreateAsync(
+                publicAccessType: PublicAccessType.Blob,
                 cancellationToken: cancellationToken
             );
         }

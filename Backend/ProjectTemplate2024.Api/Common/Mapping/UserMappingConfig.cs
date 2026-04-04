@@ -19,7 +19,10 @@ public class UserMappingConfig : IRegister
             .Map(dest => dest.Id, src => src.User.Id)
             .Map(dest => dest.Email, src => src.User.Email)
             .Map(dest => dest.DisplayName, src => src.User.DisplayName)
-            .Map(dest => dest.Bio, src => src.User.Bio)
+            .IgnoreIf(
+                (src, dest) => string.IsNullOrEmpty(src.User.Bio),
+                dest => dest.Bio!
+            )
             .IgnoreIf(
                 (src, dest) => string.IsNullOrEmpty(src.AvatarUrl),
                 dest => dest.AvatarUrl!

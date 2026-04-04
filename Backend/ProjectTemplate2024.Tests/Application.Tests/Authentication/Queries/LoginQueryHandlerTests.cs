@@ -23,6 +23,7 @@ public class LoginQueryHandlerTests
     private readonly Mock<UserManager<User>> _userManagerMock;
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
     private readonly Mock<IDateTimeProvider> _dateTimeProviderMock;
+    private readonly Mock<IBlobStorageService> _blobStorageServiceMock = new();
 
     private const string validDisplayName = "Test";
     private const string validEmail = "test1@user.com";
@@ -73,7 +74,8 @@ public class LoginQueryHandlerTests
             this._tokenGeneratorMock.Object,
             this._userManagerMock.Object,
             this._dateTimeProviderMock.Object,
-            this._userRepositoryMock.Object
+            this._userRepositoryMock.Object,
+            this._blobStorageServiceMock.Object
         );
 
         // Act
@@ -120,7 +122,8 @@ public class LoginQueryHandlerTests
             this._tokenGeneratorMock.Object,
             this._userManagerMock.Object,
             this._dateTimeProviderMock.Object,
-            this._userRepositoryMock.Object
+            this._userRepositoryMock.Object,
+            this._blobStorageServiceMock.Object
         );
 
         // Act
@@ -174,7 +177,8 @@ public class LoginQueryHandlerTests
             this._tokenGeneratorMock.Object,
             this._userManagerMock.Object,
             this._dateTimeProviderMock.Object,
-            this._userRepositoryMock.Object
+            this._userRepositoryMock.Object,
+            this._blobStorageServiceMock.Object
         );
 
         // Act
@@ -223,7 +227,8 @@ public class LoginQueryHandlerTests
             this._tokenGeneratorMock.Object,
             this._userManagerMock.Object,
             this._dateTimeProviderMock.Object,
-            this._userRepositoryMock.Object
+            this._userRepositoryMock.Object,
+            this._blobStorageServiceMock.Object
         );
 
         // Act

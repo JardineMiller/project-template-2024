@@ -7,6 +7,7 @@ using Moq;
 using ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
 using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
 using Shouldly;
@@ -19,6 +20,7 @@ public class ConfirmEmailCommandHandlerTests
     private readonly Mock<UserManager<User>> _userManagerMock;
     private readonly Mock<ITokenGenerator> _tokenGenerator = new();
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
+    private readonly Mock<IBlobStorageService> _blobStorageServiceMock = new();
 
     private const string validEmail = "test2@email.com";
     private const string validToken = "tokens-are-awesome";
@@ -59,7 +61,8 @@ public class ConfirmEmailCommandHandlerTests
         var handler = new ConfirmEmailCommandHandler(
             this._userManagerMock.Object,
             this._tokenGenerator.Object,
-            this._userRepositoryMock.Object
+            this._userRepositoryMock.Object,
+            this._blobStorageServiceMock.Object
         );
 
         // Act
@@ -97,7 +100,8 @@ public class ConfirmEmailCommandHandlerTests
         var handler = new ConfirmEmailCommandHandler(
             this._userManagerMock.Object,
             this._tokenGenerator.Object,
-            this._userRepositoryMock.Object
+            this._userRepositoryMock.Object,
+            this._blobStorageServiceMock.Object
         );
 
         // Act
@@ -148,7 +152,8 @@ public class ConfirmEmailCommandHandlerTests
         var handler = new ConfirmEmailCommandHandler(
             this._userManagerMock.Object,
             this._tokenGenerator.Object,
-            this._userRepositoryMock.Object
+            this._userRepositoryMock.Object,
+            this._blobStorageServiceMock.Object
         );
 
         // Act

@@ -43,16 +43,15 @@
                         ref="menu"
                         id="overlay_menu"
                     >
-                        <template #item="{ item, props }">
+                        <template #item="{ item }">
                             <router-link
                                 v-if="item.route"
                                 v-slot="{ href, navigate }"
                                 :to="item.route"
                                 custom
                             >
-                                <a
+                                <a  class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-300 border-noround"
                                     :href="href"
-                                    v-bind="props.action"
                                     @click="navigate"
                                 >
                                     <span :class="item.icon" />
@@ -63,7 +62,7 @@
                         <template #end>
                             <button
                                 @click="logout()"
-                                class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-100 border-noround"
+                                class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-300 border-noround"
                             >
                                 <i class="pi pi-sign-out" />
                                 <span class="ml-2">Log Out</span>
