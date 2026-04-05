@@ -1,5 +1,4 @@
-﻿using Mapster;
-using ProjectTemplate2024.Api.Common.Mapping;
+﻿using ProjectTemplate2024.Api.Common.Mapping;
 using ProjectTemplate2024.Application.Authentication.Commands.Register;
 using ProjectTemplate2024.Application.Authentication.Common;
 using ProjectTemplate2024.Application.Authentication.Queries.Login;
@@ -12,18 +11,12 @@ namespace ProjectTemplate2024.Application.Tests.Api.Tests.Common.Mapping;
 
 public class AuthenticationMappingConfigTests
 {
-    public AuthenticationMappingConfigTests()
-    {
-        var config = TypeAdapterConfig.GlobalSettings;
-        AuthenticationMappingConfig.AddConfig(config);
-    }
-
     [Fact]
     public void RegisterRequest_ShouldMapTo_RegisterCommand()
     {
         var src = new RegisterRequest("DisplayName", "Email", "Password");
 
-        var result = src.Adapt<RegisterCommand>();
+        var result = src.ToCommand();
 
         result.DisplayName.ShouldBe(src.DisplayName);
         result.Email.ShouldBe(src.Email);
@@ -35,7 +28,7 @@ public class AuthenticationMappingConfigTests
     {
         var src = new LoginRequest("Email", "Password");
 
-        var result = src.Adapt<LoginQuery>();
+        var result = src.ToQuery();
 
         result.Email.ShouldBe(src.Email);
         result.Password.ShouldBe(src.Password);
@@ -48,7 +41,7 @@ public class AuthenticationMappingConfigTests
 
         var src = new AuthenticationResult(user);
 
-        var result = src.Adapt<AuthenticationResponse>();
+        var result = src.ToResponse();
 
         result.DisplayName.ShouldBe(user.DisplayName);
         result.Email.ShouldBe(user.Email);
@@ -63,7 +56,7 @@ public class AuthenticationMappingConfigTests
 
         var src = new AuthenticationResult(user, "token");
 
-        var result = src.Adapt<AuthenticationResponse>();
+        var result = src.ToResponse();
 
         result.DisplayName.ShouldBe(user.DisplayName);
         result.Email.ShouldBe(user.Email);

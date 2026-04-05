@@ -2,7 +2,6 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ProjectTemplate2024.Api.Common.Errors;
-using ProjectTemplate2024.Api.Common.Mapping;
 using ProjectTemplate2024.Application.Settings;
 
 namespace ProjectTemplate2024.Api;
@@ -23,7 +22,6 @@ public static class DependencyInjection
             .AddValidatorsFromAssembly(
                 typeof(Application.DependencyInjection).Assembly
             )
-            .AddMappings()
             .AddCors(configuration)
             .AddSingleton<ProblemDetailsFactory, ErrorDetailsFactory>();
     }

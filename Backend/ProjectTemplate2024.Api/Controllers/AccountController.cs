@@ -1,7 +1,7 @@
-﻿using Mapster;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectTemplate2024.Api.Common.Mapping;
 using ProjectTemplate2024.Application.Account.Commands.RequestResetPassword;
 using ProjectTemplate2024.Application.Account.Commands.ResetPassword;
 using ProjectTemplate2024.Contracts.Account.RequestResetPassword;
@@ -21,11 +21,11 @@ public class AccountController : ApiController
     [HttpGet(nameof(ResetPassword))]
     public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
-        var cmd = request.Adapt<ResetPasswordCommand>();
+        var cmd = request.ToCommand();
         var result = await _mediator.Send(cmd);
 
         return result.Match(
-            success => Ok(success.Adapt<ResetPasswordResponse>()),
+            success => Ok(success.ToResponse()),
             errors => Problem(errors)
         );
     }
@@ -36,11 +36,11 @@ public class AccountController : ApiController
         RequestResetPasswordRequest request
     )
     {
-        var cmd = request.Adapt<RequestResetPasswordCommand>();
+        var cmd = request.ToCommand();
         var result = await _mediator.Send(cmd);
 
         return result.Match(
-            success => Ok(success.Adapt<RequestResetPasswordResponse>()),
+            success => Ok(success.ToResponse()),
             errors => Problem(errors)
         );
     }

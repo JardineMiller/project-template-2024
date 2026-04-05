@@ -1,5 +1,4 @@
-﻿using Mapster;
-using ProjectTemplate2024.Api.Common.Mapping;
+﻿using ProjectTemplate2024.Api.Common.Mapping;
 using ProjectTemplate2024.Application.Account.Commands.RequestResetPassword;
 using ProjectTemplate2024.Application.Account.Commands.ResetPassword;
 using ProjectTemplate2024.Contracts.Account.RequestResetPassword;
@@ -16,11 +15,7 @@ public class AccountMappingConfigTests
     private const string ValidOldPassword = "oldPassword123!";
     private const string ValidToken = "token";
 
-    public AccountMappingConfigTests()
-    {
-        var config = TypeAdapterConfig.GlobalSettings;
-        AccountMappingConfig.AddConfig(config);
-    }
+    public AccountMappingConfigTests() { }
 
     [Fact]
     public void ResetPasswordRequest_WithTokenProvided_ShouldMapTo_ResetPasswordCommand_WithNullOldPassword()
@@ -31,7 +26,7 @@ public class AccountMappingConfigTests
             ValidToken
         );
 
-        var result = src.Adapt<ResetPasswordCommand>();
+        var result = src.ToCommand();
 
         result.Email.ShouldBe(ValidEmail);
         result.NewPassword.ShouldBe(ValidPassword);
@@ -49,7 +44,7 @@ public class AccountMappingConfigTests
             ValidOldPassword
         );
 
-        var result = src.Adapt<ResetPasswordCommand>();
+        var result = src.ToCommand();
 
         result.Email.ShouldBe(ValidEmail);
         result.NewPassword.ShouldBe(ValidPassword);
@@ -61,7 +56,7 @@ public class AccountMappingConfigTests
     public void ResetPasswordResult_ShouldMapTo_ResetPasswordResponse()
     {
         var src = new ResetPasswordResult();
-        var result = src.Adapt<ResetPasswordResponse>();
+        var result = src.ToResponse();
 
         result.ShouldBeOfType<ResetPasswordResponse>();
     }
@@ -70,7 +65,7 @@ public class AccountMappingConfigTests
     public void RequestResetPasswordRequest_ShouldMapTo_RequestResetPasswordCommand()
     {
         var src = new RequestResetPasswordRequest(ValidEmail);
-        var result = src.Adapt<RequestResetPasswordCommand>();
+        var result = src.ToCommand();
 
         result.Email.ShouldBe(ValidEmail);
     }
@@ -79,7 +74,7 @@ public class AccountMappingConfigTests
     public void RequestResetPasswordResult_ShouldMapTo_RequestResetPasswordResponse()
     {
         var src = new RequestResetPasswordResult(ValidToken);
-        var result = src.Adapt<RequestResetPasswordResponse>();
+        var result = src.ToResponse();
 
         result.ShouldBeOfType<RequestResetPasswordResponse>();
         result.Token.ShouldBe(ValidToken);
