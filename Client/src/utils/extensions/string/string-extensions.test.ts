@@ -6,12 +6,9 @@ describe("toTitleCase", () => {
         expect(input?.toTitleCase()).toBe(input);
     });
 
-    it.each(["123", "1aaa"])(
-        "handles numbers within strings",
-        (input) => {
-            expect(input?.toTitleCase()).toBe(input);
-        }
-    );
+    it.each(["123", "1aaa"])("handles numbers within strings", (input) => {
+        expect(input?.toTitleCase()).toBe(input);
+    });
 
     it.each(["!Admin", "@Email"])(
         "handles special chars within strings",

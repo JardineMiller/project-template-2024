@@ -29,9 +29,7 @@ export class Validators {
         return hasLengthProperty(val) ? predicate(val.length) : false;
     }
 
-    public static required<T>(
-        customMsg: string | null = null
-    ): IValidator<T> {
+    public static required<T>(customMsg: string | null = null): IValidator<T> {
         return {
             type: ValidatorType.required,
             validate: (value: T): ValidationFnResult => {
@@ -92,14 +90,11 @@ export class Validators {
         };
     }
 
-    static email(
-        customMsg: string | null = null
-    ): IValidator<string> {
+    static email(customMsg: string | null = null): IValidator<string> {
         return {
             type: ValidatorType.email,
             validate: (value: string): ValidationFnResult => {
-                const isValid =
-                    !this.exists(value) || EMAIL_REGEX.test(value);
+                const isValid = !this.exists(value) || EMAIL_REGEX.test(value);
 
                 const msg = isValid
                     ? ""
@@ -120,9 +115,7 @@ export class Validators {
             validate: (value: number): ValidationFnResult => {
                 const isValid = !this.exists(value) || value >= min;
 
-                const msg = isValid
-                    ? ""
-                    : customMsg || `Minimum value: ${min}`;
+                const msg = isValid ? "" : customMsg || `Minimum value: ${min}`;
 
                 return new ValidationFnResult(isValid, msg);
             },
@@ -138,9 +131,7 @@ export class Validators {
             validate: (value: number): ValidationFnResult => {
                 const isValid = !this.exists(value) || value <= max;
 
-                const msg = isValid
-                    ? ""
-                    : customMsg || `Maximum value: ${max}`;
+                const msg = isValid ? "" : customMsg || `Maximum value: ${max}`;
 
                 return new ValidationFnResult(isValid, msg);
             },
@@ -154,8 +145,7 @@ export class Validators {
         return {
             type: ValidatorType.pattern,
             validate: (value: string): ValidationFnResult => {
-                const isValid =
-                    !this.exists(value) || regex.test(value);
+                const isValid = !this.exists(value) || regex.test(value);
 
                 const msg = isValid
                     ? ""
@@ -174,12 +164,9 @@ export class Validators {
         return {
             type: ValidatorType.custom,
             validate: (value: T): ValidationFnResult => {
-                const isValid =
-                    !this.exists(value) || isValidCallback(value);
+                const isValid = !this.exists(value) || isValidCallback(value);
 
-                const msg = isValid
-                    ? ""
-                    : customMsg || "This field is invalid";
+                const msg = isValid ? "" : customMsg || "This field is invalid";
 
                 return new ValidationFnResult(isValid, msg);
             },

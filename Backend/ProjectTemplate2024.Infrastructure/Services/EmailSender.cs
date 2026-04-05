@@ -28,7 +28,7 @@ public class EmailSender : IEmailSender
                     _emailSettings.Username,
                     _emailSettings.Password
                 ),
-                EnableSsl = true
+                EnableSsl = true,
             };
 
             var message = new MailMessage(

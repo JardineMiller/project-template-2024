@@ -46,12 +46,7 @@ public class RequestResetPasswordCommandHandlerTests
             .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
-            .Setup(
-                x =>
-                    x.GeneratePasswordResetTokenAsync(
-                        It.IsAny<User>()
-                    )
-            )
+            .Setup(x => x.GeneratePasswordResetTokenAsync(It.IsAny<User>()))
             .ReturnsAsync(ValidToken);
 
         var command = new RequestResetPasswordCommand(ValidEmail);
@@ -90,13 +85,11 @@ public class RequestResetPasswordCommandHandlerTests
 
         // Assert
         result.IsError.ShouldBe(true);
-        result.Errors
-            .First()
-            .Code.ShouldBe(
-                Errors.Authentication.InvalidCredentials.Code
-            );
-        result.Errors
-            .First()
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );

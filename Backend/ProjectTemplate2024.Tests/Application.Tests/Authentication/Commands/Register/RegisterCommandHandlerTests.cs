@@ -95,8 +95,8 @@ public class RegisterCommandHandlerTests
         // Assert
         result.Errors.Count.ShouldBe(1);
         result.Errors.First().Code.ShouldBe(Errors.User.DuplicateEmail.Code);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(Errors.User.DuplicateEmail.Description);
     }
 
@@ -129,8 +129,8 @@ public class RegisterCommandHandlerTests
         // Assert
         result.Errors.Count.ShouldBe(1);
         result.Errors.First().Code.ShouldBe(Errors.User.CreationFailed.Code);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(Errors.User.CreationFailed.Description);
     }
 }

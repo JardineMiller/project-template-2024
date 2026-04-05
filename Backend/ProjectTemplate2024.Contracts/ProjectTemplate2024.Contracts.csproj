@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -16,5 +15,4 @@
     <Compile Remove="Game\CreateGameResponse.cs" />
     <Compile Remove="Game\GetGameRequest.cs" />
   </ItemGroup>
-
 </Project>

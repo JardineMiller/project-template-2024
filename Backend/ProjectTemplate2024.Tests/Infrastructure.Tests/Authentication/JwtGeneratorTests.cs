@@ -13,22 +13,20 @@ public class JwtGeneratorTests
 {
     private readonly Mock<IDateTimeProvider> _dateTimeProviderMock;
 
-    private readonly JwtSettings _jwtSettings =
-        new()
-        {
-            Secret = "extremely-very-incredibly-important-secret",
-            Issuer = "issuer",
-            Audience = "audience",
-            ExpiryMinutes = 60
-        };
+    private readonly JwtSettings _jwtSettings = new()
+    {
+        Secret = "extremely-very-incredibly-important-secret",
+        Issuer = "issuer",
+        Audience = "audience",
+        ExpiryMinutes = 60,
+    };
 
-    private readonly User _user1 =
-        new()
-        {
-            Id = Guid.NewGuid().ToString(),
-            DisplayName = "test",
-            Email = "test@user1.com"
-        };
+    private readonly User _user1 = new()
+    {
+        Id = Guid.NewGuid().ToString(),
+        DisplayName = "test",
+        Email = "test@user1.com",
+    };
 
     public JwtGeneratorTests()
     {

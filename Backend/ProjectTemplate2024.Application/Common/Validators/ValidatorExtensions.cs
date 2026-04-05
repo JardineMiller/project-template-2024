@@ -4,9 +4,7 @@ namespace ProjectTemplate2024.Application.Common.Validators;
 
 public static class ValidatorExtensions
 {
-    public static void IsGuid<T>(
-        this IRuleBuilder<T, string> ruleBuilder
-    )
+    public static void IsGuid<T>(this IRuleBuilder<T, string> ruleBuilder)
     {
         ruleBuilder
             .Must(s => Guid.TryParse(s, out _))

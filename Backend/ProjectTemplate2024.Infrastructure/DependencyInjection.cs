@@ -39,19 +39,17 @@ public static class DependencyInjection
     )
     {
         services
-            .AddIdentity<User, IdentityRole>(
-                options =>
-                {
-                    options.Password.RequireDigit = true;
-                    options.Password.RequiredLength = 6;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireNonAlphanumeric = true;
-                    options.Password.RequireUppercase = true;
-                    options.Password.RequiredUniqueChars = 0;
+            .AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredUniqueChars = 0;
 
-                    options.SignIn.RequireConfirmedEmail = true;
-                }
-            )
+                options.SignIn.RequireConfirmedEmail = true;
+            })
             .AddTokenProvider<DataProtectorTokenProvider<User>>(
                 TokenOptions.DefaultProvider
             )

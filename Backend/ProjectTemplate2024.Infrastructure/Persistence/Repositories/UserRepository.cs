@@ -36,8 +36,8 @@ public class UserRepository : IUserRepository
         CancellationToken cancellationToken = new()
     )
     {
-        return await _userManager.Users
-            .Include(x => x.RefreshTokens)
+        return await _userManager
+            .Users.Include(x => x.RefreshTokens)
             .FirstOrDefaultAsync(
                 x => x.RefreshTokens.Any(t => t.Token == refreshToken),
                 cancellationToken
@@ -65,7 +65,11 @@ public class UserRepository : IUserRepository
         await _userManager.UpdateAsync(user);
     }
 
-    public async Task<bool> CheckPasswordAsync(User user, string password, CancellationToken cancellationToken)
+    public async Task<bool> CheckPasswordAsync(
+        User user,
+        string password,
+        CancellationToken cancellationToken
+    )
     {
         // UserManager.CheckPasswordAsync does not accept a CancellationToken.
         // Keep the signature consistent with repository methods and ignore the token here.

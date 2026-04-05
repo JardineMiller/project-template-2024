@@ -55,12 +55,8 @@ public class RequestValidationBehaviour<TRequest, TResponse>
         out TResponse response
     )
     {
-        var errors = failures.ConvertAll(
-            x =>
-                Error.Validation(
-                    code: x.PropertyName,
-                    description: x.ErrorMessage
-                )
+        var errors = failures.ConvertAll(x =>
+            Error.Validation(code: x.PropertyName, description: x.ErrorMessage)
         );
 
         try

@@ -38,8 +38,8 @@ public class RevokeTokenCommandHandler
             return Errors.Common.NotFound(nameof(User));
         }
 
-        var refreshToken = user.RefreshTokens.Single(
-            x => x.Token == request.Token
+        var refreshToken = user.RefreshTokens.Single(x =>
+            x.Token == request.Token
         );
 
         if (!refreshToken.IsActive)

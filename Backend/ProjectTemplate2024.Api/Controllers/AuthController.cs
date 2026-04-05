@@ -18,10 +18,7 @@ public class AuthController : ApiController
     private readonly ISender _mediator;
     private readonly IDateTimeProvider _dateTimeProvider;
 
-    public AuthController(
-        ISender mediator,
-        IDateTimeProvider dateTimeProvider
-    )
+    public AuthController(ISender mediator, IDateTimeProvider dateTimeProvider)
     {
         _mediator = mediator;
         _dateTimeProvider = dateTimeProvider;
@@ -97,10 +94,7 @@ public class AuthController : ApiController
     }
 
     [HttpGet(nameof(Confirm))]
-    public async Task<IActionResult> Confirm(
-        string token,
-        string email
-    )
+    public async Task<IActionResult> Confirm(string token, string email)
     {
         var cmd = new ConfirmEmailCommand(email, token);
         var authResult = await _mediator.Send(cmd);
@@ -125,11 +119,7 @@ public class AuthController : ApiController
             Secure = true,
         };
 
-        Response.Cookies.Append(
-            "refreshToken",
-            refreshToken,
-            cookieOptions
-        );
+        Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
     }
 
     private void RemoveCookie()
@@ -142,10 +132,6 @@ public class AuthController : ApiController
             Secure = true,
         };
 
-        Response.Cookies.Append(
-            "refreshToken",
-            string.Empty,
-            cookieOptions
-        );
+        Response.Cookies.Append("refreshToken", string.Empty, cookieOptions);
     }
 }

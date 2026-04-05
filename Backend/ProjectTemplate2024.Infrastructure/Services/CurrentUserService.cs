@@ -8,15 +8,12 @@ public class CurrentUserService : ICurrentUserService
 {
     private readonly ClaimsPrincipal _user;
 
-    public CurrentUserService(
-        IHttpContextAccessor httpContextAccessor
-    )
+    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
     {
         _user = httpContextAccessor.HttpContext?.User!;
     }
 
-    public bool IsAuthenticated =>
-        _user.Identity?.IsAuthenticated ?? false;
+    public bool IsAuthenticated => _user.Identity?.IsAuthenticated ?? false;
 
     public string? UserName
     {
@@ -27,8 +24,8 @@ public class CurrentUserService : ICurrentUserService
                 return null;
             }
 
-            return _user.Claims
-                .FirstOrDefault(x => x.Type == ClaimTypes.GivenName)
+            return _user
+                .Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)
                 ?.Value;
         }
     }
@@ -42,10 +39,8 @@ public class CurrentUserService : ICurrentUserService
                 return null;
             }
 
-            return _user.Claims
-                .FirstOrDefault(
-                    x => x.Type == ClaimTypes.NameIdentifier
-                )
+            return _user
+                .Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)
                 ?.Value;
         }
     }

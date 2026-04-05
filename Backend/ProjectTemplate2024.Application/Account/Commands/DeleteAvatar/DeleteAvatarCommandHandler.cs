@@ -38,10 +38,7 @@ public class DeleteAvatarCommandHandler
             return Errors.Common.NotFound(nameof(User));
         }
 
-        var user = await _userRepository.GetUserById(
-            userId,
-            cancellationToken
-        );
+        var user = await _userRepository.GetUserById(userId, cancellationToken);
 
         if (user is null)
         {
@@ -66,7 +63,11 @@ public class DeleteAvatarCommandHandler
                 // ignore and use provided string as-is
             }
 
-            await _blobStorageService.DeleteFile(userId, fileName, cancellationToken);
+            await _blobStorageService.DeleteFile(
+                userId,
+                fileName,
+                cancellationToken
+            );
         }
 
         user.AvatarFileName = null;

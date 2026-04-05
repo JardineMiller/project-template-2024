@@ -16,16 +16,14 @@ public class DefaultMappingConfigTests
             TestProperty = testProperty;
         }
     }
-    
+
     [Fact]
     public void Should_Trim_Whitespace_Properties()
     {
         var config = new TypeAdapterConfig();
         DefaultMappingConfig.AddConfig(config);
-        
-        var testClass = new TestClass(
-            "   with spaces   "
-        );
+
+        var testClass = new TestClass("   with spaces   ");
 
         var result = testClass.Adapt<TestClass>(config);
 

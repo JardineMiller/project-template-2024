@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
+using ProjectTemplate2024.Application.Tests.TestHelpers;
 using ProjectTemplate2024.Domain.Entities;
 using ProjectTemplate2024.Infrastructure.Persistence.Repositories;
-using ProjectTemplate2024.Application.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
 
@@ -35,7 +35,10 @@ public class UserRepositoryTests : QueryTestBase
         var repo = new UserRepository(userManagerMock.Object);
 
         // Act
-        var user = await repo.GetUserByEmail("user1@test.com", CancellationToken.None);
+        var user = await repo.GetUserByEmail(
+            "user1@test.com",
+            CancellationToken.None
+        );
 
         // Assert
         user.ShouldNotBeNull();
@@ -100,7 +103,11 @@ public class UserRepositoryTests : QueryTestBase
             .Setup(x => x.CheckPasswordAsync(user, "secret"))
             .ReturnsAsync(true);
 
-        var result = await repo.CheckPasswordAsync(user, "secret", CancellationToken.None);
+        var result = await repo.CheckPasswordAsync(
+            user,
+            "secret",
+            CancellationToken.None
+        );
 
         result.ShouldBeTrue();
     }
@@ -130,7 +137,10 @@ public class UserRepositoryTests : QueryTestBase
 
         var repo = new UserRepository(userManagerMock.Object);
 
-        var found = await repo.GetUserByRefreshToken("refresh-token-1", CancellationToken.None);
+        var found = await repo.GetUserByRefreshToken(
+            "refresh-token-1",
+            CancellationToken.None
+        );
 
         found.ShouldNotBeNull();
         found!.Id.ShouldBe(user.Id);

@@ -7,10 +7,7 @@ using ProjectTemplate2024.Domain.Entities;
 namespace ProjectTemplate2024.Application.Account.Commands.ResetPassword;
 
 public class ResetPasswordCommandHandler
-    : IRequestHandler<
-          ResetPasswordCommand,
-          ErrorOr<ResetPasswordResult>
-      >
+    : IRequestHandler<ResetPasswordCommand, ErrorOr<ResetPasswordResult>>
 {
     private readonly UserManager<User> _userManager;
 
@@ -25,29 +22,26 @@ public class ResetPasswordCommandHandler
     )
     {
         return cmd.Token is null
-          ? await ChangePassword(cmd)
-          : await ResetPassword(cmd);
+            ? await ChangePassword(cmd)
+            : await ResetPassword(cmd);
     }
 
     private async Task<ErrorOr<ResetPasswordResult>> ChangePassword(
         ResetPasswordCommand cmd
     )
     {
-        var user = await _userManager.FindByEmailAsync(
-            cmd.Email
-        );
+        var user = await _userManager.FindByEmailAsync(cmd.Email);
 
         if (user is null)
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var changeResult =
-            await _userManager.ChangePasswordAsync(
-                user,
-                cmd.OldPassword,
-                cmd.NewPassword
-            );
+        var changeResult = await _userManager.ChangePasswordAsync(
+            user,
+            cmd.OldPassword,
+            cmd.NewPassword
+        );
 
         if (changeResult != IdentityResult.Success)
         {
@@ -61,9 +55,7 @@ public class ResetPasswordCommandHandler
         ResetPasswordCommand cmd
     )
     {
-        var user = await _userManager.FindByEmailAsync(
-            cmd.Email
-        );
+        var user = await _userManager.FindByEmailAsync(cmd.Email);
 
         if (user is null)
         {

@@ -44,7 +44,7 @@ public class AuthenticationMappingConfigTests
     [Fact]
     public void AuthenticationResult_ShouldMapTo_AuthenticationResponse_WithNullToken()
     {
-        var user = new User { DisplayName = "DisplayName", Email = "Email", };
+        var user = new User { DisplayName = "DisplayName", Email = "Email" };
 
         var src = new AuthenticationResult(user);
 
@@ -59,7 +59,7 @@ public class AuthenticationMappingConfigTests
     [Fact]
     public void AuthenticationResult_ShouldMapTo_AuthenticationResponse_WithoutNullToken()
     {
-        var user = new User { DisplayName = "DisplayName", Email = "Email", };
+        var user = new User { DisplayName = "DisplayName", Email = "Email" };
 
         var src = new AuthenticationResult(user, "token");
 

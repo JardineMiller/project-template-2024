@@ -10,9 +10,7 @@ export function addJwtInterceptor() {
             return request;
         }
 
-        const isApiUrl = request.url.startsWith(
-            import.meta.env.VITE_API_URL
-        );
+        const isApiUrl = request.url.startsWith(import.meta.env.VITE_API_URL);
 
         if (isLoggedIn && isApiUrl) {
             request.headers.Authorization = `Bearer ${Auth.token.value}`;

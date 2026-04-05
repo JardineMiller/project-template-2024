@@ -6,10 +6,10 @@ namespace ProjectTemplate2024.Application.Account.Commands.DeleteAvatar;
 
 public class DeleteAvatarCommand : IRequest<ErrorOr<UpdateUserResult>>
 {
-	public string FileName { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
 
-	public DeleteAvatarCommand(string fileName)
-	{
-		FileName = fileName ?? string.Empty;
-	}
+    public DeleteAvatarCommand(string fileName)
+    {
+        FileName = fileName ?? string.Empty;
+    }
 }

@@ -14,8 +14,7 @@ public class ErrorDetailsFactory : ProblemDetailsFactory
     public ErrorDetailsFactory(IOptions<ApiBehaviorOptions>? options)
     {
         _options =
-            options?.Value
-            ?? throw new ArgumentException(nameof(options));
+            options?.Value ?? throw new ArgumentException(nameof(options));
     }
 
     public override ProblemDetails CreateProblemDetails(
@@ -35,7 +34,7 @@ public class ErrorDetailsFactory : ProblemDetailsFactory
             Title = title,
             Type = type,
             Detail = detail,
-            Instance = instance
+            Instance = instance,
         };
         ApplyProblemDetailsDefaults(
             httpContext,
@@ -58,16 +57,12 @@ public class ErrorDetailsFactory : ProblemDetailsFactory
     {
         if (modelStateDictionary is null)
         {
-            throw new ArgumentNullException(
-                nameof(modelStateDictionary)
-            );
+            throw new ArgumentNullException(nameof(modelStateDictionary));
         }
 
         statusCode ??= 400;
 
-        var problemDetails = new ValidationProblemDetails(
-            modelStateDictionary
-        )
+        var problemDetails = new ValidationProblemDetails(modelStateDictionary)
         {
             Status = statusCode,
             Type = type,
@@ -109,8 +104,7 @@ public class ErrorDetailsFactory : ProblemDetailsFactory
             problemDetails.Type ??= clientErrorData.Link;
         }
 
-        var traceId =
-            Activity.Current?.Id ?? httpContext?.TraceIdentifier;
+        var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
 
         if (traceId != null)
         {

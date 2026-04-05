@@ -25,8 +25,11 @@ public class ConfirmEmailCommandHandlerTests
 
     private const string ValidEmail = "test2@email.com";
     private const string ValidToken = "tokens-are-awesome";
-    private readonly User _validUser =
-        new() { DisplayName = "Test User", Email = ValidEmail };
+    private readonly User _validUser = new()
+    {
+        DisplayName = "Test User",
+        Email = ValidEmail,
+    };
 
     public ConfirmEmailCommandHandlerTests()
     {
@@ -48,13 +51,12 @@ public class ConfirmEmailCommandHandlerTests
     {
         // Arrange
         _userRepositoryMock
-            .Setup(
-                x =>
-                    x.GetUserByEmail(
-                        ValidEmail,
-                        It.IsAny<CancellationToken>(),
-                        It.IsAny<Expression<Func<User, object>>[]>()
-                    )
+            .Setup(x =>
+                x.GetUserByEmail(
+                    ValidEmail,
+                    It.IsAny<CancellationToken>(),
+                    It.IsAny<Expression<Func<User, object>>[]>()
+                )
             )
             .ReturnsAsync(null as User);
 
@@ -71,11 +73,11 @@ public class ConfirmEmailCommandHandlerTests
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );
@@ -86,14 +88,14 @@ public class ConfirmEmailCommandHandlerTests
     {
         // Arrange
         _userRepositoryMock
-            .Setup(
-                x => x.GetUserByEmail(ValidEmail, It.IsAny<CancellationToken>())
+            .Setup(x =>
+                x.GetUserByEmail(ValidEmail, It.IsAny<CancellationToken>())
             )!
             .ReturnsAsync(_validUser);
 
         _userManagerMock
-            .Setup(
-                x => x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
+            .Setup(x =>
+                x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
             )
             .ReturnsAsync(IdentityResult.Failed());
 
@@ -110,11 +112,11 @@ public class ConfirmEmailCommandHandlerTests
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );
@@ -125,19 +127,18 @@ public class ConfirmEmailCommandHandlerTests
     {
         // Arrange
         _userRepositoryMock
-            .Setup(
-                x =>
-                    x.GetUserByEmail(
-                        ValidEmail,
-                        It.IsAny<CancellationToken>(),
-                        It.IsAny<Expression<Func<User, object>>[]>()
-                    )
+            .Setup(x =>
+                x.GetUserByEmail(
+                    ValidEmail,
+                    It.IsAny<CancellationToken>(),
+                    It.IsAny<Expression<Func<User, object>>[]>()
+                )
             )!
             .ReturnsAsync(_validUser);
 
         _userManagerMock
-            .Setup(
-                x => x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
+            .Setup(x =>
+                x.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>())
             )
             .ReturnsAsync(IdentityResult.Success);
 

@@ -65,7 +65,7 @@ public class BlobStorageService : IBlobStorageService
                 stream,
                 new BlobUploadOptions
                 {
-                    HttpHeaders = new() { ContentType = file.ContentType }
+                    HttpHeaders = new() { ContentType = file.ContentType },
                 },
                 cancellationToken
             );
@@ -98,7 +98,9 @@ public class BlobStorageService : IBlobStorageService
 
         var blobClient = containerClient.GetBlobClient($"images/{fileName}");
 
-        var response = await blobClient.DeleteIfExistsAsync(cancellationToken: cancellationToken);
+        var response = await blobClient.DeleteIfExistsAsync(
+            cancellationToken: cancellationToken
+        );
 
         return response.Value;
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Moq;
 using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Infrastructure.Email;
@@ -9,16 +10,13 @@ namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Services;
 
 public class EmailPathServiceTests
 {
-    private readonly Mock<IWebHostEnvironment> _webHostEnvironmentMock =
-        new();
+    private readonly Mock<IWebHostEnvironment> _webHostEnvironmentMock = new();
 
     private readonly IEmailPathService _emailPathService;
 
     public EmailPathServiceTests()
     {
-        _webHostEnvironmentMock
-            .Setup(x => x.ContentRootPath)
-            .Returns("Root");
+        _webHostEnvironmentMock.Setup(x => x.ContentRootPath).Returns("Root");
 
         _emailPathService = new EmailPathService(
             _webHostEnvironmentMock.Object
@@ -29,6 +27,6 @@ public class EmailPathServiceTests
     public void EmailPathService_GetEmailPath_ReturnsCorrectPath()
     {
         var path = _emailPathService.GetEmailPath("test.html");
-        path.ShouldBe(@"Root\Email\Templates\test.html");
+        path.ShouldBe(Path.Combine("Root", "Email", "Templates", "test.html"));
     }
 }

@@ -24,16 +24,13 @@ public class ResetPasswordValidationTests
     [InlineData("    ")]
     [InlineData("a")]
     [InlineData("just_a_random_string")]
-    private void Should_Have_Error_When_Email_Is_Invalid(
-        string? invalidEmail
-    )
+    private void Should_Have_Error_When_Email_Is_Invalid(string? invalidEmail)
     {
-        var query =
-            new ResetPasswordCommand(
-                invalidEmail!,
-                ValidPassword,
-                ValidToken
-            );
+        var query = new ResetPasswordCommand(
+            invalidEmail!,
+            ValidPassword,
+            ValidToken
+        );
         var result = _validator.TestValidate(query);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
@@ -59,12 +56,11 @@ public class ResetPasswordValidationTests
         string? invalidPassword
     )
     {
-        var command =
-            new ResetPasswordCommand(
-                ValidEmail,
-                invalidPassword!,
-                ValidToken
-            );
+        var command = new ResetPasswordCommand(
+            ValidEmail,
+            invalidPassword!,
+            ValidToken
+        );
 
         var result = _validator.TestValidate(command);
 
@@ -79,16 +75,13 @@ public class ResetPasswordValidationTests
     [InlineData(null)]
     [InlineData(" ")]
     [InlineData("    ")]
-    public void Should_Have_Error_When_Token_Is_Invalid(
-        string? invalidToken
-    )
+    public void Should_Have_Error_When_Token_Is_Invalid(string? invalidToken)
     {
-        var command =
-            new ResetPasswordCommand(
-                ValidEmail,
-                ValidPassword,
-                invalidToken
-            );
+        var command = new ResetPasswordCommand(
+            ValidEmail,
+            ValidPassword,
+            invalidToken
+        );
 
         var result = _validator.TestValidate(command);
 
@@ -100,11 +93,7 @@ public class ResetPasswordValidationTests
     [Fact]
     public void Should_Have_Error_When_Token_And_OldPassword_Not_Provided()
     {
-        var command =
-            new ResetPasswordCommand(
-                ValidEmail,
-                ValidPassword
-            );
+        var command = new ResetPasswordCommand(ValidEmail, ValidPassword);
 
         var result = _validator.TestValidate(command);
 
@@ -135,13 +124,12 @@ public class ResetPasswordValidationTests
     [Fact]
     public void Should_Have_Error_When_OldPassword_And_Token_Provided()
     {
-        var command =
-            new ResetPasswordCommand(
-                ValidEmail,
-                "newPassword123!",
-                ValidToken,
-                ValidPassword
-            );
+        var command = new ResetPasswordCommand(
+            ValidEmail,
+            "newPassword123!",
+            ValidToken,
+            ValidPassword
+        );
 
         var result = _validator.TestValidate(command);
 

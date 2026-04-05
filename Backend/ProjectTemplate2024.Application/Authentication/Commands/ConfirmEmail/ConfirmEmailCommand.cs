@@ -1,5 +1,5 @@
-﻿using MediatR;
-using ErrorOr;
+﻿using ErrorOr;
+using MediatR;
 using ProjectTemplate2024.Application.Authentication.Common;
 
 namespace ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;

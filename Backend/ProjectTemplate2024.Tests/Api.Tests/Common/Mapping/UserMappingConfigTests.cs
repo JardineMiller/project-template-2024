@@ -25,7 +25,7 @@ public class UserMappingConfigTests
             DisplayName = "DisplayName",
             Email = "Email",
             Bio = "Bio",
-            AvatarFileName = "filename.jpg"
+            AvatarFileName = "filename.jpg",
         };
 
         var src = new GetUserDetailsResult(user, user.AvatarFileName);

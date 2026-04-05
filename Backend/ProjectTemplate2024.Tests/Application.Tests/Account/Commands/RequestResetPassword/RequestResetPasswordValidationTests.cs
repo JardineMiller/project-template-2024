@@ -20,14 +20,9 @@ public class ResetPasswordValidationTests
     [InlineData("    ")]
     [InlineData("a")]
     [InlineData("just_a_random_string")]
-    private void Should_Have_Error_When_Email_Is_Invalid(
-        string? invalidEmail
-    )
+    private void Should_Have_Error_When_Email_Is_Invalid(string? invalidEmail)
     {
-        var query =
-            new RequestResetPasswordCommand(
-                invalidEmail!
-            );
+        var query = new RequestResetPasswordCommand(invalidEmail!);
         var result = _validator.TestValidate(query);
 
         result.ShouldHaveValidationErrorFor(x => x.Email);
@@ -37,14 +32,9 @@ public class ResetPasswordValidationTests
     [InlineData("a@b.c")]
     [InlineData("email@test.com")]
     [InlineData("email@test")]
-    private void Should_Not_Have_Error_When_Email_Is_Valid(
-        string validEmail
-    )
+    private void Should_Not_Have_Error_When_Email_Is_Valid(string validEmail)
     {
-        var query =
-            new RequestResetPasswordCommand(
-                validEmail
-            );
+        var query = new RequestResetPasswordCommand(validEmail);
         var result = _validator.TestValidate(query);
 
         result.ShouldNotHaveValidationErrorFor(x => x.Email);
