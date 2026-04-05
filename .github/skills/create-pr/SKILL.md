@@ -1,10 +1,7 @@
+---
 name: create-pr
-
-description: |
-Create or update a Pull Request (PR) using the GitHub CLI and a temporary PR body file.
-The workflow below shows how to prepare code, use a temporary Markdown file for the PR body
-(without committing it), and then delete that file. If the file is accidentally committed,
-instructions for removing it are included.
+description: Create or update a Pull Request (PR) using the GitHub CLI and a temporary PR body file. The workflow below  shows how to prepare code, use a temporary Markdown file for the PR body (without committing it), and then delete that file. If the file is accidentally committed, instructions for removing it are included.
+---
 
 steps:
 
