@@ -71,8 +71,7 @@ export class Changes {
     get canRedo(): boolean {
         return (
             this.changes.length > 0 &&
-            (this.index === undefined ||
-                this.changes.length - 1 > this.index)
+            (this.index === undefined || this.changes.length - 1 > this.index)
         );
     }
 }

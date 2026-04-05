@@ -90,7 +90,8 @@
                                 :to="item.route"
                                 custom
                             >
-                                <a  class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-300 border-noround"
+                                <a
+                                    class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-300 border-noround"
                                     :href="href"
                                     @click="navigate"
                                 >

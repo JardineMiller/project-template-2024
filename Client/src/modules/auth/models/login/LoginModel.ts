@@ -9,9 +9,7 @@ import BaseModel from "@/modules/common/models/BaseModel";
 
 export default class LoginModel
     extends BaseModel
-    implements
-        IRequestModel<LoginModel, LoginRequest>,
-        IErrorResponseHandler
+    implements IRequestModel<LoginModel, LoginRequest>, IErrorResponseHandler
 {
     private _errors: { [key: string]: boolean } = {
         invalidCredentials: false,
@@ -55,9 +53,6 @@ export default class LoginModel
     }
 
     toRequest(): LoginRequest {
-        return new LoginRequest(
-            this.email.value!,
-            this.password.value!
-        );
+        return new LoginRequest(this.email.value!, this.password.value!);
     }
 }

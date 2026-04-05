@@ -47,24 +47,18 @@ export default class ModelProperty<T> {
 
     get isValid(): boolean {
         if (this.isRequired) {
-            const result = this.requiredValidator!.validate(
-                this.value
-            );
+            const result = this.requiredValidator!.validate(this.value);
             if (!result.isValid) {
                 return false;
             }
         }
 
-        return this.validators.every(
-            (x) => x.validate(this.value).isValid
-        );
+        return this.validators.every((x) => x.validate(this.value).isValid);
     }
 
     get errors(): string[] {
         if (this.isRequired) {
-            const result = this.requiredValidator!.validate(
-                this.value
-            );
+            const result = this.requiredValidator!.validate(this.value);
 
             if (!result.isValid) {
                 return [result.errorMessage];
@@ -82,10 +76,7 @@ export default class ModelProperty<T> {
     }
 
     changeEvent(val: T): ModelPropertyChangeEvent<T> {
-        return new ModelPropertyChangeEvent<T>(
-            this.propertyName,
-            val
-        );
+        return new ModelPropertyChangeEvent<T>(this.propertyName, val);
     }
 
     clear(): void {

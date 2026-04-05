@@ -73,11 +73,7 @@ export default class StateTracker<T extends IModel> {
             return;
         }
 
-        const change = new Change(
-            propertyName,
-            property.value,
-            newValue
-        );
+        const change = new Change(propertyName, property.value, newValue);
 
         property.value = change.newVal;
         property.touch();

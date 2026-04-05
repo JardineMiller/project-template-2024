@@ -9,10 +9,10 @@
     import UpdateUserModel from "@/modules/user/models/UpdateUserModel";
     import { Validators } from "@/modules/forms/validation/Validators";
     import ModelProperty from "@/modules/forms/models/ModelProperty";
+    import User, { URLs } from "@/modules/user/services/User";
     import "@/utils/extensions/string/string-extensions";
     import Validation from "@/validation/validation";
     import Auth from "@/modules/auth/services/Auth";
-    import User, { URLs } from "@/modules/user/services/User";
     import InputText from "primevue/inputtext";
     import Textarea from "primevue/textarea";
     import { defineComponent } from "vue";
@@ -139,7 +139,8 @@
                         const url = new URL(fileName);
                         fileName = url.pathname.split("/").pop() || fileName;
                     } catch {
-                        fileName = (fileName as string).split("/").pop() || fileName;
+                        fileName =
+                            (fileName as string).split("/").pop() || fileName;
                     }
 
                     // strip query string if present
@@ -186,10 +187,7 @@
                     }
 
                     // Update local model values from server response
-                    this.state.setProperty<string>(
-                        "bio",
-                        result.bio ?? ""
-                    );
+                    this.state.setProperty<string>("bio", result.bio ?? "");
 
                     this.$toast.add({
                         severity: "success",

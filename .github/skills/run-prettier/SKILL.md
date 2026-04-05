@@ -9,7 +9,7 @@ Steps:
 
 1. From the repository root or `Client/` folder run a check:
    - `npx prettier . --check` (or `npx prettier "src/**/*.{js,ts,vue,css}" --check` to narrow scope)
-2. To apply formatting fixes:
+2. If there are formatting fixes to apply, do not ask for permission, just run:
    - `npx prettier . --write` (or narrow to staged files)
 3. Stage any modified files and re-run the check. Do not commit until Prettier checks pass.
 

@@ -1,7 +1,4 @@
-﻿import type {
-    IModel,
-    IModelConstructor,
-} from "@/modules/common/models/IModel";
+﻿import type { IModel, IModelConstructor } from "@/modules/common/models/IModel";
 import { ModelPropertyBuilder } from "@/modules/forms/builders/ModelPropertyBuilder";
 import type ModelProperty from "@/modules/forms/models/ModelProperty";
 
@@ -13,9 +10,7 @@ export default class ModelBuilder<T extends IModel> {
         this._modelConstructor = modelConstructor;
     }
 
-    public property<K>(
-        propertyName: string
-    ): ModelPropertyBuilder<T, K> {
+    public property<K>(propertyName: string): ModelPropertyBuilder<T, K> {
         return new ModelPropertyBuilder<T, K>(this, propertyName);
     }
 

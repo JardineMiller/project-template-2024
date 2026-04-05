@@ -1,6 +1,6 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import { ref } from "vue";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // Create reactive refs for the Auth mock so tests can inspect / modify them
 const mockAuthUser = ref<any>(undefined);
@@ -132,13 +132,20 @@ describe("Profile.vue", () => {
 
         await flush();
 
-        const ev = { xhr: { response: JSON.stringify({ imageUrl: "http://cdn/new.png" }) } };
+        const ev = {
+            xhr: {
+                response: JSON.stringify({ imageUrl: "http://cdn/new.png" }),
+            },
+        };
         (wrapper.vm as any).onUpload(ev);
 
         expect((wrapper.vm as any).avatarUrl.value).toBe("http://cdn/new.png");
         expect(mockAuthUser.value.avatarUrl).toBe("http://cdn/new.png");
         expect(toastAdd).toHaveBeenCalledWith(
-            expect.objectContaining({ summary: "Success", detail: "File Uploaded" })
+            expect.objectContaining({
+                summary: "Success",
+                detail: "File Uploaded",
+            })
         );
     });
 
@@ -166,7 +173,10 @@ describe("Profile.vue", () => {
         expect((wrapper.vm as any).avatarUrl.value).toBeUndefined();
         expect(mockAuthUser.value.avatarUrl).toBeUndefined();
         expect(toastAdd).toHaveBeenCalledWith(
-            expect.objectContaining({ summary: "Success", detail: "Avatar removed" })
+            expect.objectContaining({
+                summary: "Success",
+                detail: "Avatar removed",
+            })
         );
     });
 

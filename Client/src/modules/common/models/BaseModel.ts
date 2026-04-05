@@ -11,14 +11,11 @@ export default abstract class BaseModel implements IModel {
     get<T>(propertyName: string): ModelProperty<T> {
         const property = this.properties.find(
             (x) =>
-                x.propertyName === propertyName &&
-                x instanceof ModelProperty<T>
+                x.propertyName === propertyName && x instanceof ModelProperty<T>
         );
 
         if (!property) {
-            throw new Error(
-                `Cannot find property with name ${propertyName}`
-            );
+            throw new Error(`Cannot find property with name ${propertyName}`);
         }
 
         return property as ModelProperty<T>;
