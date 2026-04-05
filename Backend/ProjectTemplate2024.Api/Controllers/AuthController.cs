@@ -1,7 +1,7 @@
-﻿using Mapster;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectTemplate2024.Api.Common.Mapping;
 using ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
 using ProjectTemplate2024.Application.Authentication.Commands.RefreshToken;
 using ProjectTemplate2024.Application.Authentication.Commands.Register;
@@ -27,11 +27,11 @@ public class AuthController : ApiController
     [HttpPost(nameof(Register))]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var cmd = request.Adapt<RegisterCommand>();
+        var cmd = request.ToCommand();
         var authResult = await _mediator.Send(cmd);
 
         return authResult.Match(
-            result => Ok(result.Adapt<AuthenticationResponse>()),
+            result => Ok(result.ToResponse()),
             errors => Problem(errors)
         );
     }
@@ -39,14 +39,14 @@ public class AuthController : ApiController
     [HttpPost(nameof(Login))]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var qry = request.Adapt<LoginQuery>();
+        var qry = request.ToQuery();
         var authResult = await _mediator.Send(qry);
 
         return authResult.Match(
             result =>
             {
                 SetTokenCookie(result.RefreshToken!);
-                return Ok(result.Adapt<AuthenticationResponse>());
+                return Ok(result.ToResponse());
             },
             errors => Problem(errors)
         );
@@ -70,7 +70,7 @@ public class AuthController : ApiController
             authResult =>
             {
                 SetTokenCookie(authResult.RefreshToken!);
-                return Ok(authResult.Adapt<AuthenticationResponse>());
+                return Ok(authResult.ToResponse());
             },
             errors =>
             {
@@ -103,7 +103,7 @@ public class AuthController : ApiController
             result =>
             {
                 SetTokenCookie(result.RefreshToken!);
-                return Ok(result.Adapt<AuthenticationResponse>());
+                return Ok(result.ToResponse());
             },
             errors => Problem(errors)
         );

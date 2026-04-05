@@ -1,5 +1,4 @@
-﻿using Mapster;
-using ProjectTemplate2024.Api.Common.Mapping;
+﻿using ProjectTemplate2024.Api.Common.Mapping;
 using ProjectTemplate2024.Application.Account.Queries.GetUserDetails;
 using ProjectTemplate2024.Contracts.Account.GetUserDetails;
 using ProjectTemplate2024.Domain.Entities;
@@ -10,12 +9,6 @@ namespace ProjectTemplate2024.Application.Tests.Api.Tests.Common.Mapping;
 
 public class UserMappingConfigTests
 {
-    public UserMappingConfigTests()
-    {
-        var config = TypeAdapterConfig.GlobalSettings;
-        UserMappingConfig.AddConfig(config);
-    }
-
     [Fact]
     public void GetUserDetailsResult_ShouldMapTo_GetUserDetailsResponse_WithNullToken()
     {
@@ -30,7 +23,7 @@ public class UserMappingConfigTests
 
         var src = new GetUserDetailsResult(user, user.AvatarFileName);
 
-        var result = src.Adapt<GetUserDetailsResponse>();
+        var result = src.ToResponse();
 
         result.Id.ShouldBe(user.Id);
         result.DisplayName.ShouldBe(user.DisplayName);
@@ -51,7 +44,7 @@ public class UserMappingConfigTests
 
         var src = new GetUserDetailsResult(user, user.AvatarFileName);
 
-        var result = src.Adapt<GetUserDetailsResponse>();
+        var result = src.ToResponse();
 
         result.Id.ShouldBe(user.Id);
         result.DisplayName.ShouldBe(user.DisplayName);
