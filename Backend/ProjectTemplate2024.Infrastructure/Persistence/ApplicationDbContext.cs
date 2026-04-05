@@ -15,7 +15,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public ApplicationDbContext(
         DbContextOptions<ApplicationDbContext> options,
         IDateTimeProvider dateTimeProvider
-    ) : base(options)
+    )
+        : base(options)
     {
         _dateTimeProvider = dateTimeProvider;
     }
@@ -64,8 +65,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
                 case EntityState.Deleted:
                     if (entry.Entity is IDeletable deletableEntity)
                     {
-                        deletableEntity.DeletedOn =
-                            _dateTimeProvider.UtcNow;
+                        deletableEntity.DeletedOn = _dateTimeProvider.UtcNow;
                         deletableEntity.IsDeleted = true;
                         entry.State = EntityState.Modified;
                     }

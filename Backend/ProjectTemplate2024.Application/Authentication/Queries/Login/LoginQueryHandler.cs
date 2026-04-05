@@ -51,13 +51,19 @@ public class LoginQueryHandler
             return Errors.Authentication.EmailNotConfirmed;
         }
 
-        if (!await _userRepository.CheckPasswordAsync(user, qry.Password, cancellationToken))
+        if (
+            !await _userRepository.CheckPasswordAsync(
+                user,
+                qry.Password,
+                cancellationToken
+            )
+        )
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var oldRefreshToken = user.RefreshTokens
-            .Where(x => x.IsActive)
+        var oldRefreshToken = user
+            .RefreshTokens.Where(x => x.IsActive)
             .MaxBy(x => x.CreatedOn);
 
         // replace old refresh token with a new one and save

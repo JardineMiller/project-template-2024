@@ -34,11 +34,16 @@ public class DeleteAvatarCommandHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new DeleteAvatarCommand("file.png"), CancellationToken.None);
+        var result = await handler.Handle(
+            new DeleteAvatarCommand("file.png"),
+            CancellationToken.None
+        );
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors.First().Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
     }
 
     [Fact]
@@ -57,11 +62,16 @@ public class DeleteAvatarCommandHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new DeleteAvatarCommand("file.png"), CancellationToken.None);
+        var result = await handler.Handle(
+            new DeleteAvatarCommand("file.png"),
+            CancellationToken.None
+        );
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors.First().Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
     }
 
     [Fact]
@@ -71,9 +81,17 @@ public class DeleteAvatarCommandHandlerTests
         var user = new User { Id = UserId, AvatarFileName = "old.png" };
 
         _currentUserServiceMock.Setup(x => x.UserId).Returns(UserId);
-        _userRepositoryMock.Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>())).ReturnsAsync(user);
-        _blobStorageServiceMock.Setup(x => x.DeleteFile(UserId, "new.png", It.IsAny<CancellationToken>())).ReturnsAsync(true);
-        _blobStorageServiceMock.Setup(x => x.GetAvatarUrl(user.Id, null)).Returns("https://cdn/avatar/null");
+        _userRepositoryMock
+            .Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(user);
+        _blobStorageServiceMock
+            .Setup(x =>
+                x.DeleteFile(UserId, "new.png", It.IsAny<CancellationToken>())
+            )
+            .ReturnsAsync(true);
+        _blobStorageServiceMock
+            .Setup(x => x.GetAvatarUrl(user.Id, null))
+            .Returns("https://cdn/avatar/null");
 
         var handler = new DeleteAvatarCommandHandler(
             _userRepositoryMock.Object,
@@ -84,11 +102,24 @@ public class DeleteAvatarCommandHandlerTests
         var fullUrl = "https://cdn.example.com/0001/images/new.png";
 
         // Act
-        var result = await handler.Handle(new DeleteAvatarCommand(fullUrl), CancellationToken.None);
+        var result = await handler.Handle(
+            new DeleteAvatarCommand(fullUrl),
+            CancellationToken.None
+        );
 
         // Assert
-        _blobStorageServiceMock.Verify(x => x.DeleteFile(UserId, "new.png", It.IsAny<CancellationToken>()), Times.Once);
-        _userRepositoryMock.Verify(x => x.UpdateUser(It.Is<User>(u => u.AvatarFileName == null), It.IsAny<CancellationToken>()), Times.Once);
+        _blobStorageServiceMock.Verify(
+            x => x.DeleteFile(UserId, "new.png", It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+        _userRepositoryMock.Verify(
+            x =>
+                x.UpdateUser(
+                    It.Is<User>(u => u.AvatarFileName == null),
+                    It.IsAny<CancellationToken>()
+                ),
+            Times.Once
+        );
         result.Value.AvatarUrl.ShouldBe("https://cdn/avatar/null");
     }
 }

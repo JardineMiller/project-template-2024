@@ -25,7 +25,7 @@ public class UpdateUserCommandValidationTests
         var command = new UpdateUserCommand
         {
             Email = invalidEmail!,
-            DisplayName = "Valid Name"
+            DisplayName = "Valid Name",
         };
 
         var result = _validator.TestValidate(command);
@@ -41,12 +41,14 @@ public class UpdateUserCommandValidationTests
     [InlineData("    ")]
     [InlineData("a")]
     [InlineData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")] // 51 chars
-    public void Should_Have_Error_When_DisplayName_Is_Invalid(string? invalidDisplayName)
+    public void Should_Have_Error_When_DisplayName_Is_Invalid(
+        string? invalidDisplayName
+    )
     {
         var command = new UpdateUserCommand
         {
             Email = "valid@user.com",
-            DisplayName = invalidDisplayName!
+            DisplayName = invalidDisplayName!,
         };
 
         var result = _validator.TestValidate(command);
@@ -63,7 +65,7 @@ public class UpdateUserCommandValidationTests
         {
             Email = "valid@user.com",
             DisplayName = "Valid",
-            Bio = longBio
+            Bio = longBio,
         };
 
         var result = _validator.TestValidate(command);
@@ -81,7 +83,7 @@ public class UpdateUserCommandValidationTests
         {
             Email = "valid@user.com",
             DisplayName = "Valid",
-            AvatarUrl = invalidUrl
+            AvatarUrl = invalidUrl,
         };
 
         var result = _validator.TestValidate(command);
@@ -99,7 +101,7 @@ public class UpdateUserCommandValidationTests
         {
             Email = "valid@user.com",
             DisplayName = "Valid",
-            AvatarUrl = url
+            AvatarUrl = url,
         };
 
         var result = _validator.TestValidate(command);
@@ -115,7 +117,7 @@ public class UpdateUserCommandValidationTests
             Email = "test@user.com",
             DisplayName = "Valid User",
             Bio = "Short bio",
-            AvatarUrl = null
+            AvatarUrl = null,
         };
 
         var result = _validator.TestValidate(command);

@@ -34,11 +34,16 @@ public class GetUserDetailsQueryHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new GetUserDetailsQuery(), CancellationToken.None);
+        var result = await handler.Handle(
+            new GetUserDetailsQuery(),
+            CancellationToken.None
+        );
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors.First().Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
     }
 
     [Fact]
@@ -46,7 +51,9 @@ public class GetUserDetailsQueryHandlerTests
     {
         // Arrange
         _currentUserServiceMock.Setup(x => x.UserId).Returns(UserId);
-        _userRepositoryMock.Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>())).ReturnsAsync((User?)null);
+        _userRepositoryMock
+            .Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((User?)null);
 
         var handler = new GetUserDetailsQueryHandler(
             _userRepositoryMock.Object,
@@ -55,11 +62,16 @@ public class GetUserDetailsQueryHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new GetUserDetailsQuery(), CancellationToken.None);
+        var result = await handler.Handle(
+            new GetUserDetailsQuery(),
+            CancellationToken.None
+        );
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors.First().Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
     }
 
     [Fact]
@@ -69,8 +81,12 @@ public class GetUserDetailsQueryHandlerTests
         _currentUserServiceMock.Setup(x => x.UserId).Returns(UserId);
 
         var user = new User { Id = UserId, AvatarFileName = null };
-        _userRepositoryMock.Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>())).ReturnsAsync(user);
-        _blobStorageServiceMock.Setup(x => x.GetAvatarUrl(user.Id, user.AvatarFileName)).Returns("https://cdn/avatar/null");
+        _userRepositoryMock
+            .Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(user);
+        _blobStorageServiceMock
+            .Setup(x => x.GetAvatarUrl(user.Id, user.AvatarFileName))
+            .Returns("https://cdn/avatar/null");
 
         var handler = new GetUserDetailsQueryHandler(
             _userRepositoryMock.Object,
@@ -79,10 +95,12 @@ public class GetUserDetailsQueryHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new GetUserDetailsQuery(), CancellationToken.None);
+        var result = await handler.Handle(
+            new GetUserDetailsQuery(),
+            CancellationToken.None
+        );
 
         // Assert
         result.Value.AvatarUrl.ShouldBe("https://cdn/avatar/null");
     }
-
 }

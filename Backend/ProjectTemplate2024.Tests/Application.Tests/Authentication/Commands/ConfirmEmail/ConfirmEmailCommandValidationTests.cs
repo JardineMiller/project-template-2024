@@ -24,14 +24,9 @@ public class ConfirmEmailCommandValidationTests
     [InlineData(
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     )]
-    public void Should_Have_Error_When_Email_Is_Invalid(
-        string? invalidEmail
-    )
+    public void Should_Have_Error_When_Email_Is_Invalid(string? invalidEmail)
     {
-        var command = new ConfirmEmailCommand(
-            invalidEmail!,
-            ValidToken
-        );
+        var command = new ConfirmEmailCommand(invalidEmail!, ValidToken);
 
         var result = _validator.TestValidate(command);
 
@@ -44,14 +39,9 @@ public class ConfirmEmailCommandValidationTests
     [InlineData(null)]
     [InlineData(" ")]
     [InlineData("    ")]
-    public void Should_Have_Error_When_Token_Is_Invalid(
-        string? invalidToken
-    )
+    public void Should_Have_Error_When_Token_Is_Invalid(string? invalidToken)
     {
-        var command = new ConfirmEmailCommand(
-            ValidEmail,
-            invalidToken!
-        );
+        var command = new ConfirmEmailCommand(ValidEmail, invalidToken!);
 
         var result = _validator.TestValidate(command);
 

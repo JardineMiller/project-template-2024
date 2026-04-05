@@ -1,8 +1,8 @@
+using System;
+using System.IO;
 using ErrorOr;
 using MediatR;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
-using System.IO;
-using System;
 using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
@@ -39,10 +39,7 @@ public class UpdateUserCommandHandler
             return Errors.Common.NotFound(nameof(User));
         }
 
-        var user = await _userRepository.GetUserById(
-            userId,
-            cancellationToken
-        );
+        var user = await _userRepository.GetUserById(userId, cancellationToken);
 
         if (user is null)
         {

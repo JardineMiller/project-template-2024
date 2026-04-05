@@ -37,20 +37,16 @@ public static class DependencyInjection
             .GetSection(ClientAppSettings.SectionName + ":Url")
             .Value;
 
-        return services.AddCors(
-            options =>
+        return services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
             {
-                options.AddDefaultPolicy(
-                    policy =>
-                    {
-                        policy
-                            .WithOrigins(clientUrl)
-                            .AllowCredentials()
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    }
-                );
-            }
-        );
+                policy
+                    .WithOrigins(clientUrl)
+                    .AllowCredentials()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
     }
 }

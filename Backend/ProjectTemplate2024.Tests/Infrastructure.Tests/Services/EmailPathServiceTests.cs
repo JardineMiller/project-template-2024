@@ -9,16 +9,13 @@ namespace ProjectTemplate2024.Application.Tests.Infrastructure.Tests.Services;
 
 public class EmailPathServiceTests
 {
-    private readonly Mock<IWebHostEnvironment> _webHostEnvironmentMock =
-        new();
+    private readonly Mock<IWebHostEnvironment> _webHostEnvironmentMock = new();
 
     private readonly IEmailPathService _emailPathService;
 
     public EmailPathServiceTests()
     {
-        _webHostEnvironmentMock
-            .Setup(x => x.ContentRootPath)
-            .Returns("Root");
+        _webHostEnvironmentMock.Setup(x => x.ContentRootPath).Returns("Root");
 
         _emailPathService = new EmailPathService(
             _webHostEnvironmentMock.Object

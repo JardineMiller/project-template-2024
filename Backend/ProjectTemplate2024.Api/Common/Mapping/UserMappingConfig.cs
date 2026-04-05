@@ -1,8 +1,8 @@
 ﻿using Mapster;
-using ProjectTemplate2024.Application.Account.Commands.UpdateUser;
-using ProjectTemplate2024.Application.Account.Queries.GetUserDetails;
 using ProjectTemplate2024.Application.Account.Commands.DeleteAvatar;
+using ProjectTemplate2024.Application.Account.Commands.UpdateUser;
 using ProjectTemplate2024.Application.Account.Commands.UploadUserAvatar;
+using ProjectTemplate2024.Application.Account.Queries.GetUserDetails;
 using ProjectTemplate2024.Contracts.Account.GetUserDetails;
 using ProjectTemplate2024.Contracts.Account.UpdateUser;
 

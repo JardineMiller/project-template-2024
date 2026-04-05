@@ -13,17 +13,18 @@ namespace ProjectTemplate2024.Application.Tests.Application.Tests.PipelineBehavi
 
 public class RequestValidationBehaviourTests
 {
-    private readonly List<IValidator<LoginQuery>> _validators =
-        new() { new LoginQueryValidation() };
+    private readonly List<IValidator<LoginQuery>> _validators = new()
+    {
+        new LoginQueryValidation(),
+    };
 
     [Fact]
     public async Task Should_NotContainValidationErrors_If_NoValidatorsProvided()
     {
-        var requestValidationBehaviour =
-            new RequestValidationBehaviour<
-                LoginQuery,
-                ErrorOr<AuthenticationResult>
-            >(new List<IValidator<LoginQuery>>());
+        var requestValidationBehaviour = new RequestValidationBehaviour<
+            LoginQuery,
+            ErrorOr<AuthenticationResult>
+        >(new List<IValidator<LoginQuery>>());
 
         var query = new LoginQuery("test@email.com", "password123!");
 
@@ -31,9 +32,7 @@ public class RequestValidationBehaviourTests
             query,
             () =>
             {
-                return Task.Run(
-                    () => new ErrorOr<AuthenticationResult>()
-                );
+                return Task.Run(() => new ErrorOr<AuthenticationResult>());
             },
             CancellationToken.None
         );
@@ -44,11 +43,10 @@ public class RequestValidationBehaviourTests
     [Fact]
     public async Task Should_NotContainValidationErrors_If_ValidatorsProvided_ButInputIsValid()
     {
-        var requestValidationBehaviour =
-            new RequestValidationBehaviour<
-                LoginQuery,
-                ErrorOr<AuthenticationResult>
-            >(_validators);
+        var requestValidationBehaviour = new RequestValidationBehaviour<
+            LoginQuery,
+            ErrorOr<AuthenticationResult>
+        >(_validators);
 
         var query = new LoginQuery("test@email.com", "Password123!");
 
@@ -56,9 +54,7 @@ public class RequestValidationBehaviourTests
             query,
             () =>
             {
-                return Task.Run(
-                    () => new ErrorOr<AuthenticationResult>()
-                );
+                return Task.Run(() => new ErrorOr<AuthenticationResult>());
             },
             CancellationToken.None
         );
@@ -69,11 +65,10 @@ public class RequestValidationBehaviourTests
     [Fact]
     public async Task Should_ContainValidationErrors_If_InputIsInvalid()
     {
-        var requestValidationBehaviour =
-            new RequestValidationBehaviour<
-                LoginQuery,
-                ErrorOr<AuthenticationResult>
-            >(_validators);
+        var requestValidationBehaviour = new RequestValidationBehaviour<
+            LoginQuery,
+            ErrorOr<AuthenticationResult>
+        >(_validators);
 
         var query = new LoginQuery("test@email.com", "");
 
@@ -81,9 +76,7 @@ public class RequestValidationBehaviourTests
             query,
             () =>
             {
-                return Task.Run(
-                    () => new ErrorOr<AuthenticationResult>()
-                );
+                return Task.Run(() => new ErrorOr<AuthenticationResult>());
             },
             CancellationToken.None
         );

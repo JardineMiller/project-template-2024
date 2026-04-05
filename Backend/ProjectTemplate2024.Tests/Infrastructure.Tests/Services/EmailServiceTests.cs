@@ -12,11 +12,12 @@ public class EmailServiceTests
 {
     private readonly IEmailService _emailService;
     private readonly Mock<IEmailSender> _emailSenderMock = new();
-    private readonly Mock<IEmailPathService> _emailPathServiceMock =
-        new();
+    private readonly Mock<IEmailPathService> _emailPathServiceMock = new();
 
-    private readonly ClientAppSettings _clientAppSettings =
-        new() { Url = "fake-url" };
+    private readonly ClientAppSettings _clientAppSettings = new()
+    {
+        Url = "fake-url",
+    };
 
     public EmailServiceTests()
     {
@@ -45,11 +46,7 @@ public class EmailServiceTests
         var firstName = "first name";
         var token = "token";
 
-        _emailService.SendConfirmationEmail(
-            toEmail,
-            firstName,
-            token
-        );
+        _emailService.SendConfirmationEmail(toEmail, firstName, token);
 
         _emailSenderMock.Verify(
             x =>

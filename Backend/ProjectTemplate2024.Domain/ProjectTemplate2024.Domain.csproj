@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,7 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="ErrorOr" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="10.0.5" />
+    <PackageReference
+      Include="Microsoft.Extensions.Identity.Stores"
+      Version="10.0.5"
+    />
   </ItemGroup>
-
 </Project>

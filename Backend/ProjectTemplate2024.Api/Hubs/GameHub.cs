@@ -41,14 +41,9 @@ public class GameHub : Hub<IGameHub>
 
     public Task JoinGame(string gameCode, string user)
     {
-        var groupTask = Groups.AddToGroupAsync(
-            Context.ConnectionId,
-            gameCode
-        );
+        var groupTask = Groups.AddToGroupAsync(Context.ConnectionId, gameCode);
 
-        var messageTask = Clients
-            .Group(gameCode)
-            .PlayerConnected(user, user);
+        var messageTask = Clients.Group(gameCode).PlayerConnected(user, user);
 
         return Task.WhenAll(groupTask, messageTask);
     }

@@ -24,5 +24,9 @@ public interface IUserRepository
 
     Task UpdateUser(User user, CancellationToken cancellationToken);
 
-    Task<bool> CheckPasswordAsync(User user, string password, CancellationToken cancellationToken);
+    Task<bool> CheckPasswordAsync(
+        User user,
+        string password,
+        CancellationToken cancellationToken
+    );
 }

@@ -23,9 +23,7 @@ public class LoginQueryValidationTests
     [InlineData("    ")]
     [InlineData("a")]
     [InlineData("just_a_random_string")]
-    private void Should_Have_Error_When_Email_Is_Invalid(
-        string? invalidEmail
-    )
+    private void Should_Have_Error_When_Email_Is_Invalid(string? invalidEmail)
     {
         var query = new LoginQuery(invalidEmail!, ValidPassword);
         var result = _validator.TestValidate(query);

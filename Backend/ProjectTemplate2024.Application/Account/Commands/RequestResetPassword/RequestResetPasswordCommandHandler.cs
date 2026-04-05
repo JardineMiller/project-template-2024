@@ -10,9 +10,9 @@ namespace ProjectTemplate2024.Application.Account.Commands.RequestResetPassword;
 
 public class RequestResetPasswordCommandHandler
     : IRequestHandler<
-          RequestResetPasswordCommand,
-          ErrorOr<RequestResetPasswordResult>
-      >
+        RequestResetPasswordCommand,
+        ErrorOr<RequestResetPasswordResult>
+    >
 {
     private readonly UserManager<User> _userManager;
     private readonly IEmailService _emailService;
@@ -31,19 +31,14 @@ public class RequestResetPasswordCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var user = await _userManager.FindByEmailAsync(
-            request.Email
-        );
+        var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user is null)
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var token =
-            await _userManager.GeneratePasswordResetTokenAsync(
-                user
-            );
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
         var encodedToken = HttpUtility.UrlEncode(token);
 

@@ -16,7 +16,8 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
                 maxLength: 50,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "FirstName",
@@ -25,19 +26,41 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
                 maxLength: 50,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.CreateTable(
                 name: "RefreshTokens",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Expires = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    RevokedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    ReplacedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(
+                        type: "uniqueidentifier",
+                        nullable: false
+                    ),
+                    UserId = table.Column<string>(
+                        type: "nvarchar(450)",
+                        nullable: false
+                    ),
+                    Token = table.Column<string>(
+                        type: "nvarchar(max)",
+                        nullable: false
+                    ),
+                    Expires = table.Column<DateTimeOffset>(
+                        type: "datetimeoffset",
+                        nullable: false
+                    ),
+                    CreatedOn = table.Column<DateTimeOffset>(
+                        type: "datetimeoffset",
+                        nullable: false
+                    ),
+                    RevokedOn = table.Column<DateTimeOffset>(
+                        type: "datetimeoffset",
+                        nullable: true
+                    ),
+                    ReplacedBy = table.Column<string>(
+                        type: "nvarchar(max)",
+                        nullable: true
+                    ),
                 },
                 constraints: table =>
                 {
@@ -47,19 +70,21 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
                 table: "RefreshTokens",
-                column: "UserId");
+                column: "UserId"
+            );
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "RefreshTokens");
+            migrationBuilder.DropTable(name: "RefreshTokens");
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",
@@ -68,7 +93,8 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "FirstName",
@@ -77,7 +103,8 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
         }
     }
 }

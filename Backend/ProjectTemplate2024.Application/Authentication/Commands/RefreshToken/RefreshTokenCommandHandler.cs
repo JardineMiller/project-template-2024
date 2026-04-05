@@ -45,8 +45,8 @@ public class RefreshTokenCommandHandler
             return Errors.Common.NotFound(nameof(User));
         }
 
-        var oldRefreshToken = user.RefreshTokens.Single(
-            x => x.Token == request.Token
+        var oldRefreshToken = user.RefreshTokens.Single(x =>
+            x.Token == request.Token
         );
 
         if (!oldRefreshToken.IsActive)

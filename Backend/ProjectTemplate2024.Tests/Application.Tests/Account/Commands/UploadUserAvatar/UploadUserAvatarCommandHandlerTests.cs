@@ -34,7 +34,10 @@ public class UploadUserAvatarCommandHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new UploadUserAvatarCommand(fileMock.Object), CancellationToken.None);
+        var result = await handler.Handle(
+            new UploadUserAvatarCommand(fileMock.Object),
+            CancellationToken.None
+        );
 
         // Assert
         result.Errors.Count.ShouldBe(1);
@@ -54,9 +57,23 @@ public class UploadUserAvatarCommandHandlerTests
 
         var user = new User { Id = UserId, AvatarFileName = "old.png" };
 
-        _blobStorageServiceMock.Setup(x => x.UploadFile(It.IsAny<IFormFile>(), UserId, It.IsAny<CancellationToken>())).ReturnsAsync(uploadedUrl);
-        _userRepositoryMock.Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>())).ReturnsAsync(user);
-        _userRepositoryMock.Setup(x => x.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        _blobStorageServiceMock
+            .Setup(x =>
+                x.UploadFile(
+                    It.IsAny<IFormFile>(),
+                    UserId,
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(uploadedUrl);
+        _userRepositoryMock
+            .Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(user);
+        _userRepositoryMock
+            .Setup(x =>
+                x.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>())
+            )
+            .Returns(Task.CompletedTask);
 
         var handler = new UploadUserAvatarCommandHandler(
             _blobStorageServiceMock.Object,
@@ -65,11 +82,29 @@ public class UploadUserAvatarCommandHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new UploadUserAvatarCommand(fileMock.Object), CancellationToken.None);
+        var result = await handler.Handle(
+            new UploadUserAvatarCommand(fileMock.Object),
+            CancellationToken.None
+        );
 
         // Assert
-        _blobStorageServiceMock.Verify(x => x.UploadFile(It.IsAny<IFormFile>(), UserId, It.IsAny<CancellationToken>()), Times.Once);
-        _userRepositoryMock.Verify(x => x.UpdateUser(It.Is<User>(u => u.AvatarFileName == "new.png"), It.IsAny<CancellationToken>()), Times.Once);
+        _blobStorageServiceMock.Verify(
+            x =>
+                x.UploadFile(
+                    It.IsAny<IFormFile>(),
+                    UserId,
+                    It.IsAny<CancellationToken>()
+                ),
+            Times.Once
+        );
+        _userRepositoryMock.Verify(
+            x =>
+                x.UpdateUser(
+                    It.Is<User>(u => u.AvatarFileName == "new.png"),
+                    It.IsAny<CancellationToken>()
+                ),
+            Times.Once
+        );
         result.Value.ImageUrl.ShouldBe(uploadedUrl);
     }
 }

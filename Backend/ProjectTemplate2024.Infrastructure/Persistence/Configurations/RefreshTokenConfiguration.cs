@@ -4,8 +4,7 @@ using ProjectTemplate2024.Domain.Entities;
 
 namespace ProjectTemplate2024.Infrastructure.Persistence.Configurations;
 
-public class RefreshTokenConfiguration
-    : IEntityTypeConfiguration<RefreshToken>
+public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 {
     public void Configure(EntityTypeBuilder<RefreshToken> builder)
     {

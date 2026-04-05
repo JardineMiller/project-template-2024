@@ -10,42 +10,46 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "FirstName",
-                table: "AspNetUsers");
+                table: "AspNetUsers"
+            );
 
             migrationBuilder.RenameColumn(
                 name: "LastName",
                 table: "AspNetUsers",
-                newName: "DisplayName");
+                newName: "DisplayName"
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "AvatarFileName",
                 table: "AspNetUsers",
                 type: "nvarchar(250)",
                 maxLength: 250,
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Bio",
                 table: "AspNetUsers",
                 type: "nvarchar(250)",
                 maxLength: 250,
-                nullable: true);
+                nullable: true
+            );
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
                 name: "AvatarFileName",
-                table: "AspNetUsers");
+                table: "AspNetUsers"
+            );
 
-            migrationBuilder.DropColumn(
-                name: "Bio",
-                table: "AspNetUsers");
+            migrationBuilder.DropColumn(name: "Bio", table: "AspNetUsers");
 
             migrationBuilder.RenameColumn(
                 name: "DisplayName",
                 table: "AspNetUsers",
-                newName: "LastName");
+                newName: "LastName"
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "FirstName",
@@ -53,7 +57,8 @@ namespace ProjectTemplate2024.Infrastructure.Migrations
                 type: "nvarchar(50)",
                 maxLength: 50,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
         }
     }
 }

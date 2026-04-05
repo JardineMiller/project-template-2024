@@ -37,10 +37,7 @@ public class GetUserDetailsQueryHandler
             return Errors.Common.NotFound(nameof(User));
         }
 
-        var user = await _userRepository.GetUserById(
-            userId,
-            cancellationToken
-        );
+        var user = await _userRepository.GetUserById(userId, cancellationToken);
 
         if (user is null)
         {

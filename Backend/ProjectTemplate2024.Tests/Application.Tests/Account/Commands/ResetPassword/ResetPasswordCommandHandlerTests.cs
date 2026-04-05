@@ -44,13 +44,12 @@ public class ResetPasswordCommandHandlerTests
             .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
-            .Setup(
-                x =>
-                    x.ChangePasswordAsync(
-                            It.IsAny<User>(),
-                            ValidOldPassword,
-                            ValidNewPassword
-                    )
+            .Setup(x =>
+                x.ChangePasswordAsync(
+                    It.IsAny<User>(),
+                    ValidOldPassword,
+                    ValidNewPassword
+                )
             )
             .ReturnsAsync(IdentityResult.Success);
 
@@ -62,9 +61,7 @@ public class ResetPasswordCommandHandlerTests
         );
 
         // Act
-        var handler = new ResetPasswordCommandHandler(
-            _userManagerMock.Object
-        );
+        var handler = new ResetPasswordCommandHandler(_userManagerMock.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -89,22 +86,18 @@ public class ResetPasswordCommandHandlerTests
         );
 
         // Act
-        var handler = new ResetPasswordCommandHandler(
-            _userManagerMock.Object
-        );
+        var handler = new ResetPasswordCommandHandler(_userManagerMock.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);
-        result.Errors
-            .First()
-            .Code.ShouldBe(
-                Errors.Authentication.InvalidCredentials.Code
-            );
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
 
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );
@@ -119,13 +112,12 @@ public class ResetPasswordCommandHandlerTests
             .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
-            .Setup(
-                x =>
-                    x.ChangePasswordAsync(
-                        It.IsAny<User>(),
-                        ValidOldPassword,
-                        ValidNewPassword
-                    )
+            .Setup(x =>
+                x.ChangePasswordAsync(
+                    It.IsAny<User>(),
+                    ValidOldPassword,
+                    ValidNewPassword
+                )
             )
             .ReturnsAsync(IdentityResult.Failed());
 
@@ -137,22 +129,18 @@ public class ResetPasswordCommandHandlerTests
         );
 
         // Act
-        var handler = new ResetPasswordCommandHandler(
-            _userManagerMock.Object
-        );
+        var handler = new ResetPasswordCommandHandler(_userManagerMock.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);
-        result.Errors
-            .First()
-            .Code.ShouldBe(
-                Errors.Authentication.InvalidCredentials.Code
-            );
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
 
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );
@@ -167,13 +155,12 @@ public class ResetPasswordCommandHandlerTests
             .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
-            .Setup(
-                x =>
-                    x.ResetPasswordAsync(
-                        It.IsAny<User>(),
-                        ValidToken,
-                        ValidNewPassword
-                    )
+            .Setup(x =>
+                x.ResetPasswordAsync(
+                    It.IsAny<User>(),
+                    ValidToken,
+                    ValidNewPassword
+                )
             )
             .ReturnsAsync(IdentityResult.Success);
 
@@ -184,9 +171,7 @@ public class ResetPasswordCommandHandlerTests
         );
 
         // Act
-        var handler = new ResetPasswordCommandHandler(
-            _userManagerMock.Object
-        );
+        var handler = new ResetPasswordCommandHandler(_userManagerMock.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -210,22 +195,18 @@ public class ResetPasswordCommandHandlerTests
         );
 
         // Act
-        var handler = new ResetPasswordCommandHandler(
-            _userManagerMock.Object
-        );
+        var handler = new ResetPasswordCommandHandler(_userManagerMock.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);
-        result.Errors
-            .First()
-            .Code.ShouldBe(
-                Errors.Authentication.InvalidCredentials.Code
-            );
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
 
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );
@@ -240,13 +221,12 @@ public class ResetPasswordCommandHandlerTests
             .ReturnsAsync(new User { Email = ValidEmail });
 
         _userManagerMock
-            .Setup(
-                x =>
-                    x.ResetPasswordAsync(
-                        It.IsAny<User>(),
-                        ValidToken,
-                        ValidNewPassword
-                    )
+            .Setup(x =>
+                x.ResetPasswordAsync(
+                    It.IsAny<User>(),
+                    ValidToken,
+                    ValidNewPassword
+                )
             )
             .ReturnsAsync(IdentityResult.Failed());
 
@@ -257,22 +237,18 @@ public class ResetPasswordCommandHandlerTests
         );
 
         // Act
-        var handler = new ResetPasswordCommandHandler(
-            _userManagerMock.Object
-        );
+        var handler = new ResetPasswordCommandHandler(_userManagerMock.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.IsError.ShouldBe(true);
-        result.Errors
-            .First()
-            .Code.ShouldBe(
-                Errors.Authentication.InvalidCredentials.Code
-            );
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
 
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );

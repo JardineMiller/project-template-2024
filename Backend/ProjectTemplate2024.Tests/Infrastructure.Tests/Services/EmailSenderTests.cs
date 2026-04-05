@@ -28,15 +28,9 @@ public class EmailSenderTests
             .GetSection(EmailSettings.SectionName)
             .Get<EmailSettings>();
 
-        _emailSender = new EmailSender(
-            Options.Create(emailSettings!)
-        );
+        _emailSender = new EmailSender(Options.Create(emailSettings!));
 
-        var result = _emailSender.SendEmail(
-            "test@test.com",
-            "Test",
-            "Test"
-        );
+        var result = _emailSender.SendEmail("test@test.com", "Test", "Test");
 
         result.ShouldBe(true);
     }
@@ -52,18 +46,12 @@ public class EmailSenderTests
             Port = 2525,
             DisplayName = "ProjectTemplate2024 - Development",
             Username = "",
-            Password = ""
+            Password = "",
         };
 
-        _emailSender = new EmailSender(
-            Options.Create(emailSettings)
-        );
+        _emailSender = new EmailSender(Options.Create(emailSettings));
 
-        var result = _emailSender.SendEmail(
-            "test@test.com",
-            "Test",
-            "Test"
-        );
+        var result = _emailSender.SendEmail("test@test.com", "Test", "Test");
 
         result.ShouldBe(false);
     }

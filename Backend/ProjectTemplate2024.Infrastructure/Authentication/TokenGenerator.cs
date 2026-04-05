@@ -39,7 +39,7 @@ public class TokenGenerator : ITokenGenerator
             new(JwtRegisteredClaimNames.Sub, user.Id),
             new(JwtRegisteredClaimNames.GivenName, user.DisplayName!),
             new(JwtRegisteredClaimNames.Email, user.Email!),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
         var securityToken = new JwtSecurityToken(

@@ -26,10 +26,7 @@ public class AccountMappingConfig
                 dest => dest.OldPassword!
             );
 
-        config.NewConfig<
-            ResetPasswordResult,
-            ResetPasswordResponse
-        >();
+        config.NewConfig<ResetPasswordResult, ResetPasswordResponse>();
 
         config.NewConfig<
             RequestResetPasswordRequest,

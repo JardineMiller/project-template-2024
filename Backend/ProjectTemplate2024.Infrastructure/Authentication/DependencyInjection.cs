@@ -25,24 +25,22 @@ public static class DependencyInjection
             .AddAuthentication(
                 defaultScheme: JwtBearerDefaults.AuthenticationScheme
             )
-            .AddJwtBearer(
-                options =>
-                {
-                    options.TokenValidationParameters =
-                        new TokenValidationParameters
-                        {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidateLifetime = true,
-                            ValidIssuer = jwtSettings.Issuer,
-                            ValidAudience = jwtSettings.Audience,
-                            IssuerSigningKey = new SymmetricSecurityKey(
-                                Encoding.UTF8.GetBytes(jwtSettings.Secret)
-                            ),
-                        };
-                }
-            );
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters =
+                    new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidAudience = jwtSettings.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(jwtSettings.Secret)
+                        ),
+                    };
+            });
 
         return services;
     }

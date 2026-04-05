@@ -19,14 +19,12 @@ public static class DependencyInjection
         services.AddSingleton(Options.Create(databaseSettings));
 
         services
-            .AddDbContext<ApplicationDbContext>(
-                options =>
-                {
-                    options.UseSqlServer(
-                        connectionString: databaseSettings.ConnectionString!
-                    );
-                }
-            )
+            .AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(
+                    connectionString: databaseSettings.ConnectionString!
+                );
+            })
             .ApplyMigrations();
 
         return services;

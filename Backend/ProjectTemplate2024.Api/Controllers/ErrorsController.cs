@@ -10,17 +10,16 @@ public class ErrorsController : ApiController
     [Route("/error")]
     public IActionResult Error()
     {
-        Exception? exception = HttpContext.Features
-            .Get<IExceptionHandlerFeature>()
+        Exception? exception = HttpContext
+            .Features.Get<IExceptionHandlerFeature>()
             ?.Error;
 
         var (statusCode, message) = exception switch
         {
-            _
-              => (
-                  StatusCodes.Status500InternalServerError,
-                  "An unexpected error occured"
-              )
+            _ => (
+                StatusCodes.Status500InternalServerError,
+                "An unexpected error occured"
+            ),
         };
 
         return Problem(statusCode: statusCode, title: message);

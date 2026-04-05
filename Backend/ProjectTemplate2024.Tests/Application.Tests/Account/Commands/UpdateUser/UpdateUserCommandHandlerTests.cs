@@ -34,11 +34,16 @@ public class UpdateUserCommandHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new UpdateUserCommand(), CancellationToken.None);
+        var result = await handler.Handle(
+            new UpdateUserCommand(),
+            CancellationToken.None
+        );
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors.First().Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
     }
 
     [Fact]
@@ -46,7 +51,9 @@ public class UpdateUserCommandHandlerTests
     {
         // Arrange
         _currentUserServiceMock.Setup(x => x.UserId).Returns(UserId);
-        _userRepositoryMock.Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>())).ReturnsAsync((User?)null);
+        _userRepositoryMock
+            .Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((User?)null);
 
         var handler = new UpdateUserCommandHandler(
             _userRepositoryMock.Object,
@@ -55,11 +62,16 @@ public class UpdateUserCommandHandlerTests
         );
 
         // Act
-        var result = await handler.Handle(new UpdateUserCommand(), CancellationToken.None);
+        var result = await handler.Handle(
+            new UpdateUserCommand(),
+            CancellationToken.None
+        );
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors.First().Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
+        result
+            .Errors.First()
+            .Code.ShouldBe(Errors.Common.NotFound(nameof(User)).Code);
     }
 
     [Fact]
@@ -68,13 +80,31 @@ public class UpdateUserCommandHandlerTests
         // Arrange
         _currentUserServiceMock.Setup(x => x.UserId).Returns(UserId);
 
-        var user = new User { Id = UserId, AvatarFileName = "old.png", Email = "old@example.com" };
+        var user = new User
+        {
+            Id = UserId,
+            AvatarFileName = "old.png",
+            Email = "old@example.com",
+        };
 
-        _userRepositoryMock.Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>())).ReturnsAsync(user);
-        _userRepositoryMock.Setup(x => x.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-        _blobStorageServiceMock.Setup(x => x.GetAvatarUrl(user.Id, "new.png")).Returns("https://cdn/avatar/new.png");
+        _userRepositoryMock
+            .Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(user);
+        _userRepositoryMock
+            .Setup(x =>
+                x.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>())
+            )
+            .Returns(Task.CompletedTask);
+        _blobStorageServiceMock
+            .Setup(x => x.GetAvatarUrl(user.Id, "new.png"))
+            .Returns("https://cdn/avatar/new.png");
 
-        var request = new UpdateUserCommand { AvatarUrl = "https://cdn.example.com/0001/images/new.png", DisplayName = "Name", Bio = "bio" };
+        var request = new UpdateUserCommand
+        {
+            AvatarUrl = "https://cdn.example.com/0001/images/new.png",
+            DisplayName = "Name",
+            Bio = "bio",
+        };
 
         var handler = new UpdateUserCommandHandler(
             _userRepositoryMock.Object,
@@ -86,7 +116,14 @@ public class UpdateUserCommandHandlerTests
         var result = await handler.Handle(request, CancellationToken.None);
 
         // Assert
-        _userRepositoryMock.Verify(x => x.UpdateUser(It.Is<User>(u => u.AvatarFileName == "new.png"), It.IsAny<CancellationToken>()), Times.Once);
+        _userRepositoryMock.Verify(
+            x =>
+                x.UpdateUser(
+                    It.Is<User>(u => u.AvatarFileName == "new.png"),
+                    It.IsAny<CancellationToken>()
+                ),
+            Times.Once
+        );
         result.Value.AvatarUrl.ShouldBe("https://cdn/avatar/new.png");
     }
 
@@ -96,13 +133,34 @@ public class UpdateUserCommandHandlerTests
         // Arrange
         _currentUserServiceMock.Setup(x => x.UserId).Returns(UserId);
 
-        var user = new User { Id = UserId, AvatarFileName = "old.png", Email = "old@example.com", NormalizedEmail = "OLD@EXAMPLE.COM", UserName = "old@example.com" };
+        var user = new User
+        {
+            Id = UserId,
+            AvatarFileName = "old.png",
+            Email = "old@example.com",
+            NormalizedEmail = "OLD@EXAMPLE.COM",
+            UserName = "old@example.com",
+        };
 
-        _userRepositoryMock.Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>())).ReturnsAsync(user);
-        _userRepositoryMock.Setup(x => x.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-        _blobStorageServiceMock.Setup(x => x.GetAvatarUrl(user.Id, user.AvatarFileName)).Returns("https://cdn/avatar/old.png");
+        _userRepositoryMock
+            .Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(user);
+        _userRepositoryMock
+            .Setup(x =>
+                x.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>())
+            )
+            .Returns(Task.CompletedTask);
+        _blobStorageServiceMock
+            .Setup(x => x.GetAvatarUrl(user.Id, user.AvatarFileName))
+            .Returns("https://cdn/avatar/old.png");
 
-        var request = new UpdateUserCommand { Email = "new@example.com", DisplayName = "Name", Bio = "bio", AvatarUrl = null };
+        var request = new UpdateUserCommand
+        {
+            Email = "new@example.com",
+            DisplayName = "Name",
+            Bio = "bio",
+            AvatarUrl = null,
+        };
 
         var handler = new UpdateUserCommandHandler(
             _userRepositoryMock.Object,
@@ -114,7 +172,18 @@ public class UpdateUserCommandHandlerTests
         var result = await handler.Handle(request, CancellationToken.None);
 
         // Assert
-        _userRepositoryMock.Verify(x => x.UpdateUser(It.Is<User>(u => u.Email == "new@example.com" && u.NormalizedEmail == "NEW@EXAMPLE.COM" && u.UserName == "new@example.com"), It.IsAny<CancellationToken>()), Times.Once);
+        _userRepositoryMock.Verify(
+            x =>
+                x.UpdateUser(
+                    It.Is<User>(u =>
+                        u.Email == "new@example.com"
+                        && u.NormalizedEmail == "NEW@EXAMPLE.COM"
+                        && u.UserName == "new@example.com"
+                    ),
+                    It.IsAny<CancellationToken>()
+                ),
+            Times.Once
+        );
         result.Value.User.Email.ShouldBe("new@example.com");
         result.Value.User.NormalizedEmail.ShouldBe("NEW@EXAMPLE.COM");
         result.Value.User.UserName.ShouldBe("new@example.com");

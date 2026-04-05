@@ -70,13 +70,12 @@ public class LoginQueryHandlerTests
             .Returns(new List<User>().AsQueryable());
 
         _userRepositoryMock
-            .Setup(
-                x =>
-                    x.GetUserByEmail(
-                        InvalidEmail,
-                        It.IsAny<CancellationToken>(),
-                        It.IsAny<Expression<Func<User, object>>[]>()
-                    )
+            .Setup(x =>
+                x.GetUserByEmail(
+                    InvalidEmail,
+                    It.IsAny<CancellationToken>(),
+                    It.IsAny<Expression<Func<User, object>>[]>()
+                )
             )
             .ReturnsAsync((User?)null);
 
@@ -93,11 +92,11 @@ public class LoginQueryHandlerTests
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );
@@ -116,13 +115,19 @@ public class LoginQueryHandlerTests
                     {
                         DisplayName = ValidDisplayName,
                         Email = ValidEmail,
-                        EmailConfirmed = true
-                    }
+                        EmailConfirmed = true,
+                    },
                 }.AsQueryable()
             );
 
         _userRepositoryMock
-            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), InvalidPassword, It.IsAny<CancellationToken>()))
+            .Setup(x =>
+                x.CheckPasswordAsync(
+                    It.IsAny<User>(),
+                    InvalidPassword,
+                    It.IsAny<CancellationToken>()
+                )
+            )
             .ReturnsAsync(false);
 
         var query = new LoginQuery(ValidEmail, InvalidPassword);
@@ -138,11 +143,11 @@ public class LoginQueryHandlerTests
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Code.ShouldBe(Errors.Authentication.InvalidCredentials.Code);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.InvalidCredentials.Description
             );
@@ -159,18 +164,23 @@ public class LoginQueryHandlerTests
         };
 
         _userRepositoryMock
-            .Setup(
-                x =>
-                    x.GetUserByEmail(
-                        ValidEmail,
-                        It.IsAny<CancellationToken>(),
-                        It.IsAny<Expression<Func<User, object>>[]>()
-                    )
+            .Setup(x =>
+                x.GetUserByEmail(
+                    ValidEmail,
+                    It.IsAny<CancellationToken>(),
+                    It.IsAny<Expression<Func<User, object>>[]>()
+                )
             )
             .ReturnsAsync(user);
 
         _userRepositoryMock
-            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), InvalidPassword, It.IsAny<CancellationToken>()))
+            .Setup(x =>
+                x.CheckPasswordAsync(
+                    It.IsAny<User>(),
+                    InvalidPassword,
+                    It.IsAny<CancellationToken>()
+                )
+            )
             .ReturnsAsync(false);
 
         var query = new LoginQuery(ValidEmail, InvalidPassword);
@@ -186,11 +196,11 @@ public class LoginQueryHandlerTests
 
         // Assert
         result.Errors.Count.ShouldBe(1);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Code.ShouldBe(Errors.Authentication.EmailNotConfirmed.Code);
-        result.Errors
-            .First()
+        result
+            .Errors.First()
             .Description.ShouldBe(
                 Errors.Authentication.EmailNotConfirmed.Description
             );
@@ -204,22 +214,27 @@ public class LoginQueryHandlerTests
         {
             DisplayName = ValidDisplayName,
             Email = ValidEmail,
-            EmailConfirmed = true
+            EmailConfirmed = true,
         };
 
         _userRepositoryMock
-            .Setup(
-                x =>
-                    x.GetUserByEmail(
-                        ValidEmail,
-                        It.IsAny<CancellationToken>(),
-                        It.IsAny<Expression<Func<User, object>>[]>()
-                    )
+            .Setup(x =>
+                x.GetUserByEmail(
+                    ValidEmail,
+                    It.IsAny<CancellationToken>(),
+                    It.IsAny<Expression<Func<User, object>>[]>()
+                )
             )
             .ReturnsAsync(user);
 
         _userRepositoryMock
-            .Setup(x => x.CheckPasswordAsync(It.IsAny<User>(), ValidPassword, It.IsAny<CancellationToken>()))
+            .Setup(x =>
+                x.CheckPasswordAsync(
+                    It.IsAny<User>(),
+                    ValidPassword,
+                    It.IsAny<CancellationToken>()
+                )
+            )
             .ReturnsAsync(true);
 
         var query = new LoginQuery(ValidEmail, ValidPassword);

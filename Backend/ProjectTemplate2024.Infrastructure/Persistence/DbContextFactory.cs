@@ -28,9 +28,7 @@ public class DbContextFactory
         var optionsBuilder =
             new DbContextOptionsBuilder<ApplicationDbContext>();
 
-        optionsBuilder.UseSqlServer(
-            databaseSettings.ConnectionString!
-        );
+        optionsBuilder.UseSqlServer(databaseSettings.ConnectionString!);
 
         return new ApplicationDbContext(
             optionsBuilder.Options,
