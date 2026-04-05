@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Moq;
 using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Infrastructure.Email;
@@ -26,6 +27,6 @@ public class EmailPathServiceTests
     public void EmailPathService_GetEmailPath_ReturnsCorrectPath()
     {
         var path = _emailPathService.GetEmailPath("test.html");
-        path.ShouldBe(@"Root\Email\Templates\test.html");
+        path.ShouldBe(Path.Combine("Root", "Email", "Templates", "test.html"));
     }
 }
