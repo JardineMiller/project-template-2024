@@ -1,0 +1,4 @@
+- Run `dotnet build` and `dotnet test` (Backend)
+- Run `npm ci` and `npm run test:unit` (Client)
+- Ensure no secrets are committed
+- Add migration files to PR if schema changed and document migration steps
