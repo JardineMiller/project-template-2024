@@ -241,12 +241,15 @@
 
             <div class="flex align-items-center my-4">
                 <div class="border-top-1 surface-border w-full"></div>
-                <span class="text-600 font-medium mx-3">OR</span>
+                <span class="text-600 font-medium mx-3">or</span>
                 <div class="border-top-1 surface-border w-full"></div>
             </div>
 
             <div class="flex justify-content-center">
-                <GoogleLogin :callback="handleGoogleLogin" />
+                <GoogleLogin
+                    :callback="handleGoogleLogin"
+                    class="w-full"
+                />
             </div>
         </div>
     </div>
