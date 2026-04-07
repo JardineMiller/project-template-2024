@@ -100,7 +100,7 @@ public class UploadUserAvatarCommandHandlerTests
         _userRepositoryMock.Verify(
             x =>
                 x.UpdateUser(
-                    It.Is<User>(u => u.AvatarFileName == "new.png"),
+                    It.Is<User>(u => u.AvatarFileName == uploadedUrl),
                     It.IsAny<CancellationToken>()
                 ),
             Times.Once

@@ -74,9 +74,6 @@ public class DeleteAvatarCommandHandler
 
         await _userRepository.UpdateUser(user, cancellationToken);
 
-        return new UpdateUserResult(
-            user,
-            _blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
-        );
+        return new UpdateUserResult(user, user.AvatarFileName);
     }
 }

@@ -21,7 +21,6 @@ public class ConfirmEmailCommandHandlerTests
     private readonly Mock<UserManager<User>> _userManagerMock;
     private readonly Mock<ITokenGenerator> _tokenGenerator = new();
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
-    private readonly Mock<IBlobStorageService> _blobStorageServiceMock = new();
 
     private const string ValidEmail = "test2@email.com";
     private const string ValidToken = "tokens-are-awesome";
@@ -64,8 +63,7 @@ public class ConfirmEmailCommandHandlerTests
         var handler = new ConfirmEmailCommandHandler(
             _userManagerMock.Object,
             _tokenGenerator.Object,
-            _userRepositoryMock.Object,
-            _blobStorageServiceMock.Object
+            _userRepositoryMock.Object
         );
 
         // Act
@@ -103,8 +101,7 @@ public class ConfirmEmailCommandHandlerTests
         var handler = new ConfirmEmailCommandHandler(
             _userManagerMock.Object,
             _tokenGenerator.Object,
-            _userRepositoryMock.Object,
-            _blobStorageServiceMock.Object
+            _userRepositoryMock.Object
         );
 
         // Act
@@ -154,8 +151,7 @@ public class ConfirmEmailCommandHandlerTests
         var handler = new ConfirmEmailCommandHandler(
             _userManagerMock.Object,
             _tokenGenerator.Object,
-            _userRepositoryMock.Object,
-            _blobStorageServiceMock.Object
+            _userRepositoryMock.Object
         );
 
         // Act

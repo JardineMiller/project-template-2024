@@ -17,7 +17,11 @@ public static class DependencyInjection
         var clientAppSettings = new ClientAppSettings();
         configuration.Bind(ClientAppSettings.SectionName, clientAppSettings);
 
+        var googleSettings = new GoogleSettings();
+        configuration.Bind(GoogleSettings.SectionName, googleSettings);
+
         services.AddSingleton(Options.Create(clientAppSettings));
+        services.AddSingleton(Options.Create(googleSettings));
 
         services
             .AddMediatR(typeof(DependencyInjection).Assembly)
