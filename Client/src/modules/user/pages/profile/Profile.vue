@@ -355,6 +355,7 @@
                                     :label="
                                         avatarUrl ? '' : user?.displayName[0]
                                     "
+                                    :referrerPolicy="'no-referrer'"
                                     class="mr-2 flex-none"
                                     shape="circle"
                                     size="xlarge"

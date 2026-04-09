@@ -15,19 +15,16 @@ public class RefreshTokenCommandHandler
     private readonly IUserRepository _userRepository;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IBlobStorageService _blobStorageService;
 
     public RefreshTokenCommandHandler(
         ITokenGenerator tokenGenerator,
         IDateTimeProvider dateTimeProvider,
-        IUserRepository userRepository,
-        IBlobStorageService blobStorageService
+        IUserRepository userRepository
     )
     {
         _tokenGenerator = tokenGenerator;
         _dateTimeProvider = dateTimeProvider;
         _userRepository = userRepository;
-        _blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -70,7 +67,7 @@ public class RefreshTokenCommandHandler
             user,
             jwt,
             newRefreshToken.Token,
-            _blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
+            user.AvatarFileName
         );
 
         return response;

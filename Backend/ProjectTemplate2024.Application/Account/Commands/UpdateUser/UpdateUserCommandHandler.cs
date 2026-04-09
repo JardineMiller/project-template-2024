@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using ErrorOr;
 using MediatR;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
@@ -14,17 +12,14 @@ public class UpdateUserCommandHandler
 {
     private readonly IUserRepository _userRepository;
     private readonly ICurrentUserService _currentUserService;
-    private readonly IBlobStorageService _blobStorageService;
 
     public UpdateUserCommandHandler(
         IUserRepository userRepository,
-        ICurrentUserService currentUserService,
-        IBlobStorageService blobStorageService
+        ICurrentUserService currentUserService
     )
     {
         _userRepository = userRepository;
         _currentUserService = currentUserService;
-        _blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<UpdateUserResult>> Handle(
@@ -58,27 +53,11 @@ public class UpdateUserCommandHandler
 
         if (!string.IsNullOrWhiteSpace(request.AvatarUrl))
         {
-            try
-            {
-                var uri = new Uri(request.AvatarUrl);
-                var fileName = Path.GetFileName(uri.LocalPath);
-
-                if (!string.IsNullOrWhiteSpace(fileName))
-                {
-                    user.AvatarFileName = fileName;
-                }
-            }
-            catch
-            {
-                // ignore invalid avatar url
-            }
+            user.AvatarFileName = request.AvatarUrl;
         }
 
         await _userRepository.UpdateUser(user, cancellationToken);
 
-        return new UpdateUserResult(
-            user,
-            _blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
-        );
+        return new UpdateUserResult(user, user.AvatarFileName);
     }
 }

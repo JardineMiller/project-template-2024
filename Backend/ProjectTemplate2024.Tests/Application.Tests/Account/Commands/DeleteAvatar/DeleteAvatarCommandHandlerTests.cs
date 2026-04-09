@@ -89,9 +89,6 @@ public class DeleteAvatarCommandHandlerTests
                 x.DeleteFile(UserId, "new.png", It.IsAny<CancellationToken>())
             )
             .ReturnsAsync(true);
-        _blobStorageServiceMock
-            .Setup(x => x.GetAvatarUrl(user.Id, null))
-            .Returns("https://cdn/avatar/null");
 
         var handler = new DeleteAvatarCommandHandler(
             _userRepositoryMock.Object,
@@ -120,6 +117,6 @@ public class DeleteAvatarCommandHandlerTests
                 ),
             Times.Once
         );
-        result.Value.AvatarUrl.ShouldBe("https://cdn/avatar/null");
+        result.Value.AvatarUrl.ShouldBeNull();
     }
 }

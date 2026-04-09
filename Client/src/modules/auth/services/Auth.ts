@@ -10,6 +10,7 @@ const meta = import.meta.env;
 
 const URLs: { [key: string]: string } = {
     LOGIN: `${meta.VITE_API_URL}/auth/login`,
+    GOOGLE_LOGIN: `${meta.VITE_API_URL}/auth/googleLogin`,
     REGISTER: `${meta.VITE_API_URL}/auth/register`,
     CONFIRM: `${meta.VITE_API_URL}/auth/confirm`,
     REFRESH_TOKEN: `${meta.VITE_API_URL}/auth/refreshToken`,
@@ -126,10 +127,33 @@ const refreshToken = async (): Promise<void> => {
         });
 };
 
+const googleLogin = async (idToken: string) => {
+    return axios
+        .post<AuthenticationResponse>(
+            URLs.GOOGLE_LOGIN,
+            { idToken },
+            {
+                withCredentials: true,
+                headers: { "Content-Type": "application/json" },
+            }
+        )
+        .then(async (response) => {
+            const { id, displayName, email, token, avatarUrl } = response.data;
+
+            user.value = new User(id, displayName, email, avatarUrl);
+            authToken.value = token;
+
+            startRefreshTokenTimer();
+
+            await router.push("/");
+        });
+};
+
 export default {
     user: user,
     token: authToken,
     login: login,
+    googleLogin: googleLogin,
     logout: logout,
     register: register,
     confirm: confirm,

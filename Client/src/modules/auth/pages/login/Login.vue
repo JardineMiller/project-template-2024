@@ -6,6 +6,7 @@
     import LoginModel from "@/modules/auth/models/login/LoginModel";
     import "@/utils/extensions/string/string-extensions";
     import Auth from "@/modules/auth/services/Auth";
+    import { GoogleLogin } from "vue3-google-login";
     import InputText from "primevue/inputtext";
     import Password from "primevue/password";
     import { routes } from "@/router/router";
@@ -22,6 +23,7 @@
         },
         components: {
             Button,
+            GoogleLogin,
             InputText,
             Message,
             Password,
@@ -32,6 +34,7 @@
                 routes: routes,
                 state: {} as StateTracker<LoginModel>,
                 loading: false,
+                googleLoading: false,
             };
         },
         created() {
@@ -66,6 +69,18 @@
                     )
                     .finally(() => {
                         this.loading = false;
+                    });
+            },
+            handleGoogleLogin(response: { credential: string }): void {
+                this.googleLoading = true;
+                Auth.googleLogin(response.credential)
+                    .catch((error: AxiosError) =>
+                        this.state.model.handleErrorResponse(
+                            error.response?.data as HttpErrorResponse
+                        )
+                    )
+                    .finally(() => {
+                        this.googleLoading = false;
                     });
             },
         },
@@ -223,6 +238,19 @@
                 >
                 </Button>
             </form>
+
+            <div class="flex align-items-center my-4">
+                <div class="border-top-1 surface-border w-full"></div>
+                <span class="text-600 font-medium mx-3">or</span>
+                <div class="border-top-1 surface-border w-full"></div>
+            </div>
+
+            <div class="flex justify-content-center">
+                <GoogleLogin
+                    :callback="handleGoogleLogin"
+                    class="w-full"
+                />
+            </div>
         </div>
     </div>
 </template>

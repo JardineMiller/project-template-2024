@@ -1,5 +1,5 @@
-﻿import type { IModel, IModelConstructor } from "@/modules/common/models/IModel";
-import { ModelPropertyBuilder } from "@/modules/forms/builders/ModelPropertyBuilder";
+﻿import { ModelPropertyBuilder } from "@/modules/forms/builders/ModelPropertyBuilder";
+import type { IModel, IModelConstructor } from "@/modules/common/models/IModel";
 import type ModelProperty from "@/modules/forms/models/ModelProperty";
 
 export default class ModelBuilder<T extends IModel> {

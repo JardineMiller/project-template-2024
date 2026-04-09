@@ -59,8 +59,8 @@ public class UploadUserAvatarCommandHandler
 
         if (user is not null)
         {
-            // Use the uploaded file name (browser provides filename) to persist
-            user.AvatarFileName = request.File.FileName;
+            // Persist the full avatar URL so it can be served directly
+            user.AvatarFileName = result;
 
             await _userRepository.UpdateUser(user, cancellationToken);
         }

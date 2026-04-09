@@ -1,6 +1,7 @@
 import { addJwtInterceptor } from "@/modules/auth/interceptors/httpInterceptor";
 import { createHead, VueHeadMixin } from "@unhead/vue";
 import ToastService from "primevue/toastservice";
+import vue3GoogleLogin from "vue3-google-login";
 import Tooltip from "primevue/tooltip";
 import PrimeVue from "primevue/config";
 import router from "@/router/router";
@@ -17,6 +18,9 @@ async function startApp() {
     app.use(router);
     app.use(PrimeVue);
     app.use(ToastService);
+    app.use(vue3GoogleLogin, {
+        clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    });
 
     app.directive("tooltip", Tooltip);
 
