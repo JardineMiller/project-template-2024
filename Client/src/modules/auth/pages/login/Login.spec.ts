@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { mount, flushPromises } from "@vue/test-utils";
 
-// Mock the google login component so plugin initialization isn't required
+// Mock only GoogleLogin to avoid plugin init, but use real PrimeVue components
 vi.mock("vue3-google-login", () => {
     return {
         GoogleLogin: {
@@ -15,6 +15,11 @@ vi.mock("vue3-google-login", () => {
 
 import LoginView from "./Login.vue";
 import Auth from "@/modules/auth/services/Auth";
+import PrimeVue from "primevue/config";
+import InputText from "primevue/inputtext";
+import Password from "primevue/password";
+import Button from "primevue/button";
+import Message from "primevue/message";
 
 describe("LoginView", () => {
     let wrapper: any;
@@ -22,23 +27,15 @@ describe("LoginView", () => {
     beforeEach(() => {
         wrapper = mount(LoginView, {
             global: {
+                plugins: [PrimeVue],
+                components: {
+                    InputText,
+                    Password,
+                    Button,
+                    Message,
+                },
                 stubs: {
                     RouterLink: true,
-                },
-                components: {
-                    // Stub PrimeVue components used by the view
-                    InputText: { name: "InputText", template: "<input />" },
-                    Password: { name: "Password", template: "<input />" },
-                    Button: {
-                        name: "Button",
-                        props: ["loading", "disabled", "label", "type"],
-                        template:
-                            '<button :disabled="disabled" :type="type"><slot /></button>',
-                    },
-                    Message: {
-                        name: "Message",
-                        template: "<div><slot /></div>",
-                    },
                 },
             },
         });
@@ -46,8 +43,8 @@ describe("LoginView", () => {
 
     it("renders properly", () => {
         expect(wrapper.text()).toContain("Welcome Back");
-        expect(wrapper.find("input[name='email']").exists()).toBe(true);
-        expect(wrapper.find("input[name='password']").exists()).toBe(true);
+        expect(wrapper.findComponent(InputText).exists()).toBe(true);
+        expect(wrapper.findComponent(Password).exists()).toBe(true);
         expect(wrapper.findComponent({ name: "GoogleLogin" }).exists()).toBe(
             true
         );
@@ -62,8 +59,8 @@ describe("LoginView", () => {
     });
 
     it("shows required validation for email and password", async () => {
-        const emailInput = wrapper.find("input[name='email']");
-        const passwordInput = wrapper.find("input[name='password']");
+        const emailInput = wrapper.findComponent(InputText).find("input");
+        const passwordInput = wrapper.findComponent(Password).find("input");
         await emailInput.trigger("blur");
         await passwordInput.trigger("blur");
         await flushPromises();
@@ -71,7 +68,7 @@ describe("LoginView", () => {
     });
 
     it("shows email format validation", async () => {
-        const emailInput = wrapper.find("input[name='email']");
+        const emailInput = wrapper.findComponent(InputText).find("input");
         await emailInput.setValue("not-an-email");
         await emailInput.trigger("blur");
         await flushPromises();
@@ -79,8 +76,8 @@ describe("LoginView", () => {
     });
 
     it("enables submit button when form is valid", async () => {
-        const emailInput = wrapper.find("input[name='email']");
-        const passwordInput = wrapper.find("input[name='password']");
+        const emailInput = wrapper.findComponent(InputText).find("input");
+        const passwordInput = wrapper.findComponent(Password).find("input");
         await emailInput.setValue("test@example.com");
         await passwordInput.setValue("password123");
         await flushPromises();
@@ -90,8 +87,8 @@ describe("LoginView", () => {
 
     it("calls Auth.login with correct data on submit", async () => {
         const loginMock = vi.spyOn(Auth, "login").mockResolvedValue(undefined);
-        const emailInput = wrapper.find("input[name='email']");
-        const passwordInput = wrapper.find("input[name='password']");
+        const emailInput = wrapper.findComponent(InputText).find("input");
+        const passwordInput = wrapper.findComponent(Password).find("input");
         await emailInput.setValue("test@example.com");
         await passwordInput.setValue("password123");
         await flushPromises();
