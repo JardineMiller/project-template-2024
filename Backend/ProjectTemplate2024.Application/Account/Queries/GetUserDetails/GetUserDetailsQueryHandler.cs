@@ -12,17 +12,14 @@ public class GetUserDetailsQueryHandler
 {
     private readonly IUserRepository _userRepository;
     private readonly ICurrentUserService _currentUserService;
-    private readonly IBlobStorageService _blobStorageService;
 
     public GetUserDetailsQueryHandler(
         IUserRepository userRepository,
-        ICurrentUserService currentUserService,
-        IBlobStorageService blobStorageService
+        ICurrentUserService currentUserService
     )
     {
         _userRepository = userRepository;
         _currentUserService = currentUserService;
-        _blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<GetUserDetailsResult>> Handle(
@@ -44,9 +41,6 @@ public class GetUserDetailsQueryHandler
             return Errors.Common.NotFound(nameof(User));
         }
 
-        return new GetUserDetailsResult(
-            user,
-            _blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
-        );
+        return new GetUserDetailsResult(user, user.AvatarFileName);
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTemplate2024.Api.Common.Mapping;
 using ProjectTemplate2024.Application.Authentication.Commands.ConfirmEmail;
+using ProjectTemplate2024.Application.Authentication.Commands.GoogleLogin;
 using ProjectTemplate2024.Application.Authentication.Commands.RefreshToken;
 using ProjectTemplate2024.Application.Authentication.Commands.Register;
 using ProjectTemplate2024.Application.Authentication.Commands.RevokeToken;
@@ -41,6 +42,22 @@ public class AuthController : ApiController
     {
         var qry = request.ToQuery();
         var authResult = await _mediator.Send(qry);
+
+        return authResult.Match(
+            result =>
+            {
+                SetTokenCookie(result.RefreshToken!);
+                return Ok(result.ToResponse());
+            },
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpPost(nameof(GoogleLogin))]
+    public async Task<IActionResult> GoogleLogin(GoogleLoginRequest request)
+    {
+        var cmd = new GoogleLoginCommand(request.IdToken);
+        var authResult = await _mediator.Send(cmd);
 
         return authResult.Match(
             result =>

@@ -73,6 +73,7 @@
                         aria-controls="overlay_menu"
                         :image="user.avatarUrl ? user.avatarUrl : undefined"
                         :label="user.avatarUrl ? '' : user?.displayName[0]"
+                        :referrerPolicy="'no-referrer'"
                         class="mr-2 cursor-pointer"
                         size="large"
                         shape="circle"

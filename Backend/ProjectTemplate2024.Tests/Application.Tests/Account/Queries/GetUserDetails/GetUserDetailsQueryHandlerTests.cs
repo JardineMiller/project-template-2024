@@ -17,7 +17,6 @@ public class GetUserDetailsQueryHandlerTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
     private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
-    private readonly Mock<IBlobStorageService> _blobStorageServiceMock = new();
 
     private const string UserId = "0001";
 
@@ -29,8 +28,7 @@ public class GetUserDetailsQueryHandlerTests
 
         var handler = new GetUserDetailsQueryHandler(
             _userRepositoryMock.Object,
-            _currentUserServiceMock.Object,
-            _blobStorageServiceMock.Object
+            _currentUserServiceMock.Object
         );
 
         // Act
@@ -57,8 +55,7 @@ public class GetUserDetailsQueryHandlerTests
 
         var handler = new GetUserDetailsQueryHandler(
             _userRepositoryMock.Object,
-            _currentUserServiceMock.Object,
-            _blobStorageServiceMock.Object
+            _currentUserServiceMock.Object
         );
 
         // Act
@@ -80,18 +77,18 @@ public class GetUserDetailsQueryHandlerTests
         // Arrange
         _currentUserServiceMock.Setup(x => x.UserId).Returns(UserId);
 
-        var user = new User { Id = UserId, AvatarFileName = null };
+        var user = new User
+        {
+            Id = UserId,
+            AvatarFileName = "https://cdn/avatar/pic.png",
+        };
         _userRepositoryMock
             .Setup(x => x.GetUserById(UserId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
-        _blobStorageServiceMock
-            .Setup(x => x.GetAvatarUrl(user.Id, user.AvatarFileName))
-            .Returns("https://cdn/avatar/null");
 
         var handler = new GetUserDetailsQueryHandler(
             _userRepositoryMock.Object,
-            _currentUserServiceMock.Object,
-            _blobStorageServiceMock.Object
+            _currentUserServiceMock.Object
         );
 
         // Act
@@ -101,6 +98,6 @@ public class GetUserDetailsQueryHandlerTests
         );
 
         // Assert
-        result.Value.AvatarUrl.ShouldBe("https://cdn/avatar/null");
+        result.Value.AvatarUrl.ShouldBe("https://cdn/avatar/pic.png");
     }
 }

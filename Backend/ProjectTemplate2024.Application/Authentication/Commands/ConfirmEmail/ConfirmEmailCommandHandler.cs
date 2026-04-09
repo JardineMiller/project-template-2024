@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using ProjectTemplate2024.Application.Authentication.Common;
 using ProjectTemplate2024.Application.Common.Interfaces.Authentication;
 using ProjectTemplate2024.Application.Common.Interfaces.Repositories;
-using ProjectTemplate2024.Application.Common.Interfaces.Services;
 using ProjectTemplate2024.Domain.Common.Errors;
 using ProjectTemplate2024.Domain.Entities;
 
@@ -16,19 +15,16 @@ public class ConfirmEmailCommandHandler
     private readonly IUserRepository _userRepository;
     private readonly UserManager<User> _userManager;
     private readonly ITokenGenerator _tokenGenerator;
-    private readonly IBlobStorageService _blobStorageService;
 
     public ConfirmEmailCommandHandler(
         UserManager<User> userManager,
         ITokenGenerator tokenGenerator,
-        IUserRepository userRepository,
-        IBlobStorageService blobStorageService
+        IUserRepository userRepository
     )
     {
         _userManager = userManager;
         _tokenGenerator = tokenGenerator;
         _userRepository = userRepository;
-        _blobStorageService = blobStorageService;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -66,7 +62,7 @@ public class ConfirmEmailCommandHandler
             user,
             token,
             newRefreshToken.Token,
-            _blobStorageService.GetAvatarUrl(user.Id, user.AvatarFileName)
+            user.AvatarFileName
         );
     }
 }

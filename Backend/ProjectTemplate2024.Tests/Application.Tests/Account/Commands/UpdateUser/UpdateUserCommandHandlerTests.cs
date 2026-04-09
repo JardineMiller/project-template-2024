@@ -17,7 +17,6 @@ public class UpdateUserCommandHandlerTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
     private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
-    private readonly Mock<IBlobStorageService> _blobStorageServiceMock = new();
 
     private const string UserId = "0001";
 
@@ -29,8 +28,7 @@ public class UpdateUserCommandHandlerTests
 
         var handler = new UpdateUserCommandHandler(
             _userRepositoryMock.Object,
-            _currentUserServiceMock.Object,
-            _blobStorageServiceMock.Object
+            _currentUserServiceMock.Object
         );
 
         // Act
@@ -57,8 +55,7 @@ public class UpdateUserCommandHandlerTests
 
         var handler = new UpdateUserCommandHandler(
             _userRepositoryMock.Object,
-            _currentUserServiceMock.Object,
-            _blobStorageServiceMock.Object
+            _currentUserServiceMock.Object
         );
 
         // Act
@@ -75,7 +72,7 @@ public class UpdateUserCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_WithAvatarUrl_ParsesFilename_UpdatesUser_And_ReturnsAvatarUrl()
+    public async Task Handle_WithAvatarUrl_StoresFullUrl_UpdatesUser_And_ReturnsAvatarUrl()
     {
         // Arrange
         _currentUserServiceMock.Setup(x => x.UserId).Returns(UserId);
@@ -83,7 +80,7 @@ public class UpdateUserCommandHandlerTests
         var user = new User
         {
             Id = UserId,
-            AvatarFileName = "old.png",
+            AvatarFileName = "https://cdn/avatar/old.png",
             Email = "old@example.com",
         };
 
@@ -95,9 +92,6 @@ public class UpdateUserCommandHandlerTests
                 x.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>())
             )
             .Returns(Task.CompletedTask);
-        _blobStorageServiceMock
-            .Setup(x => x.GetAvatarUrl(user.Id, "new.png"))
-            .Returns("https://cdn/avatar/new.png");
 
         var request = new UpdateUserCommand
         {
@@ -108,8 +102,7 @@ public class UpdateUserCommandHandlerTests
 
         var handler = new UpdateUserCommandHandler(
             _userRepositoryMock.Object,
-            _currentUserServiceMock.Object,
-            _blobStorageServiceMock.Object
+            _currentUserServiceMock.Object
         );
 
         // Act
@@ -119,12 +112,17 @@ public class UpdateUserCommandHandlerTests
         _userRepositoryMock.Verify(
             x =>
                 x.UpdateUser(
-                    It.Is<User>(u => u.AvatarFileName == "new.png"),
+                    It.Is<User>(u =>
+                        u.AvatarFileName
+                        == "https://cdn.example.com/0001/images/new.png"
+                    ),
                     It.IsAny<CancellationToken>()
                 ),
             Times.Once
         );
-        result.Value.AvatarUrl.ShouldBe("https://cdn/avatar/new.png");
+        result.Value.AvatarUrl.ShouldBe(
+            "https://cdn.example.com/0001/images/new.png"
+        );
     }
 
     [Fact]
@@ -136,7 +134,7 @@ public class UpdateUserCommandHandlerTests
         var user = new User
         {
             Id = UserId,
-            AvatarFileName = "old.png",
+            AvatarFileName = "https://cdn/avatar/old.png",
             Email = "old@example.com",
             NormalizedEmail = "OLD@EXAMPLE.COM",
             UserName = "old@example.com",
@@ -150,9 +148,6 @@ public class UpdateUserCommandHandlerTests
                 x.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>())
             )
             .Returns(Task.CompletedTask);
-        _blobStorageServiceMock
-            .Setup(x => x.GetAvatarUrl(user.Id, user.AvatarFileName))
-            .Returns("https://cdn/avatar/old.png");
 
         var request = new UpdateUserCommand
         {
@@ -164,8 +159,7 @@ public class UpdateUserCommandHandlerTests
 
         var handler = new UpdateUserCommandHandler(
             _userRepositoryMock.Object,
-            _currentUserServiceMock.Object,
-            _blobStorageServiceMock.Object
+            _currentUserServiceMock.Object
         );
 
         // Act
