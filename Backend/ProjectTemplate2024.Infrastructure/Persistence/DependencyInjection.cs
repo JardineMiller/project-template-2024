@@ -22,7 +22,8 @@ public static class DependencyInjection
             .AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(
-                    connectionString: databaseSettings.ConnectionString!
+                    connectionString: databaseSettings.ConnectionString!,
+                    sqlOptions => sqlOptions.EnableRetryOnFailure()
                 );
             })
             .ApplyMigrations();
